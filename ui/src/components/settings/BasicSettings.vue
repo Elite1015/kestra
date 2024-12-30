@@ -82,6 +82,16 @@
                             />
                         </el-select>
                     </Column>
+                    <Column :label="$t('settings.blocks.theme.fields.editor_font_family')">
+                        <el-select :model-value="pendingSettings.editorFontFamily" @update:model-value="onFontFamily">
+                            <el-option
+                                v-for="item in fontFamilyOptions"
+                                :key="item.value"
+                                :label="item.text"
+                                :value="item.value"
+                            />
+                        </el-select>
+                    </Column>
                 </Row>
 
                 <Row>
@@ -105,16 +115,15 @@
                             :max="50"
                         />
                     </Column>
-
-                    <Column :label="$t('settings.blocks.theme.fields.editor_font_family')">
-                        <el-select :model-value="pendingSettings.editorFontFamily" @update:model-value="onFontFamily">
-                            <el-option
-                                v-for="item in fontFamilyOptions"
-                                :key="item.value"
-                                :label="item.text"
-                                :value="item.value"
-                            />
-                        </el-select>
+                    
+                    <Column :label="$t('settings.blocks.theme.fields.logs_font_size')"> 
+                        <el-input-number
+                            :model-value="pendingSettings.logsFontSize"
+                            @update:model-value="onLogsFontSize"
+                            controls-position="right"
+                            :min="1"
+                            :max="50"
+                        />
                     </Column>
                 </Row>
 
@@ -264,7 +273,8 @@
                     executeFlowBehaviour: undefined,
                     envName: undefined,
                     envColor: undefined,
-                    executeDefaultTab: undefined
+                    executeDefaultTab: undefined,
+                    logsFontSize: undefined
                 },
                 settingsKeyMapping: {
                     chartColor: "scheme",
@@ -310,6 +320,7 @@
             this.pendingSettings.executeDefaultTab = localStorage.getItem("executeDefaultTab") || "gantt";
             this.pendingSettings.envName = store.getters["layout/envName"] || this.configs?.environment?.name;
             this.pendingSettings.envColor = store.getters["layout/envColor"] || this.configs?.environment?.color;
+            this.pendingSettings.logsFontSize = parseInt(localStorage.getItem("logsFontSize")) || 12;
         },
         methods: {
             onNamespaceSelect(value) {
@@ -379,6 +390,9 @@
             onExecuteDefaultTabChange(value){
                 this.pendingSettings.executeDefaultTab = value;
             },
+            onLogsFontSize(value) {
+                this.pendingSettings.logsFontSize = value;
+            },
             saveAllSettings() {
                 Object.keys(this.pendingSettings).forEach((key) => {
                     const storedKey = this.settingsKeyMapping[key]
@@ -403,6 +417,10 @@
                     case "autofoldTextEditor":
                         localStorage.setItem(key, this.pendingSettings[key])
                         break
+                    case "logsFontSize":
+                        localStorage.setItem(key, this.pendingSettings[key])
+                        this.$store.commit("layout/setLogsFontSize", this.pendingSettings[key])
+                        break   
                     case "theme":
                         Utils.switchTheme(this.pendingSettings[key]);
                         localStorage.setItem(key, Utils.getTheme())
