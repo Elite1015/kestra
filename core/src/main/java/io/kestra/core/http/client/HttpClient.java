@@ -232,7 +232,7 @@ public class HttpClient implements Closeable {
         HttpRequest request,
         HttpClientContext httpClientContext,
         HttpClientResponseHandler<HttpResponse<T>> responseHandler
-    ) throws HttpClientException, IllegalVariableEvaluationException {
+    ) throws HttpClientException {
         try {
             return this.client.execute(request.to(), httpClientContext, responseHandler);
         } catch (SocketException e) {
