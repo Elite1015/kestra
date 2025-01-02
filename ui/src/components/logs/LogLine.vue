@@ -143,7 +143,7 @@
             },
             iconColor() {
                 const logLevel = this.log.level?.toLowerCase();
-                return `var(--log-content-${logLevel}) !important`; // Use CSS variable for icon color
+                return `var(--ks-content-${logLevel}) !important`; // Use CSS variable for icon color
             },
             message() {
                 let logMessage = !this.log.message
