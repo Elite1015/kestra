@@ -873,6 +873,7 @@ form.ks-horizontal {
     @each $type in $types {
         &.el-alert--#{$type}.is-light {
             border: 1px solid var(--ks-border-#{$type});
+            background-color: var(--ks-background-#{$type});
             #{--el-color-#{$type}}: var(--ks-content-#{$type});
         }
     }
