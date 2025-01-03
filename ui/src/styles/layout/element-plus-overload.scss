@@ -177,12 +177,12 @@
         margin: 0 0.6rem 1px;
 
         &.is-selected {
-            background-color: var(--bs-gray-200);
+            background-color: var(--ks-select-active);
             color: var(--ks-content-primary);
         }
 
         &.is-hovering {
-            background-color: var(--bs-gray-300);
+            background-color: var(--ks-select-hover);
         }
     }
 }
@@ -720,13 +720,14 @@ form.ks-horizontal {
     .el-autocomplete-suggestion__wrap {
         max-height: 40vh;
     }
+
     li {
-        // highlight of keyboard selection
-        --el-fill-color-light: var(--ks-select-active);
+        // highlight of keyboard selection & element plus hover
+        --el-fill-color-light: var(--ks-select-hover);
         padding: 0 1rem;
 
         a {
-            color: var(--ks-select-active);
+            color: var(--ks-content-primary);
             justify-content: space-between;
         }
     }
