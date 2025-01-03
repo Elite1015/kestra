@@ -244,10 +244,10 @@
         }
 
         :deep(.doc-alert) {
-            border: 1px solid var(--border-information);
+            border: 1px solid var(--ks-border-info);
             border-radius: 4px;
-            color: var(--content-information);
-            background: var(--background-information);
+            color: var(--ks-content-info);
+            background: var(--ks-background-info);
         }
     }
 </style>

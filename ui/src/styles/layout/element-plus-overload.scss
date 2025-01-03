@@ -6,18 +6,16 @@
 
 // button
 .el-button {
-    &:not(.el-button--primary):not(.el-button--success):not(.el-button--warning):not(.el-button--danger):not(.el-button--error):not(.el-button--info) {
-        &:hover {
-            --el-button-hover-text-color: var(--ks-content-primary);
-            --el-button-hover-border-color: var(--ks-border-active);
-            --el-button-hover-background-color: var(--ks-background-button-secondary-hover);
-        }
+    &:not(.el-button--primary):not(.el-button--success):not(.el-button--warning):not(.el-button--danger):not(.el-button--error):not(.el-button--info), &--default {
+        --el-button-hover-text-color: var(--ks-content-primary);
+        --el-button-hover-border-color: var(--ks-border-primary);
+        --el-button-hover-background-color: var(--ks-background-button-secondary-hover);
     }
 
-    &--default:hover {
-        --el-button-hover-text-color: var(--ks-content-primary);
-        --el-button-hover-border-color: var(--ks-border-active);
-        --el-button-hover-background-color: var(--ks-background-button-secondary-hover);
+    &--primary{
+        --el-button-bg-color: var(--ks-background-button-primary);
+        --el-button-border-color: var(--ks-background-button-primary);
+        --el-button-hover-bg-color: var(--ks-background-button-primary-hover);
     }
 
     .el-input-group--append & [class*=el-icon] + span {
