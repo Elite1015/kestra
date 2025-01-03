@@ -180,7 +180,7 @@
         }
 
         &.error {
-            border-color: var(--ks-border-failed);
+            border-color: var(--ks-border-error);
         }
     }
 

@@ -16,8 +16,8 @@
 	#{--ks-background-card}: $base-white;
 	#{--ks-background-card-opacity}: #1b1c23e5;
 	#{--ks-background-created}: $base-red-50;
-	#{--ks-background-failed}: $base-red-50;
-	#{--ks-background-information}: #c7f0ff;
+	#{--ks-background-error}: $base-red-50;
+	#{--ks-background-info}: #c7f0ff;
 	#{--ks-background-input}: $base-white;
 	#{--ks-background-killed}: $base-gray-50;
 	#{--ks-background-killing}: $base-gray-200;
@@ -45,9 +45,9 @@
 	#{--ks-border-active}: $base-purple-500;
 	#{--ks-border-cancelled}: $base-gray-500;
 	#{--ks-border-created}: $base-red-200;
-	#{--ks-border-failed}: $base-red-300;
+	#{--ks-border-error}: $base-red-300;
 	#{--ks-border-inactive}: $base-gray-100;
-	#{--ks-border-information}: $base-blue-200;
+	#{--ks-border-info}: $base-blue-200;
 	#{--ks-border-killed}: $base-gray-400;
 	#{--ks-border-killing}: $base-gray-400;
 	#{--ks-border-paused}: $base-yellow-600;
@@ -81,10 +81,10 @@
 	#{--ks-content-alert}: $base-red-500;
 	#{--ks-content-cancelled}: $base-black;
 	#{--ks-content-created}: $base-red-400;
-	#{--ks-content-failed}: $base-red-500;
+	#{--ks-content-error}: $base-red-500;
 	#{--ks-content-id}: $base-purple-500;
 	#{--ks-content-inactive}: $base-gray-400;
-	#{--ks-content-information}: $base-blue-600;
+	#{--ks-content-info}: $base-blue-600;
 	#{--ks-content-inverse}: $base-white;
 	#{--ks-content-killed}: $base-black;
 	#{--ks-content-killing}: $base-gray-900;

@@ -531,13 +531,13 @@
             "rootAlias": "base-color-palette/red/red-50"
           },
           {
-            "name": "ks/background-failed",
+            "name": "ks/background-error",
             "value": "#fff2f3",
             "var": "base-color-palette/red/red-50",
             "rootAlias": "base-color-palette/red/red-50"
           },
           {
-            "name": "ks/background-information",
+            "name": "ks/background-info",
             "value": "#c7f0ff",
             "var": "",
             "rootAlias": ""
@@ -681,7 +681,7 @@
             "rootAlias": "base-color-palette/red/red-200"
           },
           {
-            "name": "ks/border-failed",
+            "name": "ks/border-error",
             "value": "#fd7278",
             "var": "base-color-palette/red/red-300",
             "rootAlias": "base-color-palette/red/red-300"
@@ -693,7 +693,7 @@
             "rootAlias": "base-color-palette/neutral/gray-100"
           },
           {
-            "name": "ks/border-information",
+            "name": "ks/border-info",
             "value": "#7fbbff",
             "var": "base-color-palette/blue/blue-200",
             "rootAlias": "base-color-palette/blue/blue-200"
@@ -873,7 +873,7 @@
             "rootAlias": "base-color-palette/red/red-400"
           },
           {
-            "name": "ks/content-failed",
+            "name": "ks/content-error",
             "value": "#ab0009",
             "var": "base-color-palette/red/red-500",
             "rootAlias": "base-color-palette/red/red-500"
@@ -891,7 +891,7 @@
             "rootAlias": "base-color-palette/neutral/gray-400"
           },
           {
-            "name": "ks/content-information",
+            "name": "ks/content-info",
             "value": "#134ecc",
             "var": "base-color-palette/blue/blue-600",
             "rootAlias": "base-color-palette/blue/blue-600"
@@ -1765,13 +1765,13 @@
             "rootAlias": ""
           },
           {
-            "name": "ks/background-failed",
+            "name": "ks/background-error",
             "value": "#26000233",
             "var": "",
             "rootAlias": ""
           },
           {
-            "name": "ks/background-information",
+            "name": "ks/background-info",
             "value": "#0e3b9a33",
             "var": "",
             "rootAlias": ""
@@ -1915,7 +1915,7 @@
             "rootAlias": "base-color-palette/red/red-200"
           },
           {
-            "name": "ks/border-failed",
+            "name": "ks/border-error",
             "value": "#e3262f",
             "var": "base-color-palette/red/red-400",
             "rootAlias": "base-color-palette/red/red-400"
@@ -1927,7 +1927,7 @@
             "rootAlias": "base-color-palette/neutral/gray-400"
           },
           {
-            "name": "ks/border-information",
+            "name": "ks/border-info",
             "value": "#1761fd",
             "var": "base-color-palette/blue/blue-500",
             "rootAlias": "base-color-palette/blue/blue-500"
@@ -2107,7 +2107,7 @@
             "rootAlias": "base-color-palette/red/red-50"
           },
           {
-            "name": "ks/content-failed",
+            "name": "ks/content-error",
             "value": "#fd9297",
             "var": "base-color-palette/red/red-200",
             "rootAlias": "base-color-palette/red/red-200"
@@ -2125,7 +2125,7 @@
             "rootAlias": "base-color-palette/neutral/gray-300"
           },
           {
-            "name": "ks/content-information",
+            "name": "ks/content-info",
             "value": "#c7f0ff",
             "var": "base-color-palette/blue/blue-50",
             "rootAlias": "base-color-palette/blue/blue-50"

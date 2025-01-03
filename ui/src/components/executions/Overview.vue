@@ -408,7 +408,7 @@
 }
 
 .el-alert.main-error {
-    background-color: var(--background-color-failed) !important;
+    background-color: var(--ks-background-error) !important;
     padding: 0.5rem;
 
     .el-button{
@@ -421,7 +421,7 @@
         font-weight: bold;
         position: relative;
         line-height: 2rem;
-        color: var(--content-color-failed) !important;
+        color: var(--ks-content-error) !important;
         font-size: var(--font-size-sm);
 
         span {
