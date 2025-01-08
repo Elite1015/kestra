@@ -1040,7 +1040,7 @@
     "custom value": "사용자 정의 value",
     "execution restarted": "이 실행은 {nbRestart}번 다시 시작되었습니다.",
     "chart": "차트",
-    "source only": "소스만",
+    "source only": "소스 전용",
     "chart preview": "차트 미리보기"
   }
 }

@@ -1041,6 +1041,6 @@
     "execution restarted": "Esta execução foi reiniciada {nbRestart} vez(es).",
     "chart": "Gráfico",
     "source only": "Somente fonte",
-    "chart preview": "Visualização do gráfico"
+    "chart preview": "Pré-visualização do gráfico"
   }
 }
