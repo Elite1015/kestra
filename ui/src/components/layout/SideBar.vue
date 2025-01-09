@@ -195,6 +195,7 @@
         position: static;
         z-index: 1039;
         border-right: 1px solid var(--ks-border-primary);
+        background-color: var(--ks-background-left-menu);
 
         .logo {
             overflow: hidden;
@@ -254,10 +255,7 @@
             margin-bottom: 0.3rem;
             border-radius: var(--bs-border-radius-lg);
             transition: padding 0.2s ease;
-
-            html.dark & {
-                color: var(--bs-white);
-            }
+            color: var(--ks-content-primary);
 
             &_disabled {
                 pointer-events: auto;
@@ -290,7 +288,7 @@
         }
 
         .vsm--dropdown {
-            background-color: var(--bs-gray-100);
+            background-color: var(--ks-background-left-menu);
             border-radius: 4px;
             margin-bottom: .5rem;
 
@@ -304,14 +302,6 @@
             cursor: initial !important;
         }
 
-        html.dark & {
-            background-color: var(--bs-gray-100);
-
-            .vsm--dropdown {
-                background-color: var(--bs-gray-100);
-            }
-        }
-
 
         .vsm--mobile-bg {
             border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
@@ -323,7 +313,7 @@
                     left: 8px;
 
                     span.img {
-                        background-size: 207px 55px !important;
+                        background-size: 207px 55px;
                     }
                 }
             }
