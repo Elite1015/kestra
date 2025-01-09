@@ -297,12 +297,6 @@
             }
         }
 
-
-        a.vsm--link_active[href="#"] {
-            cursor: initial !important;
-        }
-
-
         .vsm--mobile-bg {
             border-radius: 0 var(--bs-border-radius) var(--bs-border-radius) 0;
         }

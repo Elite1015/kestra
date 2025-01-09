@@ -1,7 +1,7 @@
 @use "@kestra-io/ui-libs/src/scss/variables.scss" as global-var;
 @use 'element-plus/theme-chalk/src/mixins/mixins' as mixin;
 
-@use "@kestra-io/ui-libs/src/scss/app.scss";
+@use "@kestra-io/ui-libs/src/scss/app";
 
 // element-plus
 @use "layout/element-plus-overload";
@@ -37,13 +37,13 @@ html {
     }
 
     &.menu-collapsed {
-        #{--offset-from-menu}: var(--spacer);
+        #{--offset-from-menu}: 1rem;
     }
 
     &.menu-not-collapsed {
-        #{--offset-from-menu}: var(--spacer);
+        #{--offset-from-menu}: 1rem;
         @include mixin.res(lg) {
-            #{--offset-from-menu}: calc(var(--spacer) * 4);
+            #{--offset-from-menu}: 4rem;
         }
     }
 }
