@@ -1,5 +1,6 @@
 package io.kestra.plugin.core.flow;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.kestra.core.exceptions.IllegalVariableEvaluationException;
 import io.kestra.core.models.annotations.Example;
 import io.kestra.core.models.annotations.Plugin;
@@ -31,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @SuperBuilder
@@ -157,6 +157,15 @@ public class Pause extends Task implements FlowableTask<Pause.Output> {
     protected List<Task> errors;
 
     @Valid
+    @JsonProperty("finally")
+    @Getter(AccessLevel.NONE)
+    protected List<Task> _finally;
+
+    public List<Task> getFinally() {
+        return this._finally;
+    }
+
+    @Valid
     @PluginProperty
     @Deprecated
     private List<Task> tasks;
@@ -173,6 +182,7 @@ public class Pause extends Task implements FlowableTask<Pause.Output> {
             subGraph,
             this.tasks,
             this.errors,
+            this._finally,
             taskRun,
             execution
         );
@@ -185,7 +195,10 @@ public class Pause extends Task implements FlowableTask<Pause.Output> {
         return Stream
             .concat(
                 this.getTasks() != null ? this.getTasks().stream() : Stream.empty(),
-                this.getErrors() != null ? this.getErrors().stream() : Stream.empty()
+                Stream.concat(
+                    this.getErrors() != null ? this.getErrors().stream() : Stream.empty(),
+                    this.getFinally() != null ? this.getFinally().stream() : Stream.empty()
+                )
             )
             .toList();
     }
@@ -205,6 +218,7 @@ public class Pause extends Task implements FlowableTask<Pause.Output> {
             execution,
             this.childTasks(runContext, parentTaskRun),
             FlowableUtils.resolveTasks(this.errors, parentTaskRun),
+            FlowableUtils.resolveTasks(this._finally, parentTaskRun),
             parentTaskRun
         );
     }
