@@ -10,14 +10,14 @@ import io.kestra.core.models.flows.Flow;
 import io.kestra.core.models.flows.FlowWithSource;
 import io.kestra.core.models.triggers.Trigger;
 import io.kestra.core.queues.QueueException;
-import io.kestra.core.runners.RunnerUtils;
-import io.kestra.plugin.core.trigger.Schedule;
 import io.kestra.core.repositories.TriggerRepositoryInterface;
+import io.kestra.core.runners.RunnerUtils;
 import io.kestra.core.serializers.YamlParser;
 import io.kestra.core.services.GraphService;
-import io.kestra.plugin.core.flow.Switch;
 import io.kestra.core.utils.GraphUtils;
 import io.kestra.core.utils.TestsUtils;
+import io.kestra.plugin.core.flow.Switch;
+import io.kestra.plugin.core.trigger.Schedule;
 import jakarta.inject.Inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -243,6 +243,24 @@ class FlowGraphTest {
         assertThat(flowGraph.getClusters().size(), is(1));
     }
 
+
+    @Test
+    void dag() throws IllegalVariableEvaluationException, IOException {
+        FlowWithSource flow = this.parse("flows/valids/dag.yaml");
+        FlowGraph flowGraph = GraphUtils.flowGraph(flow, null);
+
+        assertThat(flowGraph.getNodes().size(), is(11));
+        assertThat(flowGraph.getEdges().size(), is(13));
+        assertThat(flowGraph.getClusters().size(), is(1));
+
+        assertThat(edge(flowGraph, ".*root..*", ".*dag.root..*").getRelation().getRelationType(), is(nullValue()));
+        assertThat(edge(flowGraph, ".*root.dag.*", ".*dag.task1.*").getRelation().getRelationType(), is(RelationType.PARALLEL));
+        assertThat(edge(flowGraph, ".*dag.task2.*", ".*dag.task4.*").getRelation().getRelationType(), is(RelationType.PARALLEL));
+        assertThat(edge(flowGraph, ".*dag.task2.*", ".*dag.task6.*").getRelation().getRelationType(), is(RelationType.PARALLEL));
+        assertThat(edge(flowGraph, ".*dag.task6", ".*dag.end.*").getRelation().getRelationType(), is(nullValue()));
+        assertThat(edge(flowGraph, ".*dag.task5", ".*dag.end.*").getRelation().getRelationType(), is(nullValue()));
+    }
+
     @Test
     @LoadFlows({"flows/valids/task-flow.yaml",
         "flows/valids/switch.yaml"})
@@ -336,6 +354,7 @@ class FlowGraphTest {
 
         assertThat(edge(flowGraph, ".*dag.e1", ".*dag.e2").getRelation().getRelationType(), is(RelationType.ERROR));
         assertThat(edge(flowGraph, ".*dag.e2", ".*dag.finally.*").getRelation().getRelationType(), is(nullValue()));
+        assertThat(edge(flowGraph, ".*dag.t3.end..*", ".*dag.finally.*").getRelation().getRelationType(), is(nullValue()));
         assertThat(edge(flowGraph, ".*dag.finally.*", ".*dag.a1").getRelation().getRelationType(), is(RelationType.DYNAMIC));
         assertThat(edge(flowGraph, ".*dag.a1", ".*dag.a2").getRelation().getRelationType(), is(RelationType.DYNAMIC));
         assertThat(edge(flowGraph, ".*dag.a2", ".*dag.end.*").getRelation().getRelationType(), is(nullValue()));

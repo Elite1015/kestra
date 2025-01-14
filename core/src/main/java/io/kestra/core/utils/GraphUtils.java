@@ -483,13 +483,13 @@ public class GraphUtils {
                         if (currentTask.getTask() instanceof FlowableTask<?>) {
                             graph.addEdge(
                                 ((GraphCluster) currentGraph).getEnd(),
-                                graph.getEnd(),
+                                graph.getFinally(),
                                 new Relation()
                             );
                         } else {
                             graph.addEdge(
                                 currentGraph,
-                                graph.getEnd(),
+                                graph.getFinally(),
                                 new Relation()
                             );
                         }
