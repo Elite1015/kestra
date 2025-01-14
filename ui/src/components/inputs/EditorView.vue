@@ -1350,6 +1350,10 @@
         }
     }
 
+    .vueflow {
+        height: 100%;
+    }
+
     .topology-display .el-alert {
         margin-top: 3rem;
     }
