@@ -5,7 +5,10 @@
         <hr class="m-0">
 
         <Editor
-            :creation="route.query.identifier === 'new'"
+            :creation="
+                route.query.identifier === 'new' ||
+                    route.name === 'flows/create'
+            "
             :flow
             :metadata
             :schemas
