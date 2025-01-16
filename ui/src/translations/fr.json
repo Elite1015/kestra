@@ -678,7 +678,7 @@
             "log_display": "Affichage des journaux par défaut",
             "execute_flow": "Exécuter le flow",
             "execute_default_tab": "Onglet d'exécution par défaut",
-            "editor_type": "Type d'éditeur par défaut"
+            "editor_type": "Type d'Éditeur par Défaut"
           }
         },
         "theme": {

@@ -678,7 +678,7 @@
             "log_display": "Visualizzazione Log predefinita",
             "execute_flow": "Esegui il Flow",
             "execute_default_tab": "Scheda di Esecuzione Predefinita",
-            "editor_type": "Tipo di Editor Predefinito"
+            "editor_type": "Tipo Editor Predefinito"
           }
         },
         "theme": {
