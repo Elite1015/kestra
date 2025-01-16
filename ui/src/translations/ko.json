@@ -1087,6 +1087,7 @@
         "yaml": "YAML 편집기"
       },
       "adding": "+ {what} 추가"
-    }
+    },
+    "export_to_file": "파일로 내보내기"
   }
 }

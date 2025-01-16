@@ -1087,6 +1087,7 @@
         "yaml": "YAML编辑器"
       },
       "adding": "+ 添加{what}"
-    }
+    },
+    "export_to_file": "导出到文件"
   }
 }

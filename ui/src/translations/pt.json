@@ -1087,6 +1087,7 @@
         "yaml": "Editor YAML"
       },
       "adding": "+ Adicionar um {what}"
-    }
+    },
+    "export_to_file": "Exportar para arquivo"
   }
 }
