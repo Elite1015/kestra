@@ -81,8 +81,6 @@
         );
 
         if (route.query.section === SECTIONS.TRIGGERS.toLowerCase()) {
-            console.log("Update trigger");
-
             const existingTask = YamlUtils.checkTaskAlreadyExist(
                 source,
                 CURRENT.value,
