@@ -881,7 +881,9 @@
     "behavior": "Comportement",
     "concurrency-view": {
       "desc_no_limit": "En savoir plus sur les <strong><a href=\"https://kestra.io/docs/workflow-components/concurrency\" target=\"_blank\">limites de Concurrency</a></strong> dans notre documentation.",
-      "title_no_limit": "Aucune limite n'est définie pour ce Flow."
+      "title_no_limit": "Aucune limite n'est définie pour ce Flow.",
+      "desc_no_executions": "En savoir plus sur les <strong><a href=\"https://kestra.io/docs/workflow-components/execution\" target=\"_blank\">Executions</a></strong> dans notre documentation.",
+      "title_no_executions": "Aucune exécution en cours pour ce Flow."
     },
     "active-slots": "Slots actifs",
     "concurrency": "Concurrence",

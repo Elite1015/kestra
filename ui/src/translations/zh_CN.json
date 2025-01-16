@@ -881,7 +881,9 @@
     "behavior": "行为",
     "concurrency-view": {
       "desc_no_limit": "在我们的文档中阅读更多关于<strong><a href=\"https://kestra.io/docs/workflow-components/concurrency\" target=\"_blank\">并发限制</a></strong>的信息。",
-      "title_no_limit": "没有为此 Flow 设置限制。"
+      "title_no_limit": "没有为此 Flow 设置限制。",
+      "desc_no_executions": "在我们的文档中阅读更多关于<strong><a href=\"https://kestra.io/docs/workflow-components/execution\" target=\"_blank\">Executions</a></strong>的信息。",
+      "title_no_executions": "此Flow没有正在进行的Executions。"
     },
     "active-slots": "活动槽位",
     "concurrency": "并发",
