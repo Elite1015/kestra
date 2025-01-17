@@ -1081,7 +1081,9 @@
       },
       "labels": {
         "no_code": "コードエディタなし",
-        "yaml": "YAMLエディター"
+        "yaml": "YAMLエディター",
+        "label": "ラベル",
+        "variable": "変数"
       },
       "adding": "+ {what}を追加"
     },

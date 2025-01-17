@@ -1081,7 +1081,9 @@
       },
       "labels": {
         "no_code": "Edytor No Code",
-        "yaml": "Edytor YAML"
+        "yaml": "Edytor YAML",
+        "label": "Etykieta",
+        "variable": "Zmienna"
       },
       "adding": "+ Dodaj {what}"
     },
