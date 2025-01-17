@@ -29,31 +29,32 @@ type VariableField = Field & {
     variables: any[];
 };
 
-type Main = {
-    id: Field;
-    namespace: Field;
-    description: Field;
-};
-
 type ConcurrencyField = Field & {
     root: string;
     schema: object;
 };
 
-type General = {
-    retry: Field;
-    labels: LabelField;
-    inputs: InputField;
-    outputs: Field;
-    variables: VariableField;
-    concurrency: ConcurrencyField;
-    pluginDefaults: Field;
-    disabled: Field;
+type EditorField = Field & {
+    navbar: boolean;
+    input: boolean;
+    lang: string;
+    style: {
+        height: string;
+    };
 };
 
 export type Fields = {
-    main: Main;
-    general: General;
+    id: Field;
+    namespace: Field;
+    description: Field;
+    retry: EditorField;
+    labels: LabelField;
+    inputs: InputField;
+    outputs: EditorField;
+    variables: VariableField;
+    concurrency?: ConcurrencyField; // TODO: Make it not optional
+    pluginDefaults: EditorField;
+    disabled: Field;
 };
 
 export type Breadcrumb = {
@@ -67,9 +68,4 @@ export type Breadcrumb = {
 export type CollapseItem = {
     title: string;
     elements?: Record<string, any>[];
-};
-
-export type Sections = {
-    main: CollapseItem[];
-    segments: CollapseItem[];
 };
