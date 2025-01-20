@@ -268,7 +268,7 @@
                 pointer-events: auto;
             }
 
-            &:hover {
+            &:hover, body &_hover {
                 background-color: var(--ks-button-background-secondary-hover);
             }   
 
