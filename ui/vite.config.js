@@ -19,8 +19,11 @@ export const manualChunks = {
         "src/components/flows/FlowsSearch.vue", 
         "src/components/flows/FlowRoot.vue"
     ],
-    "markdown": [
-        "src/utils/markdown.js"
+    "markdownDeps": [
+        "shiki/langs/yaml.mjs",
+        "shiki/langs/python.mjs",
+        "shiki/langs/javascript.mjs",
+        "src/utils/markdownDeps.ts"
     ]
 }
 
