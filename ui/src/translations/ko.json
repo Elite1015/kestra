@@ -1077,7 +1077,8 @@
       },
       "save": {
         "tasks": "작업 저장",
-        "triggers": "트리거 저장"
+        "triggers": "트리거 저장",
+        "error handlers": "오류 처리기 저장"
       },
       "labels": {
         "no_code": "코드 없는 편집기",
@@ -1085,7 +1086,8 @@
         "label": "레이블",
         "variable": "변수"
       },
-      "adding": "+ {what} 추가"
+      "adding": "+ {what} 추가",
+      "adding_default": "+ 새 value 추가"
     },
     "export_to_file": "파일로 내보내기"
   }

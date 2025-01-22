@@ -1077,7 +1077,8 @@
       },
       "save": {
         "tasks": "Aufgabe speichern",
-        "triggers": "Speicher Trigger"
+        "triggers": "Speicher Trigger",
+        "error handlers": "Fehlerbehandlungsroutine speichern"
       },
       "labels": {
         "no_code": "Kein Code-Editor",
@@ -1085,7 +1086,8 @@
         "label": "Label",
         "variable": "Variable"
       },
-      "adding": "+ {what} hinzufügen"
+      "adding": "+ {what} hinzufügen",
+      "adding_default": "+ Neuen Wert hinzufügen"
     },
     "export_to_file": "In Datei exportieren"
   }

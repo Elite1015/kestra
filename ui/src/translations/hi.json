@@ -1077,7 +1077,8 @@
       },
       "save": {
         "tasks": "कार्य सहेजें",
-        "triggers": "ट्रिगर सहेजें"
+        "triggers": "ट्रिगर सहेजें",
+        "error handlers": "त्रुटि हैंडलर सहेजें"
       },
       "labels": {
         "no_code": "कोड संपादक नहीं",
@@ -1085,7 +1086,8 @@
         "label": "लेबल",
         "variable": "वेरिएबल"
       },
-      "adding": "+ एक {what} जोड़ें"
+      "adding": "+ एक {what} जोड़ें",
+      "adding_default": "+ एक नया value जोड़ें"
     },
     "export_to_file": "फ़ाइल में निर्यात करें"
   }

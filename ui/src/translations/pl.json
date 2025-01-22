@@ -1077,7 +1077,8 @@
       },
       "save": {
         "tasks": "Zapisz task",
-        "triggers": "Zapisz trigger"
+        "triggers": "Zapisz trigger",
+        "error handlers": "Zapisz obsługę błędów"
       },
       "labels": {
         "no_code": "Edytor No Code",
@@ -1085,7 +1086,8 @@
         "label": "Etykieta",
         "variable": "Zmienna"
       },
-      "adding": "+ Dodaj {what}"
+      "adding": "+ Dodaj {what}",
+      "adding_default": "+ Dodaj nową wartość"
     },
     "export_to_file": "Eksportuj do pliku"
   }

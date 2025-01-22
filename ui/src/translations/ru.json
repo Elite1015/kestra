@@ -1077,7 +1077,8 @@
       },
       "save": {
         "tasks": "Сохранить task",
-        "triggers": "Сохранить trigger"
+        "triggers": "Сохранить trigger",
+        "error handlers": "Сохранить обработчик ошибок"
       },
       "labels": {
         "no_code": "Редактор No Code",
@@ -1085,7 +1086,8 @@
         "label": "Метка",
         "variable": "Переменная"
       },
-      "adding": "+ Добавить {what}"
+      "adding": "+ Добавить {what}",
+      "adding_default": "+ Добавить новое value"
     },
     "export_to_file": "Экспортировать в файл"
   }
