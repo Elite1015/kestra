@@ -27,11 +27,6 @@ import java.util.Set;
 @NoArgsConstructor
 @Plugin
 @EqualsAndHashCode
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type", visible = true, include = JsonTypeInfo.As.EXISTING_PROPERTY)
-@JsonSubTypes({
-    @JsonSubTypes.Type(value = Executions.class, name = "io.kestra.plugin.core.dashboard.data.Executions"),
-    @JsonSubTypes.Type(value = Logs.class, name = "io.kestra.plugin.core.dashboard.data.Logs"),
-})
 public abstract class DataFilter<F extends Enum<F>, C extends ColumnDescriptor<F>> implements io.kestra.core.models.Plugin {
     @NotNull
     @NotBlank
