@@ -10,22 +10,19 @@
         :is="lastBreadcumb.component.type"
         v-bind="lastBreadcumb.component.props"
         v-on="lastBreadcumb.component.listeners"
+        :model-value="lastBreadcumb.component.props.modelValue"
         @update:model-value="validateTask"
     />
 
     <template v-if="yaml">
-        <div class="d-flex justify-content-between">
-            <div class="d-flex align-items-center">
-                <!-- TODO: Properly handle validation errors -->
-                <ValidationError v-if="false" :errors link />
-            </div>
+        <!-- TODO: Improve the validation for single tasks -->
+        <ValidationError v-if="false" :errors link />
 
-            <Save
-                @click="saveTask"
-                :what="route.query.section?.toString()"
-                class="w-100 mt-3"
-            />
-        </div>
+        <Save
+            @click="saveTask"
+            :what="route.query.section?.toString()"
+            class="w-100 mt-3"
+        />
     </template>
 </template>
 
