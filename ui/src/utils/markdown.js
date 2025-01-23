@@ -23,7 +23,7 @@ export async function render(markdown, options = {}) {
     let md;
     if (options.onlyLink) {
         md = new markdownIt("zero");
-        md.enable(["link", "linkify", "entity", "html_inline", "newline"]);
+        md.enable(["link", "linkify", "entity", "html_inline"]);
     } else {
         md = new markdownIt();
     }
