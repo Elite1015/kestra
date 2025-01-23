@@ -698,7 +698,7 @@
             .attempt-wrapper & {
                 border-radius: .25rem;
             }
-            
+
             tbody:last-child & {
                 border-bottom: 1px solid var(--ks-border-primary);
             }
@@ -731,7 +731,7 @@
             margin-top: .5rem;
 
             .line {
-                padding: .5rem;
+                padding: 1rem;
 
                 &.cursor {
                     background-color: var(--bs-gray-300)
