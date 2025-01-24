@@ -171,18 +171,18 @@ do
   fi
 
   if [[ "$DRY_RUN" == false ]]; then
+    CURRENT_BRANCH=$(git branch --show-current);
+
     echo "Run gradle release for plugin: $PLUGIN";
-    echo "Branch: $(git rev-parse --abbrev-ref HEAD)";
+    echo "Branch: $CURRENT_BRANCH";
 
     if [[ "$AUTO_YES" == false ]]; then
       askToContinue
     fi
 
-    CURRENT_BRANCH=$(git branch --show-current);
-
     # Create and push release branch
-    git checkout -b "$PUBLISH_RELEASE_BRANCH";
-    git push -u origin "$PUBLISH_RELEASE_BRANCH";
+    git checkout -b "$PUSH_RELEASE_BRANCH";
+    git push -u origin "$PUSH_RELEASE_BRANCH";
 
     # Run gradle release
     git checkout "$CURRENT_BRANCH";
