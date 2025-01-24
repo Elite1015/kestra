@@ -342,8 +342,8 @@
     import EditorButtons from "./EditorButtons.vue";
     import Drawer from "../Drawer.vue";
     import {ElMessageBox} from "element-plus";
-    
     import NoCode from "../code/NoCode.vue";
+    import localUtils from "../../utils/utils";
 
     const store = useStore();
     const router = useRouter();
@@ -494,7 +494,7 @@
     });
 
     const editorViewType = ref("YAML");
-   
+
     const handleTopologyEditClick = (params) => {
         editorViewType.value = "NO_CODE";
         nextTick(() => router.replace({query: {...route.query, ...params}}))
@@ -1317,10 +1317,9 @@
         closeTabs(openedTabs.value.slice(index + 1).filter(tab => tab !== FLOW_TAB.value), openedTabs.value[index]);
     };
 
-    import localUtils from "../../utils/utils";
     const exportYaml = () => {
         const blob = new Blob([flowYaml.value], {type: "text/yaml"});
-        localUtils.downloadUrl(window.URL.createObjectURL(blob), "flow.yaml"); 
+        localUtils.downloadUrl(window.URL.createObjectURL(blob), "flow.yaml");
     };
 </script>
 
