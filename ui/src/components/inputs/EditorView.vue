@@ -177,7 +177,7 @@
             </div>
 
             <div
-                v-if="viewType === editorViewTypes.SOURCE_TOPOLOGY || viewType === editorViewTypes.TOPOLOGY"
+                v-else-if="viewType === editorViewTypes.SOURCE_TOPOLOGY || viewType === editorViewTypes.TOPOLOGY"
                 :class="viewType === editorViewTypes.SOURCE_TOPOLOGY ? 'combined-right-view' : 'vueflow'"
                 class="topology-display"
             >
@@ -206,7 +206,7 @@
             </div>
 
             <PluginDocumentation
-                v-if="viewType === editorViewTypes.SOURCE_DOC"
+                v-else-if="viewType === editorViewTypes.SOURCE_DOC"
                 class="plugin-doc combined-right-view enhance-readability"
             />
         </div>
