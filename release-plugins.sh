@@ -123,9 +123,14 @@ else
   PLUGINS_COUNT="${#PLUGINS_ARGS[@]}"
 fi
 
+# Extract the major and minor versions
+BASE_VERSION=$(echo "$RELEASE_VERSION" | sed -E 's/^([0-9]+\.[0-9]+)\..*/\1/')
+PUSH_RELEASE_BRANCH="releases/v${BASE_VERSION}.x"
+
 ## Get plugin list
 echo "RELEASE_VERSION=$RELEASE_VERSION"
 echo "NEXT_VERSION=$NEXT_VERSION"
+echo "PUSH_RELEASE_BRANCH=$PUSH_RELEASE_BRANCH"
 echo "GIT_BRANCH=$GIT_BRANCH"
 echo "DRY_RUN=$DRY_RUN"
 echo "Found ($PLUGINS_COUNT) plugin repositories:";
@@ -166,16 +171,38 @@ do
   fi
 
   if [[ "$DRY_RUN" == false ]]; then
-    echo "Run gradle release for plugin: $PLUGIN "
+    echo "Run gradle release for plugin: $PLUGIN";
+    echo "Branch: $(git rev-parse --abbrev-ref HEAD)";
+
     if [[ "$AUTO_YES" == false ]]; then
       askToContinue
     fi
-    echo "Branch: $(git rev-parse --abbrev-ref HEAD)";
-    ./gradlew release -Prelease.useAutomaticVersion=true \
-      -Prelease.releaseVersion="${RELEASE_VERSION}" \
-      -Prelease.newVersion="${NEXT_VERSION}"
+
+    CURRENT_BRANCH=$(git branch --show-current);
+
+    # Create and push release branch
+    git checkout -b "$PUBLISH_RELEASE_BRANCH";
+    git push -u origin "$PUBLISH_RELEASE_BRANCH";
+
+    # Run gradle release
+    git checkout "$CURRENT_BRANCH";
+
+    if [[ "$RELEASE_VERSION" == *"-SNAPSHOT" ]]; then
+      # -SNAPSHOT qualifier maybe used to test release-candidates
+      ./gradlew release -Prelease.useAutomaticVersion=true \
+        -Prelease.releaseVersion="${RELEASE_VERSION}" \
+        -Prelease.newVersion="${NEXT_VERSION}" \
+        -Prelease.pushReleaseVersionBranch="${PUSH_RELEASE_BRANCH}" \
+        -Prelease.failOnSnapshotDependencies=false
+    else
+      ./gradlew release -Prelease.useAutomaticVersion=true \
+        -Prelease.releaseVersion="${RELEASE_VERSION}" \
+        -Prelease.newVersion="${NEXT_VERSION}" \
+        -Prelease.pushReleaseVersionBranch="${PUSH_RELEASE_BRANCH}"
+    fi
+
     git push;
-    sleep 5; #  add a short delay to not spam Maven Central
+    sleep 5; # add a short delay to not spam Maven Central
   else
     echo "Skip gradle release [DRY_RUN=true]";
   fi
