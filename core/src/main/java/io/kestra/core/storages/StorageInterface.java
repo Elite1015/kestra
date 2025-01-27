@@ -1,18 +1,14 @@
 package io.kestra.core.storages;
 
 import io.kestra.core.annotations.Retryable;
-import io.kestra.core.models.executions.Execution;
 import io.kestra.core.models.Plugin;
+import io.kestra.core.models.executions.Execution;
 
 import javax.annotation.Nullable;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @implNote Most methods (except lifecycle on) took a namespace as parameter, this namespace parameter MUST NOT BE USED to denote the path of the storage URI in any sort,
@@ -20,6 +16,8 @@ import java.util.List;
  *           This is only used by storage implementation that must enforce namespace isolation.
  */
 public interface StorageInterface extends AutoCloseable, Plugin {
+    String LEADING_SLASH_CONFIG = "leadingSlash";
+    Pattern LEADING_SLASH_PATTERN = Pattern.compile("^/+");
 
     /**
      * Opens any resources or perform any pre-checks for initializing this storage.
@@ -36,6 +34,14 @@ public interface StorageInterface extends AutoCloseable, Plugin {
     @Override
     default void close() {
         // no-op
+    }
+
+    boolean isLeadingSlash();
+
+    default String normalizePath(String path) {
+        String withoutLeadingSlash = LEADING_SLASH_PATTERN.matcher(path).replaceAll("");
+
+        return (this.isLeadingSlash() ? "/" : "") + withoutLeadingSlash;
     }
 
     @Retryable(includes = {IOException.class}, excludes = {FileNotFoundException.class})

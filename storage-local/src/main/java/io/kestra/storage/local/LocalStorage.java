@@ -49,6 +49,11 @@ public class LocalStorage implements StorageInterface {
         }
     }
 
+    @Override
+    public boolean isLeadingSlash() {
+        return false;
+    }
+
     private Path getPath(String tenantId, URI uri) {
         Path basePath = tenantId == null ? this.basePath.toAbsolutePath()
             : Paths.get(this.basePath.toAbsolutePath().toString(), tenantId);

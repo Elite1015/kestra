@@ -2,11 +2,19 @@ package io.kestra.core.storage;
 
 import com.google.common.io.CharStreams;
 import io.kestra.core.junit.annotations.KestraTest;
+import io.kestra.core.plugins.DefaultPluginRegistry;
 import io.kestra.core.storages.FileAttributes;
 import io.kestra.core.storages.StorageInterface;
+import io.kestra.core.storages.StorageInterfaceFactory;
 import io.kestra.core.storages.StorageObject;
 import io.kestra.core.utils.IdUtils;
+import io.micronaut.context.annotation.ConfigurationProperties;
+import io.micronaut.context.annotation.Value;
+import io.micronaut.core.annotation.Nullable;
+import io.micronaut.core.convert.format.MapFormat;
+import io.micronaut.core.naming.conventions.StringConvention;
 import jakarta.inject.Inject;
+import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -15,6 +23,7 @@ import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,11 +34,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @KestraTest
 public abstract class StorageTestSuite {
-    private static final String CONTENT_STRING = "Content";
+    protected static final String CONTENT_STRING = "Content";
 
     @Inject
     protected StorageInterface storageInterface;
 
+    @Value("${kestra.storage.type}")
+    String storageType;
+
+    @Inject
+    StorageConfig storageConfig;
+
+    @Inject
+    Validator validator;
+
+    protected boolean forcedLeadingSlash() {
+        return false;
+    }
 
     //region test GET
     @Test
@@ -982,28 +1003,30 @@ public abstract class StorageTestSuite {
 
     private void deleteByPrefix(String prefix, String tenantId) throws Exception {
         List<String> path = Arrays.asList(
-            "/" + prefix + "/storage/root.yml",
-            "/" + prefix + "/storage/level1/1.yml",
-            "/" + prefix + "/storage/level1/level2/1.yml"
+            prefix + "/storage/root.yml",
+            prefix + "/storage/level1/1.yml",
+            prefix + "/storage/level1/level2/1.yml"
         );
 
         path.forEach(throwConsumer(s -> this.putFile(tenantId, s)));
 
-        List<URI> deleted = storageInterface.deleteByPrefix(tenantId, prefix, new URI("/" + prefix + "/storage/"));
+        assertThat(storageInterface.exists(tenantId, prefix, new URI("storage/")));
+
+        List<URI> deleted = storageInterface.deleteByPrefix(tenantId, prefix, new URI(prefix + "/storage/"));
 
         List<String> res = Arrays.asList(
-            "/" + prefix + "/storage",
-            "/" + prefix + "/storage/root.yml",
-            "/" + prefix + "/storage/level1",
-            "/" + prefix + "/storage/level1/1.yml",
-            "/" + prefix + "/storage/level1/level2",
-            "/" + prefix + "/storage/level1/level2/1.yml"
+            prefix + "/storage",
+            prefix + "/storage/root.yml",
+            prefix + "/storage/level1",
+            prefix + "/storage/level1/1.yml",
+            prefix + "/storage/level1/level2",
+            prefix + "/storage/level1/level2/1.yml"
         );
 
         assertThat(deleted, containsInAnyOrder(res.stream().map(s -> URI.create("kestra://" + s)).toArray()));
 
         assertThrows(FileNotFoundException.class, () -> {
-            storageInterface.get(tenantId, prefix, new URI("/" + prefix + "/storage/"));
+            storageInterface.get(tenantId, prefix, new URI(prefix + "/storage/"));
         });
 
         path.forEach(throwConsumer(s -> {
@@ -1017,9 +1040,9 @@ public abstract class StorageTestSuite {
         String tenantId = IdUtils.create();
 
         List<String> path = Arrays.asList(
-            "/" + prefix + "/storage/root.yml",
-            "/" + prefix + "/storage/level1/1.yml",
-            "/" + prefix + "/storage/level1/level2/1.yml"
+            prefix + "/storage/root.yml",
+            prefix + "/storage/level1/1.yml",
+            prefix + "/storage/level1/level2/1.yml"
         );
 
         path.forEach(throwConsumer(s -> this.putFile(tenantId, s)));
@@ -1027,12 +1050,12 @@ public abstract class StorageTestSuite {
         List<URI> deleted = storageInterface.deleteByPrefix(tenantId, prefix, new URI("/" + prefix + "/storage/"));
 
         List<String> res = Arrays.asList(
-            "/" + prefix + "/storage",
-            "/" + prefix + "/storage/root.yml",
-            "/" + prefix + "/storage/level1",
-            "/" + prefix + "/storage/level1/1.yml",
-            "/" + prefix + "/storage/level1/level2",
-            "/" + prefix + "/storage/level1/level2/1.yml"
+            prefix + "/storage",
+            prefix + "/storage/root.yml",
+            prefix + "/storage/level1",
+            prefix + "/storage/level1/1.yml",
+            prefix + "/storage/level1/level2",
+            prefix + "/storage/level1/level2/1.yml"
         );
 
         assertThat(deleted, containsInAnyOrder(res.stream().map(s -> URI.create("kestra://" + s)).toArray()));
@@ -1062,13 +1085,91 @@ public abstract class StorageTestSuite {
         assertThat(withMetadata.metadata(), is(expectedMetadata));
     }
 
-    private URI putFile(String tenantId, String path) throws Exception {
+    @Test
+    protected void leadingSlash() throws Exception {
+        String prefix = IdUtils.create();
+
+        assertThat(storageInterface.normalizePath("/a/b"), is("a/b"));
+        assertThat(storageInterface.normalizePath("a/b"), is("a/b"));
+
+        boolean previousLeadingSlash = storageInterface.isLeadingSlash();
+
+        String firstFileRelativePath = prefix + "/storage/first.yml";
+        putFile(null, "/" + firstFileRelativePath);
+        String secondFileRelativePath = prefix + "/storage/second.yml";
+        putFile(null, secondFileRelativePath);
+
+        URI item = new URI("/" + firstFileRelativePath);
+        InputStream get = storageInterface.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+        item = new URI(firstFileRelativePath);
+        get = storageInterface.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+
+        item = new URI("/" + secondFileRelativePath);
+        get = storageInterface.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+        item = new URI(secondFileRelativePath);
+        get = storageInterface.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+
+
+        Map<String, Object> previousStorageConfig = new HashMap<>(storageConfig.getStorageConfig(storageType));
+        previousStorageConfig.put(StorageInterface.LEADING_SLASH_CONFIG, !previousLeadingSlash);
+        StorageInterface reversedLeadingSlash = StorageInterfaceFactory.make(DefaultPluginRegistry.getOrCreate(), storageType, previousStorageConfig, validator);
+
+        assertThat(reversedLeadingSlash.normalizePath("/a/b"), is("/a/b"));
+        assertThat(reversedLeadingSlash.normalizePath("a/b"), is("/a/b"));
+
+        String thirdFileRelativePath = prefix + "/storage/third.yml";
+        putFile(reversedLeadingSlash, null, "/" + thirdFileRelativePath);
+        String fourthFileRelativePath = prefix + "/storage/fourth.yml";
+        putFile(reversedLeadingSlash, null, fourthFileRelativePath);
+
+        item = new URI("/" + thirdFileRelativePath);
+        get = reversedLeadingSlash.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+        item = new URI(thirdFileRelativePath);
+        get = reversedLeadingSlash.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+
+        item = new URI("/" + fourthFileRelativePath);
+        get = reversedLeadingSlash.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+        item = new URI(fourthFileRelativePath);
+        get = reversedLeadingSlash.get(null, prefix, item);
+        assertThat(CharStreams.toString(new InputStreamReader(get)), is(CONTENT_STRING));
+
+        assertThat(storageInterface.exists(null, prefix, new URI(firstFileRelativePath)), is(true));
+        assertThat(storageInterface.exists(null, prefix, new URI("/" + firstFileRelativePath)), is(true));
+        assertThat(storageInterface.exists(null, prefix, new URI(secondFileRelativePath)), is(true));
+        assertThat(storageInterface.exists(null, prefix, new URI("/" + secondFileRelativePath)), is(true));
+        assertThat(storageInterface.exists(null, prefix, new URI(thirdFileRelativePath)), is(false));
+        assertThat(storageInterface.exists(null, prefix, new URI("/" + thirdFileRelativePath)), is(false));
+        assertThat(storageInterface.exists(null, prefix, new URI(fourthFileRelativePath)), is(false));
+        assertThat(storageInterface.exists(null, prefix, new URI("/" + fourthFileRelativePath)), is(false));
+
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI(firstFileRelativePath)), is(false));
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI("/" + firstFileRelativePath)), is(false));
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI(secondFileRelativePath)), is(false));
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI("/" + secondFileRelativePath)), is(false));
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI(thirdFileRelativePath)), is(true));
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI("/" + thirdFileRelativePath)), is(true));
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI(fourthFileRelativePath)), is(true));
+        assertThat(reversedLeadingSlash.exists(null, prefix, new URI("/" + fourthFileRelativePath)), is(true));
+    }
+
+    private URI putFile(StorageInterface storageInterface, String tenantId, String path) throws Exception {
         return storageInterface.put(
             tenantId,
             null,
             new URI(path),
             new ByteArrayInputStream(CONTENT_STRING.getBytes())
         );
+    }
+
+    protected URI putFile(String tenantId, String path) throws Exception {
+        return this.putFile(this.storageInterface, tenantId, path);
     }
 
     private URI putFile(String tenantId, String path, Map<String, String> metadata) throws Exception {
@@ -1081,5 +1182,23 @@ public abstract class StorageTestSuite {
                 new ByteArrayInputStream(CONTENT_STRING.getBytes())
             )
         );
+    }
+
+    @ConfigurationProperties("kestra")
+    public record StorageConfig(
+        @Nullable
+        @MapFormat(keyFormat = StringConvention.CAMEL_CASE, transformation = MapFormat.MapTransformation.NESTED)
+        Map<String, Object> storage
+    ) {
+
+        /**
+         * Returns the configuration for the configured storage.
+         *
+         * @return the configuration.
+         */
+        @SuppressWarnings("unchecked")
+        private Map<String, Object> getStorageConfig(String type) {
+            return (Map<String, Object>) storage.get(StringConvention.CAMEL_CASE.format(type));
+        }
     }
 }
