@@ -1076,7 +1076,8 @@
       "save": {
         "tasks": "Salva task",
         "triggers": "Salva trigger",
-        "error handlers": "Salva gestore errori"
+        "error handlers": "Salva gestore errori",
+        "input": "Salva input"
       },
       "labels": {
         "no_code": "Editor Senza Codice",

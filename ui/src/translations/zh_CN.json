@@ -1076,7 +1076,8 @@
       "save": {
         "tasks": "保存任务",
         "triggers": "保存 trigger",
-        "error handlers": "保存错误处理程序"
+        "error handlers": "保存错误处理程序",
+        "input": "保存输入"
       },
       "labels": {
         "no_code": "无代码编辑器",

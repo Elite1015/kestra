@@ -1076,7 +1076,8 @@
       "save": {
         "tasks": "Zapisz task",
         "triggers": "Zapisz trigger",
-        "error handlers": "Zapisz obsługę błędów"
+        "error handlers": "Zapisz obsługę błędów",
+        "input": "Zapisz input"
       },
       "labels": {
         "no_code": "Edytor No Code",

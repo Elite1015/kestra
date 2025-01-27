@@ -1076,7 +1076,8 @@
       "save": {
         "tasks": "Enregistrer la tâche",
         "triggers": "Enregistrer le trigger",
-        "error handlers": "Enregistrer le gestionnaire d'erreurs"
+        "error handlers": "Enregistrer le gestionnaire d'erreurs",
+        "input": "Enregistrer l'input"
       },
       "labels": {
         "no_code": "Éditeur sans code",

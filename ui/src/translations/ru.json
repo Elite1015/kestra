@@ -1076,7 +1076,8 @@
       "save": {
         "tasks": "Сохранить task",
         "triggers": "Сохранить trigger",
-        "error handlers": "Сохранить обработчик ошибок"
+        "error handlers": "Сохранить обработчик ошибок",
+        "input": "Сохранить input"
       },
       "labels": {
         "no_code": "Редактор No Code",

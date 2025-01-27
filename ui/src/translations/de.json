@@ -1076,7 +1076,8 @@
       "save": {
         "tasks": "Aufgabe speichern",
         "triggers": "Speicher Trigger",
-        "error handlers": "Fehlerbehandlungsroutine speichern"
+        "error handlers": "Fehlerbehandlungsroutine speichern",
+        "input": "Eingabe speichern"
       },
       "labels": {
         "no_code": "Kein Code-Editor",

@@ -1076,7 +1076,8 @@
       "save": {
         "tasks": "작업 저장",
         "triggers": "트리거 저장",
-        "error handlers": "오류 처리기 저장"
+        "error handlers": "오류 처리기 저장",
+        "input": "입력 저장"
       },
       "labels": {
         "no_code": "코드 없는 편집기",
