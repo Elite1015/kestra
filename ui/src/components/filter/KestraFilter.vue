@@ -870,16 +870,20 @@ $dashboards: 52px;
 
 .filters-select {
     & .el-select-dropdown {
-        width: 300px !important;
+        width: auto !important;
 
         &:has(.el-select-dropdown__empty) {
-            width: 500px !important;
+            width: auto !important;
         }
     }
 
     & .el-date-editor.el-input__wrapper {
         background-color: initial;
         box-shadow: none;
+    }
+
+    & .el-select-dropdown__item {
+        padding-right: 20px;
     }
 
     & .el-select-dropdown__item .material-design-icon {
