@@ -1088,6 +1088,7 @@
       "adding": "+ Ajouter un {what}",
       "adding_default": "+ Ajouter une nouvelle valeur"
     },
-    "export_to_file": "Exporter vers un fichier"
+    "export_to_file": "Exporter vers un fichier",
+    "change state current state": "Statut actuel :"
   }
 }
