@@ -47,12 +47,36 @@
         text-align: left;
         width: 400px;
         margin: 0 auto;
+        position: relative;
+        // add flare effect in dark mode
+        html.dark &::before{
+            display: block;
+            position: absolute;
+            content: "";
+            height: 2rem;
+            width: 2rem;
+            z-index: 12;
+            top: -1rem;
+            left: 8.5rem;
+            background-image:
+                // vertical flare
+                linear-gradient(180deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
+                // horizontal flare
+                linear-gradient(90deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
+                // flare effect
+                radial-gradient(circle, $base-gray-200 0%, rgba($base-gray-200, .3) 40%,rgba($base-gray-200, 0) 70%);
+            background-size:  2px 100%, 100% 2px, 50% 50%;
+            background-repeat: no-repeat;
+            background-position: center, center, center;
+        }
+
         .enterprise-tag::before,
         .enterprise-tag::after{
             content: "";
             display: block;
             position: absolute;
             border-radius: 1rem;
+
         }
 
         .enterprise-tag::before{
@@ -68,9 +92,12 @@
             z-index: -1;
             background: $base-gray-200;
             top: -1px;
-            bottom: -1px;
             left: -1px;
+            bottom: -1px;
             right: -1px;
+            html.dark & {
+                background: $base-gray-400;
+            }
         }
 
         .enterprise-tag{
@@ -81,7 +108,12 @@
             border-radius: 1rem;
             display: inline-block;
             z-index: 2;
+            html.dark &{
+                background: #FBFBFB26;
+                border-color: #FFFFFF;
+            }
         }
+
 
         h2 {
             margin-top: 1rem;
