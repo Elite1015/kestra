@@ -1105,6 +1105,7 @@
         "error handlers": "Save error handler",
         "input": "Save input"
       }
-    }
+    },
+    "instance": "Instance"
   }
 }
