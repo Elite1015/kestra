@@ -602,7 +602,6 @@
             },
             initMonaco: async function () {
                 let self = this;
-                console.log("showWords set to false")
                 let options = {
                     ...{
                         value: this.value,
