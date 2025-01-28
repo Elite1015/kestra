@@ -53,6 +53,7 @@
     import Flows from "./Flows.vue";
     import EditorView from "../inputs/EditorView.vue";
     import BlueprintsBrowser from "../../override/components/flows/blueprints/BlueprintsBrowser.vue";
+    import DemoNamespace from "../demo/Namespace.vue";
 
     export default {
         mixins: [RouteContext],
@@ -139,7 +140,7 @@
                         title: this.$t("flows"),
                         props: {
                             tab: "flows",
-                            topbar:false,
+                            embed: true,
                         },
                         query: {
                             id: this.$route.query.id
@@ -183,69 +184,43 @@
                     },
                     {
                         name: "edit",
-                        component: "",
+                        component: DemoNamespace,
                         title: this.$t("edit"),
                         props: {
                             tab: "edit",
-                        },
-                        query: {
-                            id: this.$route.query.id
-                        },
-                        disabled: true,
-                        locked: true
+                        }
                     },
                     {
                         name: "variables",
-                        component: "",
+                        component: DemoNamespace,
                         title: this.$t("variables"),
-                        containerClass: "container",
                         props: {
-                            type: "variables",
                             tab: "variables",
-                        },
-                        disabled: true,
-                        locked: true
+                        }
                     },
                     {
                         name: "plugin-defaults",
-                        component: "",
+                        component: DemoNamespace,
                         title: this.$t("plugin defaults"),
-                        containerClass: "container",
                         props: {
-                            type: "pluginDefaults",
                             tab: "plugin-defaults",
-                        },
-                        disabled: true,
-                        locked: true
+                        }
                     },
                     {
                         name: "secrets",
-                        component: "",
+                        component: DemoNamespace,
                         title: this.$t("secret.names"),
                         props: {
-                            addSecretModalVisible: this.modalAddSecretVisible,
-                            inheritedSecretsModalVisible: this.modalInheritedSecretsVisible
-                        },
-                        "v-on": {
-                            "update:addSecretModalVisible": (value) => {
-                                this.modalAddSecretVisible = value
-                            },
-                            "update:inheritedSecretsModalVisible": (value) => {
-                                this.modalInheritedSecretsVisible = value
-                            }
-                        },
-                        disabled: true,
-                        locked: true
+                            tab: "secrets",
+                        }
                     },
                     {
                         name: "audit-logs",
-                        component: "",
+                        component: DemoNamespace,
                         title: this.$t("auditlogs"),
                         props: {
-                            restoreUrl: false
-                        },
-                        disabled: true,
-                        locked: true
+                            tab: "audit-logs",
+                        }
                     }
                 ])
 

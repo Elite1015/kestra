@@ -33,7 +33,7 @@
     </div>
     <div class="panelWrapper" :class="{panelTabResizing: resizing}" :style="{width: activeTab?.length ? `${panelWidth}px` : 0}">
         <div :style="{overflow: 'hidden'}">
-            <button v-if="activeTab.length" class="closeButton" @click="activeTab = ''">
+            <button v-if="activeTab.length" class="closeButton" @click="setActiveTab('')">
                 <Close />
             </button>
             <ContextDocs v-if="activeTab === 'docs'" />
@@ -68,7 +68,8 @@
 
     const store = useStore();
 
-    const configs = computed(() => store.state.misc.configs);
+    const configs = computed(() => store.getters["misc/configs"]);
+    const activeTab = computed(() => store.getters["misc/contextInfoBarOpenTab"])
 
     const lastNewsReadDate = useStorage<string | null>("feeds", null)
 
@@ -117,8 +118,6 @@
 
     const panelWidth = ref(640)
 
-    const activeTab = ref("")
-
     const {startResizing, resizing} = useResizablePanel(activeTab)
 
     function useResizablePanel(localActiveTab: Ref<string>) {
@@ -155,9 +154,9 @@
 
     function setActiveTab(tab: string) {
         if (activeTab.value === tab) {
-            activeTab.value = ""
+            store.commit("misc/setContextInfoBarOpenTab", "")
         } else {
-            activeTab.value = tab
+            store.commit("misc/setContextInfoBarOpenTab", tab)
         }
     }
 </script>
