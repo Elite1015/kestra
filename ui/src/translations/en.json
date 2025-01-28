@@ -933,7 +933,8 @@
       "description": "Description",
       "no_flow_description": "This flow has no description.",
       "not_auth": "You don't have the necessary permissions to view this widget.",
-      "preview": "Dashboard preview"
+      "preview": "Dashboard preview",
+      "click_chart_preview": "Click on a chart source code to see the preview"
     },
     "docs": "Docs",
     "active-slots": "Active slots",
