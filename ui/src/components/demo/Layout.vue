@@ -65,9 +65,10 @@
                 linear-gradient(90deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
                 // flare effect
                 radial-gradient(circle, $base-gray-200 0%, rgba($base-gray-200, .3) 40%,rgba($base-gray-200, 0) 70%);
-            background-size:  2px 100%, 100% 2px, 50% 50%;
+            background-size:  1px 100%, 100% 1px, 40% 40%;
             background-repeat: no-repeat;
             background-position: center, center, center;
+            transform:rotate(-10deg)
         }
 
         .enterprise-tag::before,
