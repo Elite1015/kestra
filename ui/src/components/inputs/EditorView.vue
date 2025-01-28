@@ -741,12 +741,13 @@
     };
 
     const updatePluginDocumentation = (event) => {
+        const pluginSingleList = store.getters["plugin/getPluginSingleList"];
         const taskType = YamlUtils.getTaskType(
             event.model.getValue(),
-            event.position
+            event.position,
+            pluginSingleList
         );
-        const pluginSingleList = store.getters["plugin/getPluginSingleList"];
-        if (taskType && pluginSingleList && pluginSingleList.includes(taskType)) {
+        if (taskType) {
             store.dispatch("plugin/load", {cls: taskType}).then((plugin) => {
                 store.commit("plugin/setEditorPlugin", {cls: taskType, ...plugin});
             });
@@ -922,7 +923,7 @@
 
     const validateFlow = (flow) => {
         if(!flow) return;
-        
+
         return store
             .dispatch("flow/validateFlow", {flow})
             .then((value) => {

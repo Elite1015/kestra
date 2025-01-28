@@ -216,8 +216,8 @@
         methods: {
             async updatePluginDocumentation(event) {
                 if (this.currentView === this.views.DOC) {
-                    const type = YamlUtils.getGraphType(event.model.getValue(), event.position)
-                    if (type && this.plugins.includes(type)) {
+                    const type = YamlUtils.getTaskType(event.model.getValue(), event.position, this.plugins)
+                    if (type) {
                         this.$store.dispatch("plugin/load", {cls: type})
                             .then(plugin => {
                                 this.$store.commit("plugin/setEditorPlugin", {cls: type, ...plugin});
