@@ -29,6 +29,7 @@
     import {apiUrl} from "override/utils/route";
     import FlowRootTopBar from "./FlowRootTopBar.vue";
     import FlowConcurrency from "./FlowConcurrency.vue";
+    import DemoAuditLogs from "../demo/AuditLogs.vue";
 
     export default {
         mixins: [RouteContext],
@@ -267,7 +268,10 @@
                 tabs.push(                    {
                     name: "auditlogs",
                     title: this.$t("auditlogs"),
-                    locked: true
+                    component: DemoAuditLogs,
+                    props:{
+                        embed: true
+                    }
                 });
 
                 return tabs;
