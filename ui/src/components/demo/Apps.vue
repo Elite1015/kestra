@@ -27,7 +27,7 @@
     const {t} = useI18n();
 
     const routeInfo = ref({
-        title: t("demos.instance.title"),
+        title: t("demos.apps.title"),
     });
 
     useRouteContext(routeInfo);
