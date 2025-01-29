@@ -44,6 +44,12 @@
         width: 400px;
     }
 
+    @keyframes move-border {
+        0%{background-position: 0% 0%}
+        50%{background-position: 100% 100%}
+        100%{background-position: 0% 0%}
+    }
+
     .message-block{
         text-align: left;
         width: 400px;
@@ -60,12 +66,16 @@
 
         .enterprise-tag::before{
             z-index: -2;
-            background-image: linear-gradient(138.8deg, #CCE8FE 5.7%, #CDA0FF 27.03%, #8489F5 41.02%, #CDF1FF 68.68%, #B591E9 94%);
+            background-image: linear-gradient(138.8deg, #CCE8FE 0%, #CDA0FF 27.03%, #8489F5 41.02%, #CDF1FF 68.68%, #B591E9 94%, #CCE8FE 100%);
+            background-size: 200% 200%;
             top: -2px;
             bottom: -2px;
             left: -2px;
             right: -2px;
+            animation: move-border 3s linear infinite;
         }
+
+
 
         .enterprise-tag::after{
             z-index: -1;
@@ -102,15 +112,31 @@
                 right: 0;
                 background-image:
                     // vertical flare
-                    linear-gradient(180deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
+                    linear-gradient(0deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
                     // horizontal flare
                     linear-gradient(90deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
                     // flare effect
-                    radial-gradient(circle, $base-gray-200 0%, rgba($base-gray-200, .3) 40%,rgba($base-gray-200, 0) 70%);
+                    radial-gradient(circle, $base-gray-200 0%, rgba($base-gray-200, .1) 50%,rgba($base-gray-200, 0) 70%);
                 background-size:  1px 100%, 100% 1px, 40% 40%;
                 background-repeat: no-repeat;
                 background-position: center, center, center;
                 transform:rotate(-13deg);
+                &::before{
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    height: 2rem;
+                    width: 2rem;
+                    background-image:
+                        // vertical flare
+                        linear-gradient(0deg, rgba($base-gray-200, 0) 0%, rgba($base-gray-200, .7) 50%, rgba($base-gray-200, 0) 100%),
+                        // horizontal flare
+                        linear-gradient(90deg, rgba($base-gray-200, 0) 0%, rgba($base-gray-200, .7) 50%, rgba($base-gray-200, 0) 100%);
+                    background-size:  1px 50%, 50% 1px;
+                    background-repeat: no-repeat;
+                    background-position: center, center, center;
+                    transform: rotate(45deg);
+                }
                 html.dark &{
                     display: block;
                 }
