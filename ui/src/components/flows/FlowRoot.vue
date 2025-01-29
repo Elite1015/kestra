@@ -269,6 +269,7 @@
                     name: "auditlogs",
                     title: this.$t("auditlogs"),
                     component: DemoAuditLogs,
+                    containerClass: "demo-container",
                     props:{
                         embed: true
                     }
