@@ -3,6 +3,7 @@
         <img :src="image.source" :alt="image.alt" class="img">
         <div class="message-block">
             <div class="enterprise-tag">
+                <div class="flare" />
                 {{ $t('demos.enterprise_edition') }}
             </div>
             <h2>{{ title }}</h2>
@@ -47,29 +48,6 @@
         text-align: left;
         width: 400px;
         margin: 0 auto;
-        position: relative;
-        // add flare effect in dark mode
-        html.dark &::before{
-            display: block;
-            position: absolute;
-            content: "";
-            height: 2rem;
-            width: 2rem;
-            z-index: 12;
-            top: -1rem;
-            left: 8.5rem;
-            background-image:
-                // vertical flare
-                linear-gradient(180deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
-                // horizontal flare
-                linear-gradient(90deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
-                // flare effect
-                radial-gradient(circle, $base-gray-200 0%, rgba($base-gray-200, .3) 40%,rgba($base-gray-200, 0) 70%);
-            background-size:  1px 100%, 100% 1px, 40% 40%;
-            background-repeat: no-repeat;
-            background-position: center, center, center;
-            transform:rotate(-10deg)
-        }
 
         .enterprise-tag::before,
         .enterprise-tag::after{
@@ -113,8 +91,32 @@
                 background: #FBFBFB26;
                 border-color: #FFFFFF;
             }
-        }
+            .flare{
+                display: none;
+                position: absolute;
+                content: "";
+                height: 2rem;
+                width: 2rem;
+                z-index: 12;
+                top: -1.1rem;
+                right: 0;
+                background-image:
+                    // vertical flare
+                    linear-gradient(180deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
+                    // horizontal flare
+                    linear-gradient(90deg, rgba($base-gray-200, 0) 0%, $base-gray-200 50%, rgba($base-gray-200, 0) 100%),
+                    // flare effect
+                    radial-gradient(circle, $base-gray-200 0%, rgba($base-gray-200, .3) 40%,rgba($base-gray-200, 0) 70%);
+                background-size:  1px 100%, 100% 1px, 40% 40%;
+                background-repeat: no-repeat;
+                background-position: center, center, center;
+                transform:rotate(-13deg);
+                html.dark &{
+                    display: block;
+                }
 
+            }
+        }
 
         h2 {
             margin-top: 1rem;
