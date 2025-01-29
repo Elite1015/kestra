@@ -518,7 +518,7 @@ $media-lg: 1200px;
 
 
 .card {
-    box-shadow: 0px 2px 4px 0px var(--ks-card-shadow, #ecebef);
+    box-shadow: 0px 2px 4px 0px var(--ks-card-shadow);
     background: var(--ks-background-card);
     color: var(--ks-content-primary);
     border: 1px solid var(--ks-border-primary);
