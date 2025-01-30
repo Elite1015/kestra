@@ -14,6 +14,7 @@ import io.kestra.core.models.flows.State;
 import io.kestra.core.models.tasks.ExecutableTask;
 import io.kestra.core.models.tasks.Task;
 import io.kestra.core.storages.Storage;
+import io.kestra.core.utils.ListUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.InputStream;
@@ -99,12 +100,18 @@ public final class ExecutableUtils {
             "flowRevision", currentFlow.getRevision()
         );
 
+        // remove labels that are also defined in the flow to avoid duplicate
+        List<Label> flowLabels = ListUtils.emptyOnNull(flow.getLabels());
+        List<Label> filteredLabel = ListUtils.emptyOnNull(labels).stream()
+            .filter(label -> flowLabels.stream().noneMatch(flowLabel -> flowLabel.key().equals(label.key())))
+            .toList();
+
         RunnerUtils runnerUtils = runContext.getApplicationContext().getBean(RunnerUtils.class);
         Execution execution = runnerUtils
             .newExecution(
                 flow,
                 (f, e) -> runnerUtils.typedInputs(f, e, inputs),
-                labels)
+                filteredLabel)
             .withTrigger(ExecutionTrigger.builder()
                 .id(currentTask.getId())
                 .type(currentTask.getType())
