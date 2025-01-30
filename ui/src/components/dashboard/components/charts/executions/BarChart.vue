@@ -221,6 +221,6 @@
 
 <style>
 .small{
-    height: 50px;
+    height: 40px;
 }
 </style>
