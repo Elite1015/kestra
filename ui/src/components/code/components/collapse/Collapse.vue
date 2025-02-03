@@ -35,6 +35,7 @@
     import {nextTick, PropType, ref} from "vue";
 
     import {CollapseItem} from "../../utils/types";
+    import {YamlUtils} from "@kestra-io/ui-libs";
 
     import Creation from "./buttons/Creation.vue";
     import Element from "./Element.vue";
@@ -57,7 +58,7 @@
         });
     }
 
-    import YamlUtils from "../../../../utils/yamlUtils";
+
     const removeElement = (title: string, index: number) => {
         props.items.forEach((item) => {
             if (item.title === title) {
@@ -65,10 +66,12 @@
                     const ID = item.elements?.[index].id;
 
                     item.elements?.splice(index, 1);
-                    emits(
-                        "remove",
-                        YamlUtils.deleteTask(props.flow, ID, title.toUpperCase()),
-                    );
+                    if(props.flow){
+                        emits(
+                            "remove",
+                            YamlUtils.deleteTask(props.flow, ID, title.toUpperCase()),
+                        );
+                    }
                     expanded.value = expanded.value.filter((v) => v !== title);
                 });
             }
