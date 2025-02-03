@@ -1,43 +1,33 @@
-import markdownIt from "markdown-it";
-import mark from "markdown-it-mark";
-import meta from "markdown-it-meta";
-import anchor from "markdown-it-anchor";
-import container from "markdown-it-container";
-import {fromHighlighter} from "@shikijs/markdown-it/core";
-import {createHighlighterCore, HighlighterCore} from "shiki/core";
-import githubDark from "shiki/themes/github-dark.mjs";
-import githubLight from "shiki/themes/github-light.mjs";
-import {linkTag} from "./markdown_plugins/link";
+import type {CreateHighlighterFactory} from "shiki/core";
 
-let highlighter: HighlighterCore | null = null;
+let highlighter:Awaited<ReturnType<CreateHighlighterFactory<any, any>>> | null = null;
 
-async function getHighlighter() {
+async function getHighlighter(createHighlighterCore: CreateHighlighterFactory<any, any>, langs:any, engine:any, githubDark:any, githubLight:any) {
     if (!highlighter) {
         highlighter = await createHighlighterCore({
-            langs: [import("shiki/langs/yaml.mjs"), import("shiki/langs/python.mjs"), import("shiki/langs/javascript.mjs")],
+            langs,
             themes: [githubDark, githubLight],
-            loadWasm: import("shiki/wasm"),
+            engine
         });
     }
     return highlighter;
 }
 
-export async function render(markdown: string, options: {onlyLink?: boolean, permalink?: boolean} = {}) {
-    const highlighter = await getHighlighter();
+export async function render(markdown:string, options: {onlyLink?: boolean, permalink?: boolean} = {}) {
+    const {createHighlighterCore, githubDark, githubLight, markdownIt, mark, meta, anchor, container, fromHighlighter, linkTag, langs, onigurumaEngine} = await import( "./markdownDeps")
+    const highlighter = await getHighlighter(createHighlighterCore as any, langs, onigurumaEngine, githubDark, githubLight);
 
-    if(githubDark["colors"] && githubLight["colors"]) {
-        githubDark["colors"]["editor.background"] = "var(--bs-gray-500)";
-        githubLight["colors"]["editor.background"] = "var(--bs-white)";
+    if(githubDark.colors && githubLight.colors) {
+        githubDark.colors["editor.background"] = "var(--bs-gray-500)";
+        githubLight.colors["editor.background"] = "var(--bs-white)";
     }
-
-    options = options || {};
 
     const darkTheme = document.getElementsByTagName("html")[0].className.indexOf("dark") >= 0;
 
     let md;
     if (options.onlyLink) {
         md = new markdownIt("zero");
-        md.enable(["link", "linkify", "entity", "html_inline", "newline"]);
+        md.enable(["link", "linkify", "entity", "html_inline"]);
     } else {
         md = new markdownIt();
     }
@@ -47,7 +37,7 @@ export async function render(markdown: string, options: {onlyLink?: boolean, per
         .use(anchor, {permalink: options.permalink ? anchor.permalink.ariaHidden({placement: "before"}) : undefined})
         .use(container, "warning")
         .use(container, "info")
-        .use(fromHighlighter(highlighter as any, {theme: darkTheme ? "github-dark" : "github-light"}))
+        .use(fromHighlighter(highlighter, {theme: darkTheme ? "github-dark" : "github-light"}))
         .use(linkTag);
 
     md.set({

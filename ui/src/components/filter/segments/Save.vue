@@ -67,7 +67,7 @@
     import KestraIcon from "../../Kicon.vue";
     import Label from "../components/Label.vue";
 
-    import {Save} from "../utils/icons.js";
+    import {Save} from "../utils/icons";
 
     const toast = getCurrentInstance()?.appContext.config.globalProperties.$toast();
 
@@ -113,5 +113,5 @@
 </script>
 
 <style scoped lang="scss">
-@import "../styles/filter.scss";
+@import "../styles/filter";
 </style>

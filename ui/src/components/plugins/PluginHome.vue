@@ -10,7 +10,7 @@
             <KestraFilter :placeholder="$t('pluginPage.search', {count: countPlugin})" :search-callback="(input)=> searchInput = input" />
         </el-row>
         <section class="px-3 plugins-container">
-            <el-tooltip v-for="(plugin, index) in pluginsList" :show-after="1000" :key="index" effect="light">
+            <el-tooltip v-for="(plugin, index) in pluginsList" :show-after="1000" :key="plugin.name + '-' + index" effect="light">
                 <template #content>
                     <div class="tasks-tooltips">
                         <p v-if="plugin?.tasks.filter(t => t.toLowerCase().includes(searchInput)).length > 0" class="mb-0">
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-    import TaskIcon from "@kestra-io/ui-libs/src/components/misc/TaskIcon.vue";
+    import {TaskIcon} from "@kestra-io/ui-libs";
     import DottedLayout from "../layout/DottedLayout.vue";
     import headerImage from "../../assets/icons/plugin.svg";
     import headerImageDark from "../../assets/icons/plugin-dark.svg";

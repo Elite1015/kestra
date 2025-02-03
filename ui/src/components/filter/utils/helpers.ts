@@ -43,10 +43,12 @@ export const encodeParams = (filters: Filter[], OPTIONS: Option[]): Record<strin
             if (key !== "date")
                 query[key] = encode(filter.value, key);
             else {
-                const {startDate, endDate} = filter.value[0];
+                if(filter.value?.length > 0) {
+                    const {startDate, endDate} = filter.value[0];
 
-                query.startDate = startDate;
-                query.endDate = endDate;
+                    query.startDate = startDate;
+                    query.endDate = endDate;
+                }
             }
         }
 

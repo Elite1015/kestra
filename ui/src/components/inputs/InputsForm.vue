@@ -47,8 +47,7 @@
                 v-model="inputsValues[input.id]"
                 @update:model-value="onChange(input)"
             >
-                <el-radio v-for="item in input.values" :key="item" :label="item" :value="item" />.
-                <!-- Allow customs input -->
+                <el-radio v-for="item in input.values" :key="item" :label="item" :value="item" />
                 <el-input
                     v-if="input.allowCustomValue"
                     v-model="inputsValues[input.id]"
@@ -209,7 +208,7 @@
     import Editor from "../../components/inputs/Editor.vue";
     import Markdown from "../layout/Markdown.vue";
     import Inputs from "../../utils/inputs";
-    import YamlUtils from "../../utils/yamlUtils.js";
+    import YamlUtils from "../../utils/yamlUtils";
     import DurationPicker from "./DurationPicker.vue";
     import {inputsToFormDate} from "../../utils/submitTask"
 
@@ -264,11 +263,13 @@
                 inputsValidation: [],
                 multiSelectInputs: {},
                 inputsValidated: new Set(),
+                debouncedValidation: () => {}
             };
         },
         emits: ["update:modelValue", "confirm", "validation"],
         created() {
             this.inputsMetaData = JSON.parse(JSON.stringify(this.initialInputs));
+            this.debouncedValidation = debounce(this.validateInputs, 500)
 
             this.validateInputs().then(() => {
                 this.$watch("inputsValues", {
@@ -277,7 +278,7 @@
                         if(JSON.stringify(val) !== JSON.stringify(this.previousInputsValues)){
                             // only revalidate if values are stable for more than 500ms
                             // to avoid too many calls to the server
-                            debounce(this.validateInputs, 500)();
+                            this.debouncedValidation();
                             this.$emit("update:modelValue", this.inputsValues);
                         }
                         this.previousInputsValues = JSON.parse(JSON.stringify(val))

@@ -25,7 +25,7 @@
         tooltip,
         getFormat,
     } from "../../utils/charts";
-    import Logs from "../../utils/logs.js";
+    import Logs from "../../utils/logs";
 
     export default defineComponent({
         components: {Bar},

@@ -1,8 +1,5 @@
 <template>
-    <el-input
-        :model-value="JSON.stringify(values)"
-        :disabled="true"
-    >
+    <el-input :model-value="JSON.stringify(values)">
         <template #append>
             <el-button :icon="TextSearch" @click="isOpen = true" />
         </template>
@@ -36,7 +33,7 @@
 <script setup>
     import TextSearch from "vue-material-design-icons/TextSearch.vue";
     import ContentSave from "vue-material-design-icons/ContentSave.vue";
-    import {SECTIONS} from "../../../utils/constants.js";
+    import {SECTIONS} from "../../../utils/constants";
 </script>
 
 <script>

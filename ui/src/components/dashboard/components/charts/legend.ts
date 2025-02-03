@@ -1,9 +1,8 @@
 import {type LegendItem} from "chart.js";
-import Utils from "../../../../utils/utils";
-import {cssVariable} from "@kestra-io/ui-libs/src/utils/global";
-import {getConsistentHEXColor} from "../../../../utils/charts";
-import {type STATE} from "../../../../utils/state";
 import {Plugin} from "chart.js";
+import Utils from "../../../../utils/utils";
+import {cssVariable, State} from "@kestra-io/ui-libs";
+import {getConsistentHEXColor} from "../../../../utils/charts";
 
 const getOrCreateLegendList = (_: any, id: string, direction = "row") => {
     const legendContainer = document.getElementById(id);
@@ -149,7 +148,7 @@ export const customBarLegend: Plugin = {
             };
 
             const boxSpan = document.createElement("span");
-            const color = getConsistentHEXColor(item.text as keyof typeof STATE);
+            const color = getConsistentHEXColor(item.text as keyof typeof State);
             boxSpan.style.background = color;
             boxSpan.style.borderColor = "transparent";
             boxSpan.style.height = "5px";

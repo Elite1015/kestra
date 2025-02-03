@@ -32,7 +32,9 @@
 
     import Utils from "../../../../../utils/utils";
     import {defaultConfig} from "../../../../../utils/charts";
-    import {getScheme} from "../../../../../utils/scheme.js";
+    import {getScheme} from "../../../../../utils/scheme";
+    import {useRouter} from "vue-router";
+    const router = useRouter();
 
     import NoData from "../../../../layout/NoData.vue";
 
@@ -93,6 +95,21 @@
                             `${value.raw} ${value.label.toLowerCase().capitalize()}`,
                     },
                 },
+            },
+            onClick: (e, elements) => {
+                if (elements.length > 0) {
+                    const index = elements[0].index;
+                    const state = parsedData.value.labels[index];
+                    router.push({
+                        name: "executions/list",
+                        query: {
+                            state: state,
+                            scope: "USER",
+                            size: 100,
+                            page: 1,
+                        },
+                    });
+                }
             },
         }),
     );

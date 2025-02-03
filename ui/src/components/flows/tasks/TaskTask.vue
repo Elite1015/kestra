@@ -1,8 +1,5 @@
 <template>
-    <el-input
-        :model-value="JSON.stringify(values)"
-        :disabled="true"
-    >
+    <el-input :model-value="JSON.stringify(values)">
         <template #append>
             <el-button :icon="TextSearch" @click="isOpen = true" />
         </template>
@@ -41,7 +38,7 @@
     import YamlUtils from "../../../utils/yamlUtils";
     import TaskEditor from "../TaskEditor.vue"
     import Drawer from "../../Drawer.vue"
-    import {SECTIONS as SECTION} from "../../../utils/constants.js";
+    import {SECTIONS as SECTION} from "../../../utils/constants";
 
     export default {
         mixins: [Task],

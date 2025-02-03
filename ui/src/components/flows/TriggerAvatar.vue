@@ -11,7 +11,7 @@
                     :hide-after="0"
                 >
                     <template #reference>
-                        <el-button @click="copyLink(trigger)">
+                        <el-button @click="copyLink(trigger)" size="small">
                             <task-icon :only-icon="true" :cls="trigger?.type" :icons="icons" />
                         </el-button>
                     </template>
@@ -26,7 +26,7 @@
 <script>
     import TriggerVars from "./TriggerVars.vue";
     import {mapState} from "vuex";
-    import TaskIcon from "@kestra-io/ui-libs/src/components/misc/TaskIcon.vue";
+    import {TaskIcon} from "@kestra-io/ui-libs";
 
     export default {
         props: {
@@ -107,7 +107,7 @@
 
     .el-button {
         display: inline-flex !important;
-        margin-right: calc(var(--spacer) / 4);
+        margin-right: .25rem;
     }
 
     :deep(div.wrapper) {

@@ -159,7 +159,7 @@
     </el-row>
 </template>
 
-<script setup>
+<script lang="ts" setup>
     import {ref, computed, shallowRef, onMounted} from "vue";
 
     import {useStore} from "vuex";
@@ -169,10 +169,17 @@
     const {t} = useI18n({useScope: "global"});
 
     import {apiUrl} from "override/utils/route";
+    import {TaskIcon} from "@kestra-io/ui-libs";
+    import TimelineTextOutline from "vue-material-design-icons/TimelineTextOutline.vue";
+    import TextBoxSearchOutline from "vue-material-design-icons/TextBoxSearchOutline.vue";
 
     import CopyToClipboard from "../../layout/CopyToClipboard.vue";
-
     import Editor from "../../inputs/Editor.vue";
+    import VarValue from "../VarValue.vue";
+    import SubFlowLink from "../../flows/SubFlowLink.vue";
+
+
+
     const debugCollapse = ref("");
     const debugEditor = ref(null);
     const debugExpression = ref("");
@@ -235,7 +242,7 @@
                     debugExpression.value = response.data.result;
 
                     // Parsing failed, therefore, copy raw result
-                    if (response.status === 200)
+                    if (response.status === 200 && response.data.result)
                         selected.value.push(response.data.result);
                 }
 
@@ -243,14 +250,6 @@
                 debugStackTrace.value = response.data.stackTrace;
             });
     };
-
-    import VarValue from "../VarValue.vue";
-    import SubFlowLink from "../../flows/SubFlowLink.vue";
-
-    import TaskIcon from "@kestra-io/ui-libs/src/components/misc/TaskIcon.vue";
-
-    import TimelineTextOutline from "vue-material-design-icons/TimelineTextOutline.vue";
-    import TextBoxSearchOutline from "vue-material-design-icons/TextBoxSearchOutline.vue";
 
     const cascader = ref(null);
     const scrollRight = () =>
@@ -416,6 +415,8 @@
         const mapped = {};
 
         getTaskIcons(store.state.execution?.flow?.tasks || [], mapped);
+        getTaskIcons(store.state.execution?.flow?.errors || [], mapped);
+        getTaskIcons(store.state.execution?.flow?.finally || [], mapped);
 
         return mapped;
     });

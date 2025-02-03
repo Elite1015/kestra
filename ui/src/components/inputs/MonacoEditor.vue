@@ -7,7 +7,7 @@
     import {mapState, mapMutations, mapActions} from "vuex";
 
     import "monaco-editor/esm/vs/editor/editor.all.js";
-    import "monaco-editor/esm/vs/editor/standalone/browser/iPadShowKeyboard/iPadShowKeyboard.js";
+    import "monaco-editor/esm/vs/editor/standalone/browser/iPadShowKeyboard/iPadShowKeyboard";
     import "monaco-editor/esm/vs/language/json/monaco.contribution";
     import "monaco-editor/esm/vs/basic-languages/monaco.contribution";
     import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
@@ -609,6 +609,7 @@
                         language: this.language,
                         suggest: {
                             showClasses: false,
+                            showWords: false
                         }
                     },
                     ...this.options
@@ -730,7 +731,7 @@
 </style>
 
 <style lang="scss">
-    @import "../../styles/layout/root-dark.scss";
+    @import "../../styles/layout/root-dark";
 
     .custom-dark-vs-theme .ks-monaco-editor .sticky-widget {
         background-color: $input-bg;

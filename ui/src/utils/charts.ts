@@ -1,8 +1,8 @@
 import {Bar, Pie} from "vue-chartjs";
 import _merge from "lodash/merge";
-import State, {STATE} from "./state";
 import Utils from "./utils";
-import {cssVariable} from "@kestra-io/ui-libs/src/utils/global";
+import {cssVariable, State} from "@kestra-io/ui-libs";
+import {getScheme} from "./scheme";
 
 export function tooltip(tooltipModel: { title: string[]; body: any[]; labelColors: {
     backgroundColor:string,
@@ -20,10 +20,10 @@ export function tooltip(tooltipModel: { title: string[]; body: any[]; labelColor
 
         bodyLines.forEach(function (body, i) {
             if (body.length > 0) {
-                let colors = tooltipModel.labelColors[i];
+                const colors = tooltipModel.labelColors[i];
                 let style = "background:" + colors.backgroundColor;
                 style += "; border-color:" + colors.borderColor;
-                let span = "<span class=\"square\" style=\"" + style + "\"></span>";
+                const span = "<span class=\"square\" style=\"" + style + "\"></span>";
                 innerHtml += span + body + "<br />";
             }
         });
@@ -165,7 +165,7 @@ export function chartClick(moment: any, router: any, route: any, event: any) {
     }
 }
 
-export function backgroundFromState(state: keyof typeof STATE, alpha = 1) {
+export function backgroundFromState(state: keyof typeof State, alpha = 1) {
     const hex = State.color()[state];
     if (!hex) {
         return null;
@@ -175,10 +175,22 @@ export function backgroundFromState(state: keyof typeof STATE, alpha = 1) {
     return `rgba(${r},${g},${b},${alpha})`;
 }
 
-export function getConsistentHEXColor(value: keyof typeof STATE) {
-    const hex = State.color()[value];
+export function getConsistentHEXColor(value: keyof typeof State) {
+    // if (!value) {
+    //     return "#ffffff";
+    // }
 
-    if (hex) return hex;
+    let hex;
+
+    hex = getScheme(value, "executions");
+    if (hex) {
+        return hex;
+    }
+
+    hex = getScheme(value, "logs");
+    if (hex) {
+        return hex;
+    }
 
     // FNV-1a Hash Algorithm
     let hash = 0x811c9dc5; // FNV offset basis (32-bit)
@@ -200,7 +212,7 @@ export function getConsistentHEXColor(value: keyof typeof STATE) {
     return `#${((hash >>> 0) & 0xffffff).toString(16).padStart(6, "0")}`;
 }
 
-export function getStateColor(state: keyof typeof STATE) {
+export function getStateColor(state: keyof typeof State) {
     return State.getStateColor(state);
 }
 

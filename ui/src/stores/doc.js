@@ -1,5 +1,5 @@
 import axios from "axios";
-import {API_URL} from "./api.js";
+import {API_URL} from "./api";
 
 const PATH_PLACEHOLDER = "{path}";
 
@@ -30,7 +30,7 @@ export default {
                     }
                 });
         },
-        async fetchAppId({getters}, docId) {
+        async fetchDocId({getters}, docId) {
             const url = getters["resourceUrl"]()
             const response = await axios.get(`${url}/doc/${docId}`)
 

@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-    import {getScheme} from "../../../utils/scheme.js";
+    import {getScheme} from "../../../utils/scheme";
 
     defineProps({
         label: {

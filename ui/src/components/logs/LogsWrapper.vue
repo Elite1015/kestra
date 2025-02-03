@@ -28,14 +28,14 @@
                 <template #table v-if="logs !== undefined && logs.length > 0">
                     <div v-loading="isLoading">
                         <div class="logs-wrapper">
-                            <template v-for="(log, i) in logs" :key="`${log.taskRunId}-${i}`">
-                                <log-line
-                                    level="TRACE"
-                                    filter=""
-                                    :exclude-metas="isFlowEdit ? ['namespace', 'flowId'] : []"
-                                    :log="log"
-                                />
-                            </template>
+                            <log-line
+                                v-for="(log, i) in logs"
+                                :key="`${log.taskRunId}-${i}`"
+                                level="TRACE"
+                                filter=""
+                                :exclude-metas="isFlowEdit ? ['namespace', 'flowId'] : []"
+                                :log="log"
+                            />
                         </div>
                     </div>
                 </template>
@@ -240,18 +240,18 @@
 
     .log-panel {
         > div.log-content {
-            margin-bottom: var(--spacer);
+            margin-bottom: 1rem;
             .navbar {
                 border: 1px solid var(--ks-border-primary);
             }
         }
 
         .logs-wrapper {
-            margin-bottom: var(--spacer);
+            margin-bottom: 1rem;
             border-radius: var(--bs-border-radius-lg);
             overflow: hidden;
             padding: $spacer;
-            padding-top: calc($spacer/2);
+            padding-top: .5rem;
             background-color: var(--ks-background-card);
             border: 1px solid var(--ks-border-primary);
 

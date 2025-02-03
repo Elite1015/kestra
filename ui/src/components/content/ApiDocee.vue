@@ -14,12 +14,18 @@
 </template>
 
 <script setup lang="ts">
-    import "rapidoc";
+    import {ref} from "vue";
     import {useStore} from "vuex";
-    import {useStorage} from "@vueuse/core";
 
     const store = useStore();
-    const theme = useStorage("theme", "light");
+    const ready = ref(false)
+    // @ts-expect-error rapidoc is not typed
+    import("rapidoc").then(() => {
+        ready.value = true
+    });
+
+
+    const theme = ref(localStorage.getItem("theme") === "dark" ? "dark" : "light")
 </script>
 
 <style lang="scss" scoped>
