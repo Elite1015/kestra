@@ -2,7 +2,7 @@ import {Bar, Pie} from "vue-chartjs";
 import _merge from "lodash/merge";
 import Utils from "./utils";
 import {cssVariable, State} from "@kestra-io/ui-libs";
-import {getScheme} from "./scheme";
+import {EXECUTION_STATE, getScheme, LOGS_STATE} from "./scheme";
 
 export function tooltip(tooltipModel: { title: string[]; body: any[]; labelColors: {
     backgroundColor:string,
@@ -165,7 +165,7 @@ export function chartClick(moment: any, router: any, route: any, event: any) {
     }
 }
 
-export function backgroundFromState(state: keyof typeof State, alpha = 1) {
+export function backgroundFromState(state: EXECUTION_STATE | LOGS_STATE, alpha = 1) {
     const hex = State.color()[state];
     if (!hex) {
         return null;
@@ -175,19 +175,19 @@ export function backgroundFromState(state: keyof typeof State, alpha = 1) {
     return `rgba(${r},${g},${b},${alpha})`;
 }
 
-export function getConsistentHEXColor(value: keyof typeof State) {
+export function getConsistentHEXColor(value: EXECUTION_STATE | LOGS_STATE) {
     // if (!value) {
     //     return "#ffffff";
     // }
 
     let hex;
 
-    hex = getScheme(value, "executions");
+    hex = getScheme(value as EXECUTION_STATE, "executions");
     if (hex) {
         return hex;
     }
 
-    hex = getScheme(value, "logs");
+    hex = getScheme(value as LOGS_STATE, "logs");
     if (hex) {
         return hex;
     }

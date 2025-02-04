@@ -1,6 +1,6 @@
 import Utils from "./utils";
 
-type EXECUTION_STATE = "CANCELLED"| "CREATED"|
+export type EXECUTION_STATE = "CANCELLED"| "CREATED"|
         "FAILED"|
         "KILLED"|
         "KILLING"|
@@ -13,7 +13,7 @@ type EXECUTION_STATE = "CANCELLED"| "CREATED"|
         "SUCCESS"|
         "WARNING";
 
-type LOGS_STATE = "DEBUG" | "ERROR" | "INFO" | "TRACE" | "WARN";
+export type LOGS_STATE = "DEBUG" | "ERROR" | "INFO" | "TRACE" | "WARN";
 
 const SCHEME = "scheme";
 const OPTIONS = Object.freeze({
