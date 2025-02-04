@@ -23,10 +23,10 @@
 
 <script lang="ts" setup>
     import {computed, onMounted, ref, watch} from "vue";
+    import {type State} from "@kestra-io/ui-libs";
 
     import NoData from "../../../../layout/NoData.vue";
     import Utils from "../../../../../utils/utils";
-    import {type STATE} from "../../../../../utils/state";
 
     import {Doughnut, Pie} from "vue-chartjs";
 
@@ -45,11 +45,29 @@
     const dashboard = computed(() => store.state.dashboard.dashboard);
 
     defineOptions({inheritAttrs: false});
-    const props = defineProps({
-        identifier: {type: Number, required: true},
-        chart: {type: Object, required: true},
-        isPreview: {type: Boolean, required: false, default: false}
-    });
+    const props = defineProps<{
+        identifier: number,
+        chart: {
+            id: number,
+            chartOptions: {
+                legend: {
+                    enabled: boolean,
+                },
+                graphStyle: "PIE" | "DOUGHNUT",
+            },
+            data: {
+                columns: Record<string, {
+                    agg?: string,
+                    displayName?: string,
+                    field: string,
+                }>,
+            },
+            content: {
+                [key: string]: any,
+            }
+        },
+        isPreview?: boolean,
+    }>();
 
     const containerID = `${props.chart.id}__${Math.random()}`;
 
@@ -141,7 +159,7 @@
             (result, [key, column]) => {
                 const type = "agg" in column ? "value" : "field";
                 result[type] = {
-                    label: column.displayName ?? column.agg,
+                    label: column.displayName ?? column.agg ?? "",
                     key,
                 };
                 return result;
@@ -161,7 +179,7 @@
         const labels = Object.keys(results);
         const dataElements = labels.map((label) => results[label]);
 
-        const backgroundColor = labels.map((label) => getConsistentHEXColor(label as keyof typeof STATE));
+        const backgroundColor = labels.map((label) => getConsistentHEXColor(label as keyof typeof State));
 
         const maxDataValue = Math.max(...dataElements);
         const thicknessScale = dataElements.map(
@@ -184,13 +202,13 @@
     const generated = ref();
     const generate = async () => {
         if (!props.isPreview) {
-            const params = {
+            const params: Record<string, any> = {
                 id: dashboard.value.id,
                 chartId: props.chart.id,
                 startDate: route.query.timeRange
                     ? moment()
                         .subtract(
-                            moment.duration(route.query.timeRange).as("milliseconds"),
+                            moment.duration(route.query.timeRange.toString()).as("milliseconds"),
                         )
                         .toISOString(true)
                     : route.query.startDate ||
@@ -204,8 +222,8 @@
             if (route.query.namespace) {
                 params.namespace = route.query.namespace;
             }
-            if (route.query.labels) {
-                params.labels = Object.fromEntries(route.query.labels.map(l => l.split(":")));
+            if (Array.isArray(route.query.labels)) {
+                params.labels = Object.fromEntries(route.query.labels.map(l => l?.split(":") ?? []));
             }
 
             generated.value = await store.dispatch("dashboard/generate", params);
