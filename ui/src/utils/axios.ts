@@ -1,11 +1,13 @@
-import axios from "axios";
+import axios, {AxiosInstance, AxiosProgressEvent, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 import NProgress from "nprogress"
 import {storageKeys} from "./constants";
+import {Router} from "vue-router";
+import {Store} from "vuex";
 
 // nprogress
 let requestsTotal = 0
 let requestsCompleted = 0
-let latencyThreshold = 0
+const latencyThreshold = 0
 
 const JWT_REFRESHED_QUERY = "__jwt_refreshed__";
 
@@ -34,30 +36,30 @@ const increaseProgress = () => {
     }, latencyThreshold + 50)
 }
 
-const requestInterceptor = config => {
+const requestInterceptor = (config: InternalAxiosRequestConfig) => {
     initProgress();
     return config
 }
 
-const responseInterceptor = response => {
+const responseInterceptor = (response: AxiosResponse) => {
     increaseProgress();
 
     return response
 }
 
-const errorResponseInterceptor = error => {
+const errorResponseInterceptor = (error: any) => {
     increaseProgress()
 
     return Promise.reject(error)
 }
 
-const progressInterceptor = (progressEvent) => {
+const progressInterceptor = (progressEvent: AxiosProgressEvent) => {
     if (progressEvent && progressEvent.loaded && progressEvent.total) {
         NProgress.inc((Math.floor(progressEvent.loaded * 1.0) / progressEvent.total))
     }
 }
 
-export default (callback, store, router) => {
+export default (callback: (axiosInstance: AxiosInstance) => void, store: Store<any>, router: Router) => {
     const instance = axios.create({
         timeout: 15000,
         headers: {
@@ -70,7 +72,7 @@ export default (callback, store, router) => {
     instance.interceptors.request.use(requestInterceptor)
     instance.interceptors.response.use(responseInterceptor, errorResponseInterceptor);
 
-    let toRefreshQueue = [];
+    let toRefreshQueue: any[] = [];
     let refreshing = false;
 
     instance.interceptors.response.use(
@@ -102,7 +104,7 @@ export default (callback, store, router) => {
                     return Promise.reject(errorResponse);
                 }
 
-                window.location = `/ui/login?from=${window.location.pathname +
+                window.location.href = `/ui/login?from=${window.location.pathname +
                 (window.location.search ?? "")}`
             }
 
