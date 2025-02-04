@@ -1,6 +1,6 @@
 <template>
     <div :id="containerID" />
-    <Bar
+    <ChartJsBar
         v-if="generated !== undefined"
         :data="parsedData"
         :options="options"
@@ -15,7 +15,7 @@
 
     import NoData from "../../../../layout/NoData.vue";
 
-    import {Bar} from "vue-chartjs"
+    import {Bar as ChartJsBar} from "vue-chartjs"
 
     import {customBarLegend} from "../legend";
     import {defaultConfig, getConsistentHEXColor,} from "../../../../../utils/charts";
