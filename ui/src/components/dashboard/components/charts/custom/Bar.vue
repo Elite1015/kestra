@@ -50,7 +50,11 @@
         grid: {display: false},
     };
 
-    const aggregator = Object.entries(data.columns).filter(([_, v]) => v.agg);
+    const aggregator = (Object.entries(data.columns) as [string, {
+        agg: boolean,
+        displayName: string,
+        field: string
+    }][]).filter(([_, v]) => v.agg);
 
     const options = computed(() => {
         return defaultConfig({
@@ -91,7 +95,7 @@
                 y: {
                     title: {
                         display: true,
-                        text: aggregator[0][1].displayName ?? aggregator[0][0],
+                        text: aggregator[0][1]?.displayName ?? aggregator[0][0],
                     },
                     beginAtZero: true,
                     position: "left",
@@ -114,7 +118,7 @@
         const {columns} = data;
 
         // Ignore columns with `agg` and dynamically fetch valid ones
-        const validColumns = Object.entries(columns)
+        const validColumns = (Object.entries(columns) as [string, { agg: boolean, displayName: string, field: string }][])
             .filter(([_, value]) => !value.agg)
             .filter(c => c[0] !== column)// Exclude columns with `agg`
             .map(([key]) => key);
@@ -153,13 +157,13 @@
     const generated = ref();
     const generate = async () => {
         if (!props.isPreview) {
-            const params = {
+            const params:Record<string, any> = {
                 id: dashboard.value.id,
                 chartId: props.chart.id,
                 startDate: route.query.timeRange
                     ? moment()
                         .subtract(
-                            moment.duration(route.query.timeRange).as("milliseconds"),
+                            moment.duration(route.query.timeRange?.toString()).as("milliseconds"),
                         )
                         .toISOString(true)
                     : route.query.startDate ||
@@ -173,8 +177,8 @@
             if (route.query.namespace) {
                 params.namespace = route.query.namespace;
             }
-            if (route.query.labels) {
-                params.labels = Object.fromEntries(route.query.labels.map(l => l.split(":")));
+            if (route.query.labels && Array.isArray(route.query.labels)) {
+                params.labels = Object.fromEntries(route.query.labels.map(l => l?.split(":") ?? []));
             }
             generated.value = await store.dispatch("dashboard/generate", params);
         }
