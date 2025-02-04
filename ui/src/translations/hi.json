@@ -1161,7 +1161,7 @@
       "command_palette": "कमांड पैलेट दिखाएं"
     },
     "something_went_wrong": {
-      "loading_execution": "कुछ गलत हो गया जब execution लोड हो रहा था।"
+      "loading_execution": "लोडिंग के दौरान कुछ गलत हो गया।"
     }
   }
 }
