@@ -3,6 +3,7 @@ import NProgress from "nprogress"
 import {storageKeys} from "./constants";
 import {Router} from "vue-router";
 import {Store} from "vuex";
+import {getCurrentInstance} from "vue";
 
 // nprogress
 let requestsTotal = 0
@@ -195,3 +196,7 @@ export default (callback: (axiosInstance: AxiosInstance) => void, store: Store<a
 
     callback(instance);
 };
+
+export function useAxios() {
+    return getCurrentInstance()?.appContext.config.globalProperties.$axios;
+}

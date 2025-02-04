@@ -4,14 +4,14 @@
             <Download />
             {{ $t('download') }}
         </a>
-        <FilePreview v-if="value.startsWith('kestra:///')" :value="value" :execution-id="execution.id" />
+        <FilePreview v-if="value?.toString().startsWith('kestra:///')" :value="value" :execution-id="execution?.id" />
         <el-button disabled size="small" type="primary" v-if="humanSize">
             ({{ humanSize }})
         </el-button>
     </el-button-group>
 
     <el-button-group v-else-if="isURI(value)">
-        <a class="el-button el-button--small el-button--primary" :href="value" target="_blank">
+        <a class="el-button el-button--small el-button--primary" :href="value?.toString()" target="_blank">
             <OpenInNew /> &nbsp;
             {{ $t('open') }}
         </a>
@@ -25,68 +25,66 @@
     </span>
 </template>
 
-<script setup>
+<script setup lang="ts">
+    import {onMounted, ref, watch} from "vue";
+    import {useStore} from "vuex";
     import Download from "vue-material-design-icons/Download.vue";
     import OpenInNew from "vue-material-design-icons/OpenInNew.vue";
+    // @ts-expect-error missing types for editor > file-preview
     import FilePreview from "./FilePreview.vue";
-</script>
-
-<script>
     import {apiUrl} from "override/utils/route";
     import Utils from "../../utils/utils";
+    import {useAxios} from "../../utils/axios";
 
-    export default {
-        data () {
-            return {
-                humanSize: ""
-            }
-        },
-        methods: {
-            isFile(value) {
-                return typeof(value) === "string" && value.startsWith("kestra:///")
-            },
-            isFileValid(value) {
-                // we don't want to display the file if it's not a file or if the size is 0
-                return this.isFile(value) && this.humanSize && this.humanSize !== "0B"
-            },
-            isURI(value) {
-                try {
-                    new URL(value);
-                    return true;
-                } catch {
-                    return false;
-                }
-            },
-            itemUrl(value) {
-                return `${apiUrl(this.$store)}/executions/${this.execution.id}/file?path=${encodeURI(value)}`;
-            },
-            getFileSize(){
-                if (this.isFile(this.value)) {
-                    this.$http(`${apiUrl(this.$store)}/executions/${this?.execution?.id}/file/metas?path=${this.value}`, {
-                        validateStatus: (status) => status === 200 || status === 404 || status === 422
-                    }).then(r => this.humanSize = Utils.humanFileSize(r.data.size))
-                }
-            }
-        },
-        watch: {
-            value(newValue) {
-                if(newValue) this.getFileSize()
-            }
-        },
-        mounted() {
-            this.getFileSize()
-        },
-        props: {
-            value: {
-                type: [String, Object, Boolean, Number],
-                required: false,
-                default: undefined
-            },
-            execution: {
-                type: Object,
-                required: false,
-                default: undefined
-            }
+    const store = useStore()
+
+    const $http = useAxios()
+
+    const props = defineProps<{
+        value: string | object | boolean | number | null
+        execution?: {
+            id: string
         }
-    };
+    }>()
+
+    const humanSize = ref<string>("")
+
+    watch(() => props.value, (newValue) => {
+        if(newValue) getFileSize()
+    })
+
+    onMounted(() => {
+        getFileSize()
+    })
+
+
+    function isFile(value: any): value is string {
+        return typeof value === "string" && value.startsWith("kestra:///")
+    }
+
+    function isFileValid(value: any) {
+        // we don't want to display the file if it's not a file or if the size is 0
+        return isFile(value) && humanSize.value && humanSize.value !== "0B"
+    }
+
+    function isURI(value: any) {
+        try {
+            new URL(value);
+            return true;
+        } catch {
+            return false;
+        }
+    }
+
+    function itemUrl(value:any) {
+        return `${apiUrl(store)}/executions/${props.execution?.id}/file?path=${encodeURI(value)}`;
+    }
+
+    function getFileSize(){
+        if (isFile(props.value)) {
+            $http(`${apiUrl(store)}/executions/${props.execution?.id}/file/metas?path=${props.value}`, {
+                validateStatus: (status: number) => status === 200 || status === 404 || status === 422
+            }).then((r: {data:any}) => humanSize.value = Utils.humanFileSize(r.data.size))
+        }
+    }
 </script>
