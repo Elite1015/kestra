@@ -184,7 +184,7 @@ export default (callback: (axiosInstance: AxiosInstance) => void, store: Store<a
         indexes: null
     }
 
-    router.beforeEach((to, from, next) => {
+    router.beforeEach((_to, _from, next) => {
         initProgress();
 
         next()
