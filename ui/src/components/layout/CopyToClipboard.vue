@@ -10,26 +10,21 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
     import ContentCopy from "vue-material-design-icons/ContentCopy.vue";
-</script>
-
-<script>
     import Utils from "../../utils/utils";
 
-    export default {
-        props: {
-            text: {
-                type: String,
-                required: true
-            },
-            label: {
-                type: String,
-                required: false,
-                default: undefined
-            }
+    defineProps({
+        text: {
+            type: String,
+            required: true
+        },
+        label: {
+            type: String,
+            required: false,
+            default: undefined
         }
-    }
+    })
 </script>
 
 <style scoped lang="scss">
