@@ -67,9 +67,10 @@
 
     import Editor from "../../inputs/Editor.vue";
     import MetadataInputs from "../../flows/MetadataInputs.vue";
-    import TaskBasic from "../../flows/tasks/TaskBasic.vue";
 
     import Task from "./Task.vue";
+    import Concurrency from "./panels/Concurrency.vue";
+    import SLA from "./panels/SLA.vue";
 
     import {useRoute} from "vue-router";
     const route = useRoute();
@@ -161,7 +162,7 @@
         inputs: {
             component: shallowRef(MetadataInputs),
             value: props.metadata.inputs,
-            label: t("no_code.fields.general.inputs"),
+            label: t("no_code.fields.main.inputs"),
             inputs: props.metadata.inputs ?? [],
         },
         outputs: {
@@ -181,24 +182,14 @@
             property: t("no_code.labels.variable"),
         },
         concurrency: {
-            component: shallowRef(TaskBasic),
-            value: props.metadata.concurrency,
+            component: shallowRef(Concurrency),
+            value: props.metadata.concurrency ?? {},
             label: t("no_code.fields.general.concurrency"),
-            // TODO: Pass schema for concurrency dynamically
-            schema: {
-                type: "object",
-                properties: {
-                    behavior: {
-                        type: "string",
-                        enum: ["QUEUE", "CANCEL", "FAIL"],
-                        default: "QUEUE",
-                        markdownDescription: "Default value is : `QUEUE`",
-                    },
-                    limit: {type: "integer", exclusiveMinimum: 0},
-                },
-                required: ["limit"],
-            },
-            root: "concurrency",
+        },
+        sla: {
+            component: shallowRef(SLA),
+            value: props.metadata.sla ?? {},
+            label: t("no_code.fields.general.sla"),
         },
         pluginDefaults: {
             component: shallowRef(Editor),

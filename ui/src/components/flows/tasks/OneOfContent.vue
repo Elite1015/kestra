@@ -73,8 +73,8 @@
 
             currentSchema() {
                 return (
-                    this.definitions[this.selectedSchema] ??
-                    this.schemaByType[this.selectedSchema]
+                    this.definitions?.[this.selectedSchema] ??
+                    this.schemaByType?.[this.selectedSchema]
                 );
             },
             schemaByType() {

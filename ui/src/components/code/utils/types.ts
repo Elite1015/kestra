@@ -26,11 +26,6 @@ type InputField = Field & {
     inputs: any[];
 };
 
-type ConcurrencyField = Field & {
-    root: string;
-    schema: object;
-};
-
 type EditorField = Field & {
     navbar: boolean;
     input: boolean;
@@ -50,7 +45,8 @@ export type Fields = {
     inputs: InputField;
     outputs: EditorField;
     variables: PairField;
-    concurrency: ConcurrencyField;
+    concurrency: Field;
+    sla: Field;
     pluginDefaults: EditorField;
     disabled: Field;
 };

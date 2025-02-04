@@ -1135,15 +1135,16 @@
         "main": {
           "flow_id": "Flow ID",
           "namespace": "Namespace",
-          "description": "Description"
+          "description": "Description",
+          "inputs": "Inputs"
         },
         "general": {
           "retry": "Retry",
           "labels": "Labels",
-          "inputs": "Inputs",
           "outputs": "Outputs",
           "variables": "Variables",
           "concurrency": "Concurrency",
+          "sla": "SLA",
           "plugin_defaults": "Plugin Defaults",
           "disabled": "Disabled"
         }
