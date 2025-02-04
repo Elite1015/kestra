@@ -1,5 +1,20 @@
 import Utils from "./utils";
 
+type EXECUTION_STATE = "CANCELLED"| "CREATED"|
+        "FAILED"|
+        "KILLED"|
+        "KILLING"|
+        "PAUSED"|
+        "QUEUED"|
+        "RESTARTED"|
+        "RETRIED"|
+        "RETRYING"|
+        "RUNNING"|
+        "SUCCESS"|
+        "WARNING";
+
+type LOGS_STATE = "DEBUG" | "ERROR" | "INFO" | "TRACE" | "WARN";
+
 const SCHEME = "scheme";
 const OPTIONS = Object.freeze({
     classic: {
@@ -104,13 +119,21 @@ const OPTIONS = Object.freeze({
     },
 });
 
-export const setScheme = (value) => {
+export const setScheme = (value: keyof typeof OPTIONS) => {
     localStorage.setItem(SCHEME, value);
 };
 
-export const getScheme = (state, type = "executions") => {
-    const scheme = localStorage.getItem(SCHEME) ?? "classic";
-    const theme = Utils.getTheme();
+export function getScheme(state: EXECUTION_STATE, type: "executions"): string;
 
-    return OPTIONS[scheme]?.[theme]?.[type]?.[state];
+export function getScheme(state: LOGS_STATE, type: "logs"): string;
+
+export function getScheme(state: string, type: "executions" | "logs" = "executions") {
+    const scheme: keyof typeof OPTIONS = localStorage.getItem(SCHEME) ?? "classic" as any;
+    const theme = Utils.getTheme() as keyof typeof OPTIONS["classic"];
+
+    const schemeValue = OPTIONS[scheme][theme][type];
+
+    return schemeValue[state as keyof typeof schemeValue];
 };
+
+
