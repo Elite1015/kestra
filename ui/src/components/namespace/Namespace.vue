@@ -140,7 +140,7 @@
                         title: this.$t("flows"),
                         props: {
                             tab: "flows",
-                            embed: true,
+                            embed: false,
                         },
                         query: {
                             id: this.$route.query.id
