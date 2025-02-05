@@ -534,7 +534,7 @@
     "row count": "행 수",
     "encoding": "인코딩",
     "show": "보기",
-    "advanced configuration": "고급 구성",
+    "advanced configuration": "다른 속성",
     "all executions": "모든 실행",
     "trigger execution id": "Trigger Execution Id",
     "triggers_state": {
@@ -1069,7 +1069,8 @@
         "error_handlers": "오류 처리기",
         "tasks": "작업",
         "advanced": "고급 구성",
-        "finally": "마지막으로"
+        "finally": "마지막으로",
+        "other": "기타 속성"
       },
       "creation": {
         "select": "{section}을 선택하십시오",

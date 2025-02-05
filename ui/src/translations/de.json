@@ -534,7 +534,7 @@
     "row count": "Zeilenanzahl",
     "encoding": "Kodierung",
     "show": "Anzeigen",
-    "advanced configuration": "Erweiterte Konfiguration",
+    "advanced configuration": "Andere Eigenschaften",
     "all executions": "Alle Ausführungen",
     "trigger execution id": "Trigger-Ausführungs-Id",
     "triggers_state": {
@@ -1069,7 +1069,8 @@
         "error_handlers": "Fehlerbehandler",
         "tasks": "Aufgaben",
         "advanced": "Erweiterte Konfiguration",
-        "finally": "Schließlich"
+        "finally": "Schließlich",
+        "other": "Andere Eigenschaften"
       },
       "creation": {
         "select": "Wählen Sie einen {section} aus",
