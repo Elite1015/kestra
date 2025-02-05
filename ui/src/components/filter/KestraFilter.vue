@@ -27,6 +27,7 @@
                 refresh: buttons.refresh.shown,
                 settings: buttons.settings.shown,
                 dashboards: dashboards.shown,
+                properties: properties.shown,
             }"
             @focus="handleFocus"
             data-test-id="KestraFilter__select"
@@ -111,7 +112,8 @@
                 'me-1':
                     buttons.refresh.shown ||
                     buttons.settings.shown ||
-                    dashboards.shown,
+                    dashboards.shown ||
+                    properties.shown,
             }"
         >
             <KestraIcon :tooltip="$t('search')" placement="bottom">
@@ -131,7 +133,7 @@
         <el-button-group
             v-if="buttons.refresh.shown || buttons.settings.shown"
             class="d-inline-flex ms-1"
-            :class="{'me-1': dashboards.shown}"
+            :class="{'me-1': dashboards.shown || properties.shown}"
         >
             <Refresh
                 v-if="buttons.refresh.shown"
@@ -149,6 +151,14 @@
             @dashboard="(value) => emits('dashboard', value)"
             class="ms-1"
         />
+        <Properties
+            v-if="properties.shown"
+            :columns="properties.columns"
+            :model-value="properties.displayColumns"
+            :storage-key="properties.storageKey"
+            @update-properties="(v) => emits('updateProperties', v)"
+            class="ms-1"
+        />
     </section>
 </template>
 
@@ -156,7 +166,7 @@
     import {computed, nextTick, onMounted, ref, shallowRef, watch} from "vue";
     import {ElSelect} from "element-plus";
 
-    import {Buttons, CurrentItem, Shown, Pair} from "./utils/types";
+    import {Buttons, CurrentItem, Shown, Pair, Property} from "./utils/types";
 
     import Refresh from "../layout/RefreshButton.vue";
     import Items from "./segments/Items.vue";
@@ -164,6 +174,7 @@
     import Save from "./segments/Save.vue";
     import Settings from "./segments/Settings.vue";
     import Dashboards from "./segments/Dashboards.vue";
+    import Properties from "./segments/Properties.vue";
     import KestraIcon from "../Kicon.vue";
     import DateRange from "../layout/DateRange.vue";
     import Status from "./components/Status.vue";
@@ -186,12 +197,13 @@
     const router = useRouter();
     const route = useRoute();
 
-    const emits = defineEmits(["dashboard", "input"]);
+    const emits = defineEmits(["dashboard", "input", "updateProperties"]);
     const props = defineProps({
         prefix: {type: String, default: undefined},
         include: {type: Array, default: () => []},
         values: {type: Object, default: undefined},
         decode: {type: Boolean, default: true},
+        propertiesWidth: {type: Number, default: 144},
         buttons: {
             type: Object as () => Buttons,
             default: () => ({
@@ -204,6 +216,10 @@
         },
         dashboards: {
             type: Object as () => Shown,
+            default: () => ({shown: false}),
+        },
+        properties: {
+            type: Object as () => Property,
             default: () => ({shown: false}),
         },
         placeholder: {type: String, default: undefined},
@@ -837,12 +853,20 @@ $included: 144px;
 $refresh: 104px;
 $settins: 52px;
 $dashboards: 52px;
+$properties: v-bind('props.propertiesWidth + "px"');
 
 .filters {
     @include width-available;
 
     & .el-select {
         width: 100%;
+
+        &.refresh.settings.dashboards.properties {
+            max-width: calc(
+                100% - $included - $refresh - $settins - $dashboards -
+                    #{$properties}
+            );
+        }
 
         &.refresh.settings.dashboards {
             max-width: calc(
@@ -858,8 +882,20 @@ $dashboards: 52px;
             max-width: calc(100% - $included - $settins - $dashboards);
         }
 
+        &.settings.properties {
+            max-width: calc(100% - $included - $settins - #{$properties});
+        }
+
         &.refresh.dashboards {
             max-width: calc(100% - $included - $refresh - $dashboards);
+        }
+
+        &.refresh.properties {
+            max-width: calc(100% - $included - $refresh - #{$properties});
+        }
+
+        &.dashboards.properties {
+            max-width: calc(100% - $included - $dashboards - #{$properties});
         }
 
         &.refresh {
@@ -873,6 +909,10 @@ $dashboards: 52px;
         &.dashboards {
             min-width: $dashboards;
             max-width: calc(100% - $included - $dashboards);
+        }
+
+        &.properties {
+            max-width: calc(100% - $included - #{$properties});
         }
     }
 

@@ -1163,6 +1163,12 @@
         "input": "Save input"
       }
     },
+    "properties": {
+      "label": "Properties",
+      "hint": "Choose Visible Columns",
+      "shown": "Shown in Table",
+      "hidden": "Hidden in Table"
+    },
     "editor_shortcuts": {
       "label": "Keyboard shortcuts",
       "command_palette": "Show command palette",
@@ -1176,7 +1182,7 @@
     },
     "instance": "Instance",
     "something_went_wrong": {
-        "loading_execution": "Something went wrong while loading the execution"
+      "loading_execution": "Something went wrong while loading the execution"
     }
   }
 }
