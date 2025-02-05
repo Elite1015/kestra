@@ -1,4 +1,4 @@
-import YamlUtils from "../../../utils/yamlUtils";
+import * as YamlUtils from "../../../utils/yamlUtils";
 
 export default {
     props: {

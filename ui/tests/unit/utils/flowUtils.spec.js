@@ -1,7 +1,7 @@
 import {describe, it, expect} from "vitest"
-import YamlUtils from "../../../src/utils/yamlUtils";
+import * as YamlUtils from "../../../src/utils/yamlUtils";
 import FlowUtils from "../../../src/utils/flowUtils";
-import {flat, flowable, plugins} from "./yamlUtils.spec";
+import {flat, flowable, plugins} from "./yamlFictures";
 
 describe("FlowUtils", () => {
     it("extractTask from a flat flow", () => {

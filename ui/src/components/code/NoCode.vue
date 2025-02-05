@@ -22,7 +22,7 @@
 <script setup lang="ts">
     import {onBeforeMount, computed} from "vue";
 
-    import YamlUtils from "../../utils/yamlUtils";
+    import * as YamlUtils from "../../utils/yamlUtils";
 
     import Breadcrumbs from "./components/Breadcrumbs.vue";
     import Editor from "./segments/Editor.vue";

@@ -224,7 +224,7 @@
         else return rest;
     };
 
-    import YamlUtils from "../../../utils/yamlUtils";
+    import * as YamlUtils from "../../../utils/yamlUtils";
     const getSectionTitle = (label: string, elements = []) => {
         const title = t(`no_code.sections.${label}`);
         return {title, elements};

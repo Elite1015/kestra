@@ -5,12 +5,8 @@ import {SECTIONS} from "./constants";
 
 const TOSTRING_OPTIONS = {lineWidth: 0};
 
-interface YamlTask {
-    items: any[];
-}
 
-
-export function stringify(value: any) {
+export function stringify(value) {
     if (typeof value === "undefined") {
         return "";
     }
@@ -26,7 +22,7 @@ export function stringify(value: any) {
     });
 }
 
-export function pairsToMap(pairs?: any[]) {
+export function pairsToMap(pairs) {
     const map = new YAMLMap();
     if (!isPair(pairs?.[0])) {
         return map;
@@ -38,21 +34,21 @@ export function pairsToMap(pairs?: any[]) {
     return map;
 }
 
-export function parse(item?: string) {
+export function parse(item) {
     if (item === undefined) {
         return undefined;
     }
     return JsYaml.load(item);
 }
 
-export function extractTask(source: string, taskId: string) {
+export function extractTask(source, taskId) {
     const yamlDoc = yaml.parseDocument(source);
-    const taskNode = _extractTask(yamlDoc, taskId);
+    let taskNode = _extractTask(yamlDoc, taskId);
     return taskNode === undefined ? undefined : new yaml.Document(taskNode).toString(TOSTRING_OPTIONS);
 }
 
-export function _extractTask(yamlDoc: any, taskId: string, callback?: (element: any) => void) {
-    const find = (element: any): any => {
+export function _extractTask(yamlDoc, taskId, callback) {
+    const find = (element) => {
         if (!element) {
             return;
         }
@@ -87,7 +83,7 @@ export function _extractTask(yamlDoc: any, taskId: string, callback?: (element: 
             }
         }
     }
-    const result = find(yamlDoc.contents)
+    let result = find(yamlDoc.contents)
 
     if (result === undefined) {
         return undefined;
@@ -100,7 +96,7 @@ export function _extractTask(yamlDoc: any, taskId: string, callback?: (element: 
     }
 }
 
-export function replaceTaskInDocument(source: string, taskId: string, newContent: string) {
+export function replaceTaskInDocument(source, taskId, newContent) {
     const yamlDoc = yaml.parseDocument(source);
     const newItem = yamlDoc.createNode(yaml.parseDocument(newContent))
 
@@ -113,7 +109,7 @@ export function replaceTaskInDocument(source: string, taskId: string, newContent
     return yamlDoc.toString(TOSTRING_OPTIONS);
 }
 
-export function replaceCommentInTask(oldTask: YamlTask, newTask: YamlTask) {
+export function replaceCommentInTask(oldTask, newTask) {
     for (const oldProp of oldTask.items) {
         for (const newProp of newTask.items) {
             if (oldProp.key.value === newProp.key.value && newProp.value.comment === undefined) {
@@ -124,16 +120,23 @@ export function replaceCommentInTask(oldTask: YamlTask, newTask: YamlTask) {
     }
 }
 
-export function _transform(value: any): any {
+export function _transform(value) {
     if (value instanceof Array) {
         return value.map(r => {
             return _transform(r);
         })
     } else if (typeof (value) === "string" || value instanceof String) {
+        // value = value
+        //     .replaceAll(/\u00A0/g, " ");
+        //
+        // if (value.indexOf("\\n") >= 0) {
+        //     return value.replaceAll("\\n", "\n") + "\n";
+        // }
+
         return value;
     } else if (value instanceof Object) {
-        return sort(value as Record<string, any>)
-            .reduce((accumulator: Record<string, any>, r:string) => {
+        return sort(value)
+            .reduce((accumulator, r) => {
                 if (value[r] !== undefined) {
                     accumulator[r] = _transform(value[r])
                 }
@@ -145,7 +148,7 @@ export function _transform(value: any): any {
     return value;
 }
 
-export function sort(value: any): any {
+export function sort(value) {
     const SORT_FIELDS = [
         "id",
         "type",
@@ -158,7 +161,7 @@ export function sort(value: any): any {
         "errors",
         "triggers",
         "listeners",
-    ] as const;
+    ];
 
     return Object.keys(value)
         .sort()
@@ -167,13 +170,13 @@ export function sort(value: any): any {
         });
 }
 
-export function index(based: readonly string[], value: string): number {
+export function index(based, value) {
     const index = based.indexOf(value);
 
     return index === -1 ? Number.MAX_SAFE_INTEGER : index;
 }
 
-export function nextDelimiterIndex(content:string, currentIndex: number) {
+export function nextDelimiterIndex(content, currentIndex) {
     if (currentIndex === content.length - 1) {
         return currentIndex;
     }
@@ -184,16 +187,16 @@ export function nextDelimiterIndex(content:string, currentIndex: number) {
     if (!nextDelimiterMatcher) {
         return content.length - 1;
     } else {
-        return currentIndex + (nextDelimiterMatcher.index ?? 0);
+        return currentIndex + nextDelimiterMatcher.index;
     }
 }
 
 // Specify a source yaml doc, the field to extract recursively in every map of the doc and optionally a predicate to define which paths should be taken into account
 // parentPathPredicate will take a single argument which is the path of each parent property starting from the root doc (joined with ".")
 // "my.parent.task" will mean that the field was retrieved in my -> parent -> task path.
-export function extractFieldFromMaps(source: string, fieldName: string, parentPathPredicate = (_, __?: any) => true, valuePredicate = (_) => true) {
+export function extractFieldFromMaps(source, fieldName, parentPathPredicate = (_, __) => true, valuePredicate = (_) => true) {
     const yamlDoc = yaml.parseDocument(source);
-    const maps: {[fieldName:string]: any, range?: yaml.Range | null}[] = [];
+    const maps = [];
     yaml.visit(yamlDoc, {
         Map(_, map, parent) {
             if (parentPathPredicate(parent.filter(p => yaml.isPair(p)).map(p => p.key.value).join(".")) && map.items) {
@@ -211,7 +214,7 @@ export function extractFieldFromMaps(source: string, fieldName: string, parentPa
     return maps;
 }
 
-export function extractMaps(source: string, fieldConditions) {
+export function extractMaps(source, fieldConditions) {
     if (source.match(/^\s*{{/)) {
         return [];
     }
@@ -222,7 +225,7 @@ export function extractMaps(source: string, fieldConditions) {
         Map(_, yamlMap) {
             if (yamlMap.items) {
                 const map = yamlMap.toJS(yamlDoc);
-                for (const [fieldName, condition] of Object.entries(fieldConditions)) {
+                for (let [fieldName, condition] of Object.entries(fieldConditions)) {
                     if (condition.present) {
                         if (map[fieldName] === undefined) {
                             return;
@@ -313,7 +316,7 @@ export function insertTask(source, taskId, newTask, insertPosition) {
     return yamlDoc.toString(TOSTRING_OPTIONS);
 }
 
-export function insertTrigger(source:string, triggerTask) {
+export function insertTrigger(source, triggerTask) {
     const yamlDoc = yaml.parseDocument(source);
     const newTriggerNode = yamlDoc.createNode(yaml.parseDocument(triggerTask));
     let added = false;
@@ -421,6 +424,7 @@ export function deleteTask(source, taskId, section) {
             }
         }
     })
+
     // delete empty sections
     yaml.visit(yamlDoc, {
         Pair(_, pair) {
@@ -429,19 +433,20 @@ export function deleteTask(source, taskId, section) {
             }
         }
     })
+
     return yamlDoc.toString(TOSTRING_OPTIONS);
 }
 
 export function getFirstTask(source) {
-    const parse = parse(source);
+    let parsed = parse(source);
 
-    return parse && parse.tasks && parse.tasks[0].id;
+    return parsed && parsed.tasks && parsed.tasks[0].id;
 }
 
 export function getLastTask(source) {
-    const parse = parse(source);
+    let parsed = parse(source);
 
-    return parse && parse.tasks && parse.tasks[parse.tasks.length - 1].id;
+    return parsed && parsed.tasks && parsed.tasks[parsed.tasks.length - 1].id;
 }
 
 export function checkTaskAlreadyExist(source, taskYaml) {

@@ -157,7 +157,7 @@
     import markdown from "../layout/Markdown.vue";
     import MetadataInputs from "./MetadataInputs.vue";
     import MetadataVariables from "./MetadataVariables.vue";
-    import yamlUtils from "../../utils/yamlUtils";
+    import * as yamlUtils from "../../utils/yamlUtils";
     import Editor from "../inputs/Editor.vue";
     import {mapState} from "vuex";
 

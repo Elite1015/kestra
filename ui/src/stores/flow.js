@@ -1,5 +1,5 @@
 import axios from "axios";
-import YamlUtils from "../utils/yamlUtils";
+import * as YamlUtils from "../utils/yamlUtils";
 import Utils from "../utils/utils";
 import {apiUrl} from "override/utils/route";
 

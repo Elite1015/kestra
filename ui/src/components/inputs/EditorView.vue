@@ -333,7 +333,7 @@
     import PluginDocumentation from "../plugins/PluginDocumentation.vue";
     import permission from "../../models/permission";
     import action from "../../models/action";
-    import YamlUtils from "../../utils/yamlUtils";
+    import * as YamlUtils from "../../utils/yamlUtils";
     import TaskEditor from "../flows/TaskEditor.vue";
     import MetadataEditor from "../flows/MetadataEditor.vue";
     import Editor from "./Editor.vue";

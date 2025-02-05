@@ -49,7 +49,7 @@
     import TopNavBar from "../../components/layout/TopNavBar.vue";
     import TriggerFlow from "../../components/flows/TriggerFlow.vue";
     import {mapState} from "vuex";
-    import yamlUtils from "../../utils/yamlUtils";
+    import * as yamlUtils from "../../utils/yamlUtils";
     import permission from "../../models/permission";
     import action from "../../models/action";
 

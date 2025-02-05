@@ -38,7 +38,7 @@
 
 <script>
     import Task from "./Task"
-    import YamlUtils from "../../../utils/yamlUtils";
+    import * as YamlUtils from "../../../utils/yamlUtils";
     import TaskEditor from "../TaskEditor.vue"
     import Drawer from "../../Drawer.vue"
 

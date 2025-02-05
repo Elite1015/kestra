@@ -87,7 +87,7 @@
 </script>
 
 <script>
-    import YamlUtils from "../../utils/yamlUtils";
+    import * as YamlUtils from "../../utils/yamlUtils";
     import Editor from "../inputs/Editor.vue";
     import TaskEditor from "./TaskEditor.vue";
     import Drawer from "../Drawer.vue";

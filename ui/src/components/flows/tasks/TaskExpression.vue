@@ -11,7 +11,7 @@
 <script>
     import Task from "./Task";
     import Editor from "../../../components/inputs/Editor.vue";
-    import YamlUtils from "../../../utils/yamlUtils";
+    import * as YamlUtils from "../../../utils/yamlUtils";
 
     export default {
         mixins: [Task],

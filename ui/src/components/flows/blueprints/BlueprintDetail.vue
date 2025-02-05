@@ -87,7 +87,7 @@
     import TopNavBar from "../../layout/TopNavBar.vue";
 </script>
 <script>
-    import YamlUtils from "../../../utils/yamlUtils";
+    import * as YamlUtils from "../../../utils/yamlUtils";
     import Markdown from "../../layout/Markdown.vue";
     import CopyToClipboard from "../../layout/CopyToClipboard.vue";
     import {mapState} from "vuex";

@@ -43,7 +43,7 @@
     const section = ref(SECTIONS.TASKS);
 
     import TaskEditor from "../../../components/flows/TaskEditor.vue";
-    import YamlUtils from "../../../utils/yamlUtils";
+    import * as YamlUtils from "../../../utils/yamlUtils";
 
     import {useStore} from "vuex";
     const store = useStore();

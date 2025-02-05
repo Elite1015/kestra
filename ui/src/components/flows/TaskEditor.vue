@@ -26,7 +26,7 @@
 </template>
 <script>
     import TaskRoot from "./tasks/TaskRoot.vue";
-    import YamlUtils from "../../utils/yamlUtils";
+    import * as YamlUtils from "../../utils/yamlUtils";
     import PluginSelect from "../../components/plugins/PluginSelect.vue";
     import {mapGetters} from "vuex";
     import {SECTIONS} from "../../utils/constants";
