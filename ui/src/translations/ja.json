@@ -534,7 +534,7 @@
     "row count": "行数",
     "encoding": "エンコーディング",
     "show": "表示",
-    "advanced configuration": "詳細設定",
+    "advanced configuration": "他のプロパティ",
     "all executions": "すべての実行",
     "trigger execution id": "Trigger Execution Id",
     "triggers_state": {
@@ -1069,7 +1069,8 @@
         "error_handlers": "エラーハンドラー",
         "tasks": "タスク",
         "advanced": "高度な設定",
-        "finally": "最後に"
+        "finally": "最後に",
+        "other": "その他のプロパティ"
       },
       "creation": {
         "select": "{section}を選択してください",
