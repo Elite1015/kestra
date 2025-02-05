@@ -1162,6 +1162,12 @@
     },
     "something_went_wrong": {
       "loading_execution": "Wystąpił problem podczas ładowania wykonania"
+    },
+    "properties": {
+      "shown": "Wyświetlane w tabeli",
+      "hint": "Wybierz widoczne kolumny",
+      "hidden": "Ukryte w tabeli",
+      "label": "Właściwości"
     }
   }
 }

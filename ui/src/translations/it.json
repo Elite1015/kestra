@@ -1162,6 +1162,12 @@
     },
     "something_went_wrong": {
       "loading_execution": "Si è verificato un errore durante il caricamento dell'esecuzione"
+    },
+    "properties": {
+      "shown": "Visualizzato nella tabella",
+      "hint": "Scegli colonne visibili",
+      "hidden": "Nascosto nella Tabella",
+      "label": "Proprietà"
     }
   }
 }

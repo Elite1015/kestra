@@ -1162,6 +1162,12 @@
     },
     "something_went_wrong": {
       "loading_execution": "加载执行时出现问题"
+    },
+    "properties": {
+      "shown": "显示在表格中",
+      "hint": "选择可见列",
+      "hidden": "隐藏在表格中",
+      "label": "属性"
     }
   }
 }
