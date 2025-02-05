@@ -1,6 +1,6 @@
 import {apiUrl} from "override/utils/route";
 
-export const yamlSchemas = (store) => [
+export const yamlSchemas = (store:any) => [
     {
         fileMatch: ["flow-*.yaml"],
         uri: [`${apiUrl(store)}/plugins/schemas/flow`]
