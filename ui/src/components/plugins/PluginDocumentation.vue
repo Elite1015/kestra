@@ -13,7 +13,7 @@
                 </h4>
             </div>
             <Suspense>
-                <schema-to-html class="plugin-schema" :dark-mode="Utils.getTheme() === 'dark'" :schema="editorPlugin.schema" :plugin-type="editorPlugin.cls">
+                <schema-to-html class="plugin-schema" :dark-mode="theme === 'dark'" :schema="editorPlugin.schema" :plugin-type="editorPlugin.cls">
                     <template #markdown="{content}">
                         <markdown font-size-var="font-size-base" :source="content" />
                     </template>
@@ -25,17 +25,15 @@
 </template>
 
 <script setup>
-    import Utils from "../../utils/utils.js";
+    import Markdown from "../layout/Markdown.vue";
+    import {SchemaToHtml, TaskIcon} from "@kestra-io/ui-libs";
 </script>
 
 <script>
-    import Markdown from "../layout/Markdown.vue";
-    import {SchemaToHtml, TaskIcon} from "@kestra-io/ui-libs";
-    import {mapState} from "vuex";
+    import {mapState, mapGetters} from "vuex";
     import intro from "../../assets/documentations/basic.md?raw"
 
     export default {
-        components: {Markdown, SchemaToHtml, TaskIcon},
         props: {
             overrideIntro: {
                 type: String,
@@ -44,6 +42,7 @@
         },
         computed: {
             ...mapState("plugin", ["editorPlugin", "icons"]),
+            ...mapGetters("misc", ["theme"]),
             introContent () {
                 return this.overrideIntro ?? intro
             },

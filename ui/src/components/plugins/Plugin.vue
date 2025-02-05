@@ -21,7 +21,7 @@
                     </h4>
                 </div>
                 <Suspense v-loading="isLoading">
-                    <schema-to-html class="plugin-schema" :dark-mode="Utils.getTheme() === 'dark'" :schema="plugin.schema" :props-initially-expanded="true" :plugin-type="$route.params.cls">
+                    <schema-to-html class="plugin-schema" :dark-mode="theme === 'dark'" :schema="plugin.schema" :props-initially-expanded="true" :plugin-type="$route.params.cls">
                         <template #markdown="{content}">
                             <markdown font-size-var="font-size-base" :source="content" />
                         </template>
@@ -33,32 +33,24 @@
 </template>
 
 <script setup>
-    import Utils from "../../utils/utils.js";
     import {TaskIcon} from "@kestra-io/ui-libs";
+    import {SchemaToHtml} from "@kestra-io/ui-libs";
+    import DocsLayout from "../docs/DocsLayout.vue";
+    import PluginHome from "./PluginHome.vue";
+    import Markdown from "../layout/Markdown.vue"
+    import Toc from "./Toc.vue"
+    import TopNavBar from "../../components/layout/TopNavBar.vue";
 </script>
 
 <script>
     import RouteContext from "../../mixins/routeContext";
-    import TopNavBar from "../../components/layout/TopNavBar.vue";
-    import Markdown from "../layout/Markdown.vue"
-    import Toc from "./Toc.vue"
-    import {mapState} from "vuex";
-    import PluginHome from "./PluginHome.vue";
-    import DocsLayout from "../docs/DocsLayout.vue";
-    import {SchemaToHtml} from "@kestra-io/ui-libs";
+    import {mapState, mapGetters} from "vuex";
 
     export default {
         mixins: [RouteContext],
-        components: {
-            SchemaToHtml,
-            DocsLayout,
-            PluginHome,
-            Markdown,
-            Toc,
-            TopNavBar
-        },
         computed: {
             ...mapState("plugin", ["plugin", "plugins", "icons"]),
+            ...mapGetters("misc", ["theme"]),
             routeInfo() {
                 return {
                     title: this.$route.params.cls ? this.$route.params.cls : this.$t("plugins.names"),
