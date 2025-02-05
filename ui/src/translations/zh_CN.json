@@ -534,7 +534,7 @@
     "row count": "行数",
     "encoding": "编码",
     "show": "显示",
-    "advanced configuration": "高级配置",
+    "advanced configuration": "其他属性",
     "all executions": "所有执行",
     "trigger execution id": "触发执行ID",
     "triggers_state": {
@@ -1069,7 +1069,8 @@
         "error_handlers": "错误处理程序",
         "tasks": "任务",
         "advanced": "高级配置",
-        "finally": "最后"
+        "finally": "最后",
+        "other": "其他属性"
       },
       "creation": {
         "select": "选择一个{section}",
