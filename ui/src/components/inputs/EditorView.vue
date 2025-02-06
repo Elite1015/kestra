@@ -139,6 +139,8 @@
                     :schema-type="isCurrentTabFlow? 'flow': undefined"
                     :lang="currentTab?.extension === undefined ? 'yaml' : undefined"
                     :extension="currentTab?.extension"
+                    @autocomplete-open="handleAutocompleteOpen"
+                    @autocomplete-close="handleAutocompleteClose"
                     @update:model-value="editorUpdate"
                     @cursor="updatePluginDocumentation"
                     :creating="isCreating"
@@ -807,7 +809,7 @@
 
         haveChange.value = true;
         if(editorViewType.value === "YAML") store.dispatch("core/isUnsaved", true);
-        
+
         if(!props.isCreating){
             store.commit("editor/changeOpenedTabs", {
                 action: "dirty",
@@ -969,8 +971,21 @@
         haveChange.value = true;
         save()
     };
+    const isAutocompleteActive = ref(false);
+
+    const handleAutocompleteOpen = () => {
+        isAutocompleteActive.value = true;
+    };
+
+    const handleAutocompleteClose = () => {
+        isAutocompleteActive.value = false;
+    };
 
     const editorUpdate = (event) => {
+        if (isAutocompleteActive.value) {
+            console.log("Skipping API call (autocomplete active)");
+            return;
+        }
         const currentIsFlow = isFlow();
 
         updatedFromEditor.value = true;

@@ -107,7 +107,7 @@
                 default: false
             }
         },
-        emits: ["editorDidMount", "change"],
+        emits: ["editorDidMount", "change", "autocomplete-close", "autocomplete-open"],
         model: {
             event: "change"
         },
@@ -203,24 +203,34 @@
                     triggerCharacters: [":"],
                     async provideCompletionItems(model, position) {
                         if (_this.schemaType !== "flow") {
+                            _this.$emit("autocomplete-close");
                             return noSuggestions;
                         }
 
                         const namespaceAutocompletion = await _this.namespaceAutocompletion(model, position);
                         if (namespaceAutocompletion) {
-                            return namespaceAutocompletion;
+                            return {...namespaceAutocompletion,
+                                    onDidSelect: () => {
+                                        _this.$emit("autocomplete-close");
+                                    }};
                         }
 
                         const flowIdAutocompletion = await _this.flowIdAutocompletion(model, position);
                         if (flowIdAutocompletion) {
-                            return flowIdAutocompletion;
+                            return {...flowIdAutocompletion,
+                                    onDidSelect: () => {
+                                        _this.$emit("autocomplete-close");
+                                    }};
                         }
 
                         const subflowInputsAutocompletion = await _this.subflowInputsAutocompletion(model, position);
                         if (subflowInputsAutocompletion) {
-                            return subflowInputsAutocompletion;
+                            return {...subflowInputsAutocompletion,
+                                    onDidSelect: () => {
+                                        _this.$emit("autocomplete-close");
+                                    }};
                         }
-
+                        _this.$emit("autocomplete-close");
                         return noSuggestions;
                     }
                 })
@@ -228,10 +238,13 @@
                 this.pebbleAutocompletion = monaco.languages.registerCompletionItemProvider(["yaml", "plaintext"], {
                     triggerCharacters: ["{"],
                     provideCompletionItems(model, position) {
+
+                        _this.$emit("autocomplete-open");
                         const lineContent = _this.lineContent(model, position);
                         const tillCursorContent = _this.tillCursorContent(lineContent, position);
                         const match = tillCursorContent.match(/\{\{ *(?:.*~ ?)?$/);
                         if (!match) {
+                            _this.$emit("autocomplete-close");
                             return noSuggestions;
                         }
 
@@ -261,7 +274,10 @@
                                 suggestionFor("globals"),
                                 suggestionFor("parents"),
                                 suggestionFor("error")
-                            ]
+                            ],
+                            onDidSelect: () => {
+                                _this.$emit("autocomplete-close");
+                            }
                         };
                     }
                 });
@@ -269,10 +285,12 @@
                 this.nestedFieldAutocompletionProvider = monaco.languages.registerCompletionItemProvider(["yaml", "plaintext"], {
                     triggerCharacters: ["."],
                     async provideCompletionItems(model, position) {
+                        _this.$emit("autocomplete-open");
                         const lineContent = _this.lineContent(model, position);
                         const tillCursorContent = _this.tillCursorContent(lineContent, position);
                         const match = tillCursorContent.match(/( *([^{ ]*)\.)([^.} ]*)$/);
                         if (!match) {
+                            _this.$emit("autocomplete-close");
                             return noSuggestions;
                         }
 
@@ -299,7 +317,10 @@
                                 match[3],
                                 position.lineNumber,
                                 [indexOfFieldToComplete, nextDotIndex]
-                            )
+                            ),
+                            onDidSelect: () => {
+                                _this.$emit("autocomplete-close");
+                            }
                         };
                     }
                 })
@@ -636,6 +657,10 @@
                     })
 
                     this.editor = monaco.editor.create(this.$el, options);
+
+                    this.editor.onDidChangeCursorPosition(() => {
+                        self.$emit("autocomplete-close");
+                    });
 
                     if(!this.input){
                         const name = this.currentTab?.path ?? this.currentTab?.name;

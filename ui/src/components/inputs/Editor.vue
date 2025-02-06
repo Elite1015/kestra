@@ -48,6 +48,8 @@
                     :options="options"
                     :diff-editor="original !== undefined"
                     :original="original"
+                    @autocomplete-open="onAutocompleteOpen"
+                    @autocomplete-close="onAutocompleteClose"
                     @change="onInput"
                     @editor-did-mount="editorDidMount"
                     :language="lang"
@@ -117,6 +119,8 @@
             "update:modelValue",
             "cursor",
             "confirm",
+            "autocomplete-open",
+            "autocomplete-close"
         ],
         editor: undefined,
         data() {
@@ -246,6 +250,12 @@
                 this.navbar;
         },
         methods: {
+            onAutocompleteOpen() {
+                this.$emit("autocomplete-open");
+            },
+            onAutocompleteClose() {
+                this.$emit("autocomplete-close");
+            },
             editorDidMount(editor) {
                 // avoid double import of monaco editor, use a reference
                 const KeyCode = this.$refs.monacoEditor.monaco.KeyCode;
@@ -261,11 +271,11 @@
                         this.focus = false;
                     });
 
-                    if(this.shouldFocus){                
+                    if(this.shouldFocus){
                         this.editor.onDidFocusEditorText?.(() => {
                             this.focus = true;
                         });
-                        
+
                         this.$refs.monacoEditor.focus();
                     }
                 }
