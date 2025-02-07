@@ -193,7 +193,7 @@ jobs:
       - name: Npm - Run unit tests
         shell: bash
         working-directory: ui
-        run: npm run test:unit
+        run: npm run test:cicd
 
       # Build to send bundle stats to codecov
       - name: Npm - Run build
