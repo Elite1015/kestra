@@ -192,6 +192,13 @@ jobs:
         working-directory: ui
         run: npm run test:unit
 
+      - name: Npm - Run build
+        shell: bash
+        working-directory: ui
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        run: npm run build
+
       - name: Storybook - Install Playwright
         shell: bash
         working-directory: ui
