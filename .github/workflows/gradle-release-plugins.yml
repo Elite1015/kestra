@@ -61,7 +61,8 @@ jobs:
           GITHUB_PAT: ${{ secrets.GH_PERSONAL_TOKEN }}
         run: |
           chmod +x ./dev-tools/release-plugins.sh;
-          ./release-plugins.sh \
+          
+          ./dev-tools/release-plugins.sh \
           --release-version=${{github.event.inputs.releaseVersion}} \
           --next-version=${{github.event.inputs.nextVersion}} \
           --yes \
@@ -73,7 +74,8 @@ jobs:
           GITHUB_PAT: ${{ secrets.GH_PERSONAL_TOKEN }}
         run: |
           chmod +x ./dev-tools/release-plugins.sh;
-          ./release-plugins.sh \
+          
+          ./dev-tools/release-plugins.sh \
           --release-version=${{github.event.inputs.releaseVersion}} \
           --next-version=${{github.event.inputs.nextVersion}} \
           --dry-run \
