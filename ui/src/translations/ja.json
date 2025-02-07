@@ -1051,7 +1051,8 @@
         "main": {
           "description": "説明",
           "namespace": "Namespace（ネームスペース）",
-          "flow_id": "フローID"
+          "flow_id": "フローID",
+          "inputs": "入力"
         },
         "general": {
           "plugin_defaults": "プラグインデフォルト",
@@ -1061,7 +1062,8 @@
           "concurrency": "並行性",
           "inputs": "入力",
           "retry": "リトライ",
-          "disabled": "無効"
+          "disabled": "無効",
+          "sla": "SLA"
         }
       },
       "sections": {

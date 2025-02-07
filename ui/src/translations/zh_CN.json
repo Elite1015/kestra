@@ -1051,7 +1051,8 @@
         "main": {
           "description": "描述",
           "namespace": "命名空间",
-          "flow_id": "Flow ID"
+          "flow_id": "Flow ID",
+          "inputs": "输入"
         },
         "general": {
           "plugin_defaults": "插件默认值",
@@ -1061,7 +1062,8 @@
           "concurrency": "并发性",
           "inputs": "输入",
           "retry": "重试",
-          "disabled": "禁用"
+          "disabled": "禁用",
+          "sla": "SLA (服务水平协议)"
         }
       },
       "sections": {

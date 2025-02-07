@@ -1051,7 +1051,8 @@
         "main": {
           "description": "설명",
           "namespace": "네임스페이스",
-          "flow_id": "플로우 ID"
+          "flow_id": "플로우 ID",
+          "inputs": "입력"
         },
         "general": {
           "plugin_defaults": "플러그인 기본값",
@@ -1061,7 +1062,8 @@
           "concurrency": "병행성",
           "inputs": "입력",
           "retry": "재시도",
-          "disabled": "비활성화됨"
+          "disabled": "비활성화됨",
+          "sla": "SLA"
         }
       },
       "sections": {

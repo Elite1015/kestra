@@ -1051,7 +1051,8 @@
         "main": {
           "description": "Beschreibung",
           "namespace": "Namespace",
-          "flow_id": "Flow-ID"
+          "flow_id": "Flow-ID",
+          "inputs": "Eingaben"
         },
         "general": {
           "plugin_defaults": "Plugin-Standardeinstellungen",
@@ -1061,7 +1062,8 @@
           "concurrency": "Nebenläufigkeit",
           "inputs": "Eingaben",
           "retry": "Wiederholen",
-          "disabled": "Deaktiviert"
+          "disabled": "Deaktiviert",
+          "sla": "SLA"
         }
       },
       "sections": {

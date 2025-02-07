@@ -1051,7 +1051,8 @@
         "main": {
           "description": "विवरण",
           "namespace": "Namespace",
-          "flow_id": "फ्लो ID"
+          "flow_id": "फ्लो ID",
+          "inputs": "इनपुट्स"
         },
         "general": {
           "plugin_defaults": "प्लगइन डिफॉल्ट्स",
@@ -1061,7 +1062,8 @@
           "concurrency": "समानांतरता",
           "inputs": "इनपुट्स",
           "retry": "पुनः प्रयास करें",
-          "disabled": "अक्षम"
+          "disabled": "अक्षम",
+          "sla": "SLA"
         }
       },
       "sections": {

@@ -1051,7 +1051,8 @@
         "main": {
           "description": "Description",
           "namespace": "Namespace",
-          "flow_id": "ID de Flow"
+          "flow_id": "ID de Flow",
+          "inputs": "Entrées"
         },
         "general": {
           "plugin_defaults": "Paramètres par défaut du Plugin",
@@ -1061,7 +1062,8 @@
           "concurrency": "Concurrence",
           "inputs": "Entrées",
           "retry": "Réessayer",
-          "disabled": "Désactivé"
+          "disabled": "Désactivé",
+          "sla": "SLA"
         }
       },
       "sections": {

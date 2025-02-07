@@ -1051,7 +1051,8 @@
         "main": {
           "description": "Описание",
           "namespace": "Namespace",
-          "flow_id": "ID потока"
+          "flow_id": "ID потока",
+          "inputs": "Входные данные"
         },
         "general": {
           "plugin_defaults": "Настройки плагина по умолчанию",
@@ -1061,7 +1062,8 @@
           "concurrency": "Конкурентность",
           "inputs": "Входные данные",
           "retry": "Повторить попытку",
-          "disabled": "Отключено"
+          "disabled": "Отключено",
+          "sla": "SLA"
         }
       },
       "sections": {
