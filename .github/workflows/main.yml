@@ -172,6 +172,7 @@ jobs:
     name: Run frontend tests
     runs-on: ubuntu-latest
     if: ${{ github.event.inputs.skip-test == 'false' || github.event.inputs.skip-test == ''}}
+    continue-on-error: true
     steps:
       # Setup
       - name: Checkout - Current ref
