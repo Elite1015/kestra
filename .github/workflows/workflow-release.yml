@@ -11,6 +11,28 @@ on:
         description: "The Kestra plugins to be used for the build."
         type: string
         required: true
+    secrets:
+      DOCKERHUB_USERNAME:
+        description: "The Dockerhub username."
+        required: true
+      DOCKERHUB_PASSWORD:
+        description: "The Dockerhub password."
+        required: true
+      SONATYPE_USER:
+        description: "The Sonatype username."
+        required: true
+      SONATYPE_PASSWORD:
+        description: "The Sonatype password."
+        required: true
+      SONATYPE_GPG_KEYID:
+        description: "The Sonatype GPG key id."
+        required: true
+      SONATYPE_GPG_PASSWORD:
+        description: "The Sonatype GPG password."
+        required: true
+      SONATYPE_GPG_FILE:
+        description: "The Sonatype GPG file."
+        required: true
 jobs:
   Docker:
     name: Publish Docker
@@ -46,15 +68,16 @@ jobs:
       - name: Publish Maven
         uses: ./.github/actions/publish-maven
         with:
-            sonatype-username: ${{ secrets.SONATYPE_USER }}
-            sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
-            sonatype-gpg-keyid: ${{ secrets.SONATYPE_GPG_KEYID }}
-            sonatype-gpg-password: ${{ secrets.SONATYPE_GPG_PASSWORD }}
-            sonatype-gpg-file: ${{ secrets.SONATYPE_GPG_FILE }}
+          sonatype-username: ${{ secrets.SONATYPE_USER }}
+          sonatype-password: ${{ secrets.SONATYPE_PASSWORD }}
+          sonatype-gpg-keyid: ${{ secrets.SONATYPE_GPG_KEYID }}
+          sonatype-gpg-password: ${{ secrets.SONATYPE_GPG_PASSWORD }}
+          sonatype-gpg-file: ${{ secrets.SONATYPE_GPG_FILE }}
 
   Github:
     name: Github Release
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
     steps:
       - uses: actions/checkout@v4
       - name: Github Release
