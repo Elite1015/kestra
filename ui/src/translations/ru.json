@@ -268,7 +268,10 @@
       },
       "empty": "Нет blueprints для отображения.",
       "custom": "Пользовательские blueprints",
-      "community": "Сообщество"
+      "community": "Сообщество",
+      "dashboards": "Панель управления Blueprints",
+      "flows": "Черновики Flow",
+      "apps": "Шаблоны приложений"
     },
     "use": "Использовать",
     "plugins": {

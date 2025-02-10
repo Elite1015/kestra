@@ -268,7 +268,10 @@
       },
       "empty": "Brak blueprintów do wyświetlenia.",
       "custom": "Niestandardowe blueprints",
-      "community": "Społeczność"
+      "community": "Społeczność",
+      "dashboards": "Dashboard Blueprinty",
+      "flows": "Schematy Flow",
+      "apps": "Szablony Aplikacji"
     },
     "use": "Użyj",
     "plugins": {
