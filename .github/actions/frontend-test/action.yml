@@ -67,7 +67,7 @@ runs:
       if: ${{ !cancelled() }}
       continue-on-error: true
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ inputs.codecov-token }}
         flags: frontend
 
     - name: Codecov - Upload test results
