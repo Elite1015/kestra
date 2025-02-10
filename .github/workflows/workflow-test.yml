@@ -2,6 +2,32 @@ name: Tests
 
 on:
   workflow_call:
+    inputs:
+        report-status:
+            description: "Report status of the jobs"
+            type: string
+            required: false
+            default: false
+    outputs:
+      docker-tag:
+          description: "The Docker image Tag for Kestra"
+          value: ${{ jobs.build-artifacts.outputs.docker-tag }}
+      docker-artifact-name:
+          description: "The GitHub artifact containing the Kestra docker image."
+          value: ${{ jobs.build-artifacts.outputs.docker-artifact-name }}
+      plugins:
+          description: "The Kestra plugins used for the build."
+          value: ${{ jobs.build-artifacts.outputs.plugins }}
+      frontend_status:
+          description: "Status of the frontend job"
+          value: ${{ jobs.set-frontend-status.outputs.frontend_status }}
+      backend_status:
+          description: "Status of the backend job"
+          value: ${{ jobs.set-backend-status.outputs.backend_status }}
+      e2e_status:
+          description: "Status of the e2e job"
+          value: ${{ jobs.set-e2e-status.outputs.e2e_status }}
+
 
 jobs:
   frontend:
@@ -75,7 +101,7 @@ jobs:
       - frontend
       - backend
       - e2e
-    if: always()
+    if: always() && inputs.report-status == 'true'
     outputs:
       frontend_status: ${{ steps.set-frontend-status.outputs.frontend_status }}
       backend_status: ${{ steps.set-backend-status.outputs.backend_status }}

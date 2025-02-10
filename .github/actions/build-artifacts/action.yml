@@ -21,26 +21,27 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Checkout current ref
+    - name: Checkout - Current ref
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
     # Npm
-    - name: Npm install
+    - name: Setup - Npm install
       shell: bash
       working-directory: ui
       run: npm ci
 
     # Setup build
     - uses: kestra-io/actions/.github/actions/setup-build@main
+      name: Setup - Build
       id: build
       with:
         java-enabled: true
         node-enabled: true
 
     # Get Plugins List
-    - name: Get Plugins List
+    - name: Plugins - Get List
       uses: ./.github/actions/plugins-list
       if: "!startsWith(github.ref, 'refs/tags/v')"
       id: plugins-list
@@ -48,7 +49,7 @@ runs:
         plugin-version: ${{ inputs.plugin-version }}
 
     # Set Plugins List
-    - name: Set Plugin List
+    - name: Plugins - Set List
       id: plugins
       if: "!startsWith(github.ref, 'refs/tags/v')"
       shell: bash
@@ -62,18 +63,18 @@ runs:
         fi
 
     # Build
-    - name: Build with Gradle
+    - name: Gradle - Build
       shell: bash
       run: |
         ./gradlew executableJar
 
-    - name: Copy exe to image
+    - name: Artifacts - Copy exe to image
       shell: bash
       run: |
         cp build/executable/* docker/app/kestra && chmod +x docker/app/kestra
 
     # Docker Tag
-    - name: Set up Vars
+    - name: Setup - Docker vars
       id: vars
       shell: bash
       run: |
@@ -94,14 +95,14 @@ runs:
         echo "artifact=docker-kestra-${TAG}" >> $GITHUB_OUTPUT
 
     # Docker setup
-    - name: Set up QEMU
+    - name: Docker - Setup QEMU
       uses: docker/setup-qemu-action@v3
 
-    - name: Set up Docker Buildx
+    - name: Docker - Setup Buildx
       uses: docker/setup-buildx-action@v3
 
     # Docker Build
-    - name: Build & Export Docker Image
+    - name: Docker - Build & export image
       uses: docker/build-push-action@v6
       if: "!startsWith(github.ref, 'refs/tags/v')"
       with:
@@ -117,26 +118,26 @@ runs:
         outputs: type=docker,dest=/tmp/${{ steps.vars.outputs.artifact }}.tar
 
     # Upload artifacts
-    - name: Upload JAR
+    - name: Artifacts - Upload JAR
       uses: actions/upload-artifact@v4
       with:
         name: jar
         path: build/libs/
 
-    - name: Upload Executable
+    - name: Artifacts - Upload Executable
       uses: actions/upload-artifact@v4
       with:
         name: exe
         path: build/executable/
 
-    - name: Upload Docker
+    - name: Artifacts - Upload Docker
       uses: actions/upload-artifact@v4
       if: "!startsWith(github.ref, 'refs/tags/v')"
       with:
         name: ${{ steps.vars.outputs.artifact }}
         path: /tmp/${{ steps.vars.outputs.artifact }}.tar
 
-    - name: Set outputs
+    - name: Output - Set outputs
       id: set-outputs
       shell: bash
       run: |
