@@ -1173,6 +1173,7 @@
       "hint": "Choisir les colonnes visibles",
       "hidden": "Caché dans le tableau",
       "label": "Propriétés"
-    }
+    },
+    "debug": "Déboguer"
   }
 }
