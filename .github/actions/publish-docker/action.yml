@@ -24,7 +24,6 @@ inputs:
 
 runs:
   using: composite
-  name: Publish Docker
   steps:
     - name: Checkout - Current ref
       uses: actions/checkout@v4
