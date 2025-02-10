@@ -71,6 +71,10 @@ jobs:
   report-status:
     name: Report Status
     runs-on: ubuntu-latest
+    needs:
+      - frontend
+      - backend
+      - e2e
     if: always()
     outputs:
       frontend_status: ${{ steps.set-frontend-status.outputs.frontend_status }}
@@ -79,12 +83,12 @@ jobs:
     steps:
       - id: set-frontend-status
         name: Set frontend job status
-        run: echo "::set-output name=frontend_status::${{ jobs.frontend.result }}"
+        run: echo "::set-output name=frontend_status::${{ needs.frontend.result }}"
 
       - id: set-backend-status
         name: Set backend job status
-        run: echo "::set-output name=backend_status::${{ jobs.backend.result }}"
+        run: echo "::set-output name=backend_status::${{ needs.backend.result }}"
 
       - id: set-e2e-status
         name: Set e2e job status
-        run: echo "::set-output name=e2e_status::${{ jobs.e2e.result }}"
+        run: echo "::set-output name=e2e_status::${{ needs.e2e.result }}"
