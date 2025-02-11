@@ -675,7 +675,8 @@
             "log_display": "Standard-Log-Anzeige",
             "execute_flow": "Flow ausführen",
             "execute_default_tab": "Standard-Ausführungs-Registerkarte",
-            "editor_type": "Standard-Editor-Typ"
+            "editor_type": "Standard-Editor-Typ",
+            "editor_theme": "Editor-Modus"
           }
         },
         "theme": {

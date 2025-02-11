@@ -675,7 +675,8 @@
             "log_display": "Exibição de Log Padrão",
             "execute_flow": "Executar o Flow",
             "execute_default_tab": "Aba de Execução Padrão",
-            "editor_type": "Tipo de Editor Padrão"
+            "editor_type": "Tipo de Editor Padrão",
+            "editor_theme": "Tema do Editor"
           }
         },
         "theme": {

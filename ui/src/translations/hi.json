@@ -675,7 +675,8 @@
             "log_display": "Log प्रदर्शन",
             "execute_flow": "Flow निष्पादित करें",
             "execute_default_tab": "डिफ़ॉल्ट Execution टैब",
-            "editor_type": "डिफ़ॉल्ट एडिटर प्रकार"
+            "editor_type": "डिफ़ॉल्ट एडिटर प्रकार",
+            "editor_theme": "संपादक थीम"
           }
         },
         "theme": {
