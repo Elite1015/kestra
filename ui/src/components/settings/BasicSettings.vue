@@ -89,20 +89,6 @@
                         </el-select>
                     </Column>
 
-                    <Column :label="$t('settings.blocks.theme.fields.chart_color_scheme.label')">
-                        <el-select :model-value="pendingSettings.chartColor" @update:model-value="onChartColor">
-                            <el-option
-                                v-for="item in [
-                                    {value: 'classic', text: $t('settings.blocks.theme.fields.chart_color_scheme.classic')},
-                                    {value: 'kestra', text: $t('settings.blocks.theme.fields.chart_color_scheme.kestra')}
-                                ]"
-                                :key="item.value"
-                                :label="item.text"
-                                :value="item.value"
-                            />
-                        </el-select>
-                    </Column>
-
                     <Column :label="$t('settings.blocks.theme.fields.logs_font_size')">
                         <el-input-number
                             :model-value="pendingSettings.logsFontSize"
@@ -271,7 +257,6 @@
                     editorType: undefined,
                     lang: undefined,
                     theme: undefined,
-                    chartColor: undefined,
                     dateFormat: undefined,
                     timezone: undefined,
                     autofoldTextEditor: undefined,
@@ -285,7 +270,6 @@
                     logsFontSize: undefined
                 },
                 settingsKeyMapping: {
-                    chartColor: "scheme",
                     dateFormat: DATE_FORMAT_STORAGE_KEY,
                     timezone: TIMEZONE_STORAGE_KEY,
                     executeFlowBehaviour: storageKeys.EXECUTE_FLOW_BEHAVIOUR,
@@ -312,10 +296,6 @@
             this.pendingSettings.lang = Utils.getLang();
 
             this.pendingSettings.theme = Utils.getTheme();
-
-            let scheme = localStorage.getItem("scheme") || "classic";
-            if(scheme === "default") scheme = "classic";
-            this.pendingSettings.chartColor =  scheme
 
             this.pendingSettings.dateFormat = localStorage.getItem(DATE_FORMAT_STORAGE_KEY) || "llll";
             this.pendingSettings.timezone = localStorage.getItem(TIMEZONE_STORAGE_KEY) || this.$moment.tz.guess();
@@ -357,9 +337,6 @@
             },
             onTimezone(value) {
                 this.pendingSettings.timezone = value;
-            },
-            onChartColor(value) {
-                this.pendingSettings.chartColor = value;
             },
             onAutofoldTextEditor(value) {
                 this.pendingSettings.autofoldTextEditor = value;
