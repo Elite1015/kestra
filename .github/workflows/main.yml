@@ -26,9 +26,6 @@ jobs:
     name: Release
     needs: [tests]
     uses: ./.github/workflows/workflow-release.yml
-    with:
-      docker-tag: ${{ needs.tests.outputs.docker-tag }}
-      plugins: ${{ needs.tests.outputs.plugins }}
     secrets:
       DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
       DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}

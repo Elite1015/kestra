@@ -23,6 +23,8 @@ jobs:
   build:
     name: Build - Artifacts
     runs-on: ubuntu-latest
+    env:
+      PLUGIN_VERSION: ${{ github.event.inputs.plugin-version != null && github.event.inputs.plugin-version || 'LATEST' }}
     steps:
       - name: Checkout - Current ref
         uses: actions/checkout@v4
@@ -49,7 +51,7 @@ jobs:
         if: "!startsWith(github.ref, 'refs/tags/v')"
         id: plugins-list
         with:
-          plugin-version: ${{ inputs.plugin-version }}
+          plugin-version: ${{ env.PLUGIN_VERSION }}
 
       # Set Plugins List
       - name: Plugins - Set List
