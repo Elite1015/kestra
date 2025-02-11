@@ -6,6 +6,7 @@ on:
       - master
       - main
       - releases/*
+      - develop
     tags:
       - v*
 
