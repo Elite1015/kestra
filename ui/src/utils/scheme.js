@@ -3,8 +3,8 @@ import {useTheme} from "./utils"
 import {cssVariable} from "@kestra-io/ui-libs";
 
 const executionStates = [
-    "CANCELLED", 
-    "CREATED", 
+    "CANCELLED",
+    "CREATED",
     "FAILED",
     "KILLED",
     "KILLING",
@@ -20,10 +20,10 @@ const executionStates = [
 ]
 
 const logLevels = [
-    "DEBUG", 
-    "ERROR", 
-    "INFO", 
-    "TRACE", 
+    "DEBUG",
+    "ERROR",
+    "INFO",
+    "TRACE",
     "WARN"
 ]
 
