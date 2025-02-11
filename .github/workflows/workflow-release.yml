@@ -66,5 +66,4 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v')
     uses: ./.github/workflows/workflow-github-release.yml
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       GH_PERSONAL_TOKEN: ${{ secrets.GH_PERSONAL_TOKEN }}

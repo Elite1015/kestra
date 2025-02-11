@@ -6,9 +6,6 @@ on:
       GH_PERSONAL_TOKEN:
         description: "The Github personal token."
         required: true
-      GITHUB_TOKEN:
-        description: "The Github token."
-        required: true
 
 jobs:
   publish:
