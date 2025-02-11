@@ -675,7 +675,8 @@
             "log_display": "기본 Log 표시",
             "execute_flow": "Flow 실행",
             "execute_default_tab": "기본 실행 탭",
-            "editor_type": "기본 편집기 유형"
+            "editor_type": "기본 편집기 유형",
+            "editor_theme": "에디터 테마"
           }
         },
         "theme": {

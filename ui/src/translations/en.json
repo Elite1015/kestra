@@ -741,6 +741,7 @@
           "fields": {
             "language": "Language",
             "default_namespace": "Default Namespace",
+            "editor_theme": "Editor Theme",
             "log_level": "Default Log Level",
             "log_display": "Default Log Display",
             "editor_type": "Default Editor Type",

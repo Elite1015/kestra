@@ -675,7 +675,8 @@
             "log_display": "默认日志显示",
             "execute_flow": "执行流程",
             "execute_default_tab": "默认执行选项卡",
-            "editor_type": "默认编辑器类型"
+            "editor_type": "默认编辑器类型",
+            "editor_theme": "编辑器主题"
           }
         },
         "theme": {

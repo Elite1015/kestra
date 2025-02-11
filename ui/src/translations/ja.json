@@ -675,7 +675,8 @@
             "log_display": "デフォルトLog表示",
             "execute_flow": "Flowを実行",
             "execute_default_tab": "デフォルト実行タブ",
-            "editor_type": "デフォルトエディタータイプ"
+            "editor_type": "デフォルトエディタータイプ",
+            "editor_theme": "エディターのテーマ"
           }
         },
         "theme": {
