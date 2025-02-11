@@ -31,7 +31,7 @@
     import {useRouter} from "vue-router";
     const router = useRouter();
 
-    import Utils, {useTheme} from "../../../../../utils/utils.js";
+    import Utils, {useTheme} from "../../../../../utils/utils";
     import {useScheme} from "../../../../../utils/scheme";
     import {defaultConfig, tooltip, getFormat} from "../../../../../utils/charts.js";
 

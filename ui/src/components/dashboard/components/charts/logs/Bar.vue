@@ -37,7 +37,7 @@
     import Logs from "../../../../../utils/logs.js";
 
     import NoData from "../../../../layout/NoData.vue";
-    import {useTheme} from "../../../../../utils/utils.js";
+    import {useTheme} from "../../../../../utils/utils";
 
     const {t} = useI18n({useScope: "global"});
 

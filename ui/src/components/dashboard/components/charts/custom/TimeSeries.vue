@@ -26,7 +26,7 @@
 
     import {useRoute} from "vue-router";
     import {Utils} from "@kestra-io/ui-libs";
-    import KestraUtils, {useTheme} from "../../../../../utils/utils.js"
+    import KestraUtils, {useTheme} from "../../../../../utils/utils"
 
     const store = useStore();
 

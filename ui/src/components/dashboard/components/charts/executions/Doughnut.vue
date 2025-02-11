@@ -30,7 +30,7 @@
     import {Doughnut} from "vue-chartjs";
 
     import {totalsLegend} from "../legend.js";
-    import {useTheme} from "../../../../../utils/utils.js";
+    import {useTheme} from "../../../../../utils/utils";
     import {defaultConfig} from "../../../../../utils/charts.js";
     import {useScheme} from "../../../../../utils/scheme";
 
