@@ -29,7 +29,6 @@ jobs:
 
   backend:
     name: Backend - Tests
-    if: "needs.file-changes.outputs.backend == 'true'"
     uses: ./.github/workflows/workflow-backend-test.yml
     secrets:
       GITHUB_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
