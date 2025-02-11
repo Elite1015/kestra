@@ -33,7 +33,7 @@
     import {barLegend} from "../legend.js";
 
     import {defaultConfig, getFormat} from "../../../../../utils/charts.js";
-    import {useScheme} from "../../../../../utils/scheme.js";
+    import {useScheme} from "../../../../../utils/scheme";
     import Logs from "../../../../../utils/logs.js";
 
     import NoData from "../../../../layout/NoData.vue";

@@ -32,7 +32,7 @@
     const router = useRouter();
 
     import Utils, {useTheme} from "../../../../../utils/utils.js";
-    import {useScheme} from "../../../../../utils/scheme.js";
+    import {useScheme} from "../../../../../utils/scheme";
     import {defaultConfig, tooltip, getFormat} from "../../../../../utils/charts.js";
 
     const {t} = useI18n({useScope: "global"});
