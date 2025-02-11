@@ -30,6 +30,9 @@ on:
       SONATYPE_GPG_FILE:
         description: "The Sonatype GPG file."
         required: true
+      GOOGLE_SERVICE_ACCOUNT:
+        description: "The Google service account."
+        required: true
 jobs:
   Build-Artifacts:
     name: Build - Artifacts
