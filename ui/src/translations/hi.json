@@ -684,7 +684,6 @@
         "theme": {
           "label": "थीम प्राथमिकताएँ",
           "fields": {
-            "mode": "थीम मोड",
             "editor_font_size": "संपादक फ़ॉन्ट आकार",
             "editor_font_family": "संपादक फ़ॉन्ट परिवार",
             "editor_folding_stratgy": "संपादक में स्वचालित कोड फोल्डिंग",
@@ -695,7 +694,8 @@
               "classic": "क्लासिक",
               "kestra": "Kestra"
             },
-            "logs_font_size": "लॉग्स फ़ॉन्ट आकार"
+            "logs_font_size": "लॉग्स फ़ॉन्ट आकार",
+            "theme": "मोडस"
           }
         },
         "localization": {

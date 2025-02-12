@@ -684,7 +684,6 @@
         "theme": {
           "label": "主题偏好",
           "fields": {
-            "mode": "主题模式",
             "editor_font_size": "编辑器字体大小",
             "editor_font_family": "编辑器字体家族",
             "editor_folding_stratgy": "编辑器中的自动代码折叠",
@@ -695,7 +694,8 @@
               "classic": "经典",
               "kestra": "Kestra"
             },
-            "logs_font_size": "日志字体大小"
+            "logs_font_size": "日志字体大小",
+            "theme": "主题"
           }
         },
         "localization": {

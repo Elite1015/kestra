@@ -684,7 +684,6 @@
         "theme": {
           "label": "Preferencje Motywu",
           "fields": {
-            "mode": "Tryb Motywu",
             "editor_font_size": "Rozmiar Czcionki Edytora",
             "editor_font_family": "Rodzina Czcionki Edytora",
             "editor_folding_stratgy": "Automatyczne Zwijanie Kodu w Edytorze",
@@ -695,7 +694,8 @@
               "classic": "Klasyczny",
               "kestra": "Kestra"
             },
-            "logs_font_size": "Rozmiar czcionki logów"
+            "logs_font_size": "Rozmiar czcionki logów",
+            "theme": "Motyw"
           }
         },
         "localization": {
