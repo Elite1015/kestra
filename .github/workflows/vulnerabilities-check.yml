@@ -36,7 +36,7 @@ jobs:
       # Npm
       - name: Npm - Install
         shell: bash
-²        working-directory: ui
+        working-directory: ui
         run: npm install
 
       # Run OWASP dependency check plugin
