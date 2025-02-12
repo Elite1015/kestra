@@ -20,9 +20,12 @@ import io.kestra.core.queues.QueueException;
 import io.kestra.core.queues.QueueFactoryInterface;
 import io.kestra.core.queues.QueueInterface;
 import io.kestra.core.repositories.FlowRepositoryInterface;
+import io.kestra.core.repositories.TriggerRepositoryInterface;
 import io.kestra.core.runners.Executor;
 import io.kestra.core.runners.ExecutorService;
 import io.kestra.core.runners.*;
+import io.kestra.core.schedulers.SchedulerExecutionStateInterface;
+import io.kestra.core.schedulers.SchedulerTriggerStateInterface;
 import io.kestra.core.server.ClusterEvent;
 import io.kestra.core.server.Service;
 import io.kestra.core.server.ServiceStateChangeEvent;
@@ -172,6 +175,12 @@ public class JdbcExecutor implements ExecutorInterface, Service {
 
     @Inject
     private SLAService slaService;
+
+    @Inject
+    private TriggerRepositoryInterface triggerRepository;
+
+    @Inject
+    private SchedulerTriggerStateInterface triggerState;
 
     private final Tracer tracer;
 
@@ -997,6 +1006,15 @@ public class JdbcExecutor implements ExecutorInterface, Service {
                         executor.getFlow().getId(),
                         throwConsumer(queued -> executionQueue.emit(queued.withState(State.Type.RUNNING)))
                     );
+                }
+
+                // purge the trigger: reset scheduler trigger at end
+                if (execution.getTrigger() != null) {
+                    triggerRepository
+                        .findByExecution(execution)
+                        .ifPresent(trigger -> {
+                            this.triggerState.update(trigger.resetExecution(execution.getState().getCurrent()));
+                        });
                 }
 
                 // Purge the workerTaskResultQueue and the workerJobQueue
