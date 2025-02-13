@@ -31,19 +31,9 @@ on:
         description: "The Sonatype GPG file."
         required: true
 jobs:
-  Build-Artifacts:
-    name: Build - Artifacts
-    uses: ./.github/workflows/workflow-build-artifacts.yml
-    with:
-      plugin-version: ${{ github.event.inputs.plugin-version != null && github.event.inputs.plugin-version || 'LATEST' }}
-
   Docker:
     name: Publish Docker
-    needs: Build-Artifacts
     uses: ./.github/workflows/workflow-publish-docker.yml
-    with:
-      docker-tag: ${{needs.Build-Artifacts.docker-tag}}
-      plugins: ${{needs.Build-Artifacts.plugins}}
     secrets:
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
