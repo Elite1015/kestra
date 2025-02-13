@@ -10,10 +10,10 @@ on:
         type: string
     outputs:
       docker-tag:
-        value: ${{ jobs.build.outputs.tag }}
+        value: ${{ jobs.build.outputs.docker-tag }}
         description: "The Docker image Tag for Kestra"
       docker-artifact-name:
-        value: ${{ jobs.build.outputs.artifact }}
+        value: ${{ jobs.build.outputs.docker-artifact-name }}
         description: "The GitHub artifact containing the Kestra docker image name."
       plugins:
         value: ${{ jobs.build.outputs.plugins }}
