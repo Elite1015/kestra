@@ -22,6 +22,7 @@ import io.kestra.plugin.core.flow.Dag;
 import io.kestra.plugin.core.log.Log;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.inject.Inject;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hamcrest.Matchers;
@@ -207,6 +208,15 @@ class JsonSchemaGeneratorTest {
 
     @SuppressWarnings("unchecked")
     @Test
+    void requiredAreRemovedIfThereIsADefault() {
+        Map<String, Object> generate = jsonSchemaGenerator.properties(Task.class, RequiredWithDefault.class);
+        assertThat(generate, is(not(nullValue())));
+        assertThat((List<String>) generate.get("required"), not(containsInAnyOrder("requiredWithDefault")));
+        assertThat((List<String>) generate.get("required"), containsInAnyOrder("requiredWithNoDefault"));
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
     void dashboard() throws URISyntaxException {
         Helpers.runApplicationContext((applicationContext) -> {
             Map<String, Object> generate = jsonSchemaGenerator.schemas(Dashboard.class);
@@ -291,7 +301,8 @@ class JsonSchemaGeneratorTest {
         }
 
         @Schema(title = "Test class")
-        private class TestClass {
+        @Builder
+        private static class TestClass {
             @Schema(title = "Test property")
             public String testProperty;
         }
@@ -320,5 +331,22 @@ class JsonSchemaGeneratorTest {
     public static class BetaTask extends Task {
         @PluginProperty(beta = true)
         private String beta;
+    }
+
+    @SuperBuilder
+    @ToString
+    @EqualsAndHashCode
+    @Getter
+    @NoArgsConstructor
+    @Plugin
+    public static class RequiredWithDefault extends Task {
+        @PluginProperty
+        @NotNull
+        @Builder.Default
+        private TaskWithEnum.TestClass requiredWithDefault = TaskWithEnum.TestClass.builder().testProperty("test").build();
+
+        @PluginProperty
+        @NotNull
+        private TaskWithEnum.TestClass requiredWithNoDefault;
     }
 }
