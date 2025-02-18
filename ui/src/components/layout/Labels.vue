@@ -30,11 +30,11 @@
         {labels: () => [], readOnly: false},
     );
 
-    import {decodeSearchParams} from "../../components/filter/utils/helpers";
+    import {decodeParams} from "../../components/filter/utils/helpers";
     let query: any[] = [];
     watch(
         () => route.query,
-        (q: any) => (query = decodeSearchParams(q, undefined, [])),
+        (q: any) => (query = decodeParams(q, undefined, [])),
         {immediate: true},
     );
 
