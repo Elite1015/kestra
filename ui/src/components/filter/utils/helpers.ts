@@ -4,9 +4,9 @@ export const encodeParams = (route, filters, OPTIONS) => {
     const encode = (values, key) => {
         return values
             .map((v) => {
-                if (key === "childFilter" && v === "ALL") {
-                    return null;
-                }
+                if (key === "childFilter" && v === "ALL") return null;
+                else if(key === "q") return v;
+
                 const encoded = encodeURIComponent(v);
                 return key === "labels"
                     ? encoded.replace(/%3A/g, ":")
