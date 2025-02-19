@@ -186,7 +186,7 @@
             <el-col v-if="props.flow" :xs="24" :lg="10">
                 <ExecutionsNextScheduled
                     :flow="props.flowID"
-                    :namespace="filters.namespace"
+                    :namespace="props.namespace"
                     class="mx-2"
                 />
             </el-col>
@@ -200,7 +200,7 @@
                 <ExecutionsNextScheduled
                     v-else-if="isAllowedTriggers"
                     :flow="props.flowID"
-                    :namespace="filters.namespace"
+                    :namespace="props.namespace"
                     class="ms-2"
                 />
                 <ExecutionsEmptyNextScheduled v-else />
