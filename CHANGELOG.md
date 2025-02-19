@@ -1,6 +1,6 @@
 # 0.21.3
 
-**Full Changelog**: https://github.com/kestra-io/kestra/compare/v0.21.2...v0.21.3
+**Full Changelog**: [v0.21.2...v0.21.3](https://github.com/kestra-io/kestra/compare/v0.21.2...v0.21.3)
 
 ### 🩹 Fixes
 
@@ -39,7 +39,7 @@
 
 # 0.21.2
 
-**Full Changelog**: https://github.com/kestra-io/kestra/compare/v0.21.1...v0.21.2
+**Full Changelog**: [v0.21.1...v0.21.2](https://github.com/kestra-io/kestra/compare/v0.21.1...v0.21.2)
 
 ### 🚀 Enhancements
 
@@ -91,7 +91,7 @@
 
 # 0.21.1
 
-**Full Changelog**: https://github.com/kestra-io/kestra/compare/v0.21.0...v0.21.1
+**Full Changelog**: [v0.21.0...v0.21.1](https://github.com/kestra-io/kestra/compare/v0.21.0...v0.21.1)
 
 ### 🚀 Enhancements
 
@@ -152,7 +152,7 @@
 
 # 0.21.0
 
-**Full Changelog**: https://github.com/kestra-io/kestra/compare/v0.20.0...v0.21.0
+**Full Changelog**: [v0.20.0...v0.21.0](https://github.com/kestra-io/kestra/compare/v0.20.0...v0.21.0)
 
 ### 🚀 Enhancements
 
