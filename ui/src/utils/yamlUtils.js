@@ -5,8 +5,8 @@ import {SECTIONS} from "./constants.js";
 
 const TOSTRING_OPTIONS = {lineWidth: 0};
 
-export default class YamlUtils {
-    static stringify(value) {
+export default {
+    stringify(value) {
         if (typeof value === "undefined") {
             return "";
         }
@@ -15,14 +15,13 @@ export default class YamlUtils {
             delete value.deleted
         }
 
-        return JsYaml.dump(YamlUtils._transform(_cloneDeep(value)), {
+        return JsYaml.dump(this._transform(_cloneDeep(value)), {
             lineWidth: -1,
             noCompatMode: true,
             quotingType: "\"",
         });
-    }
-
-    static pairsToMap(pairs) {
+    },
+    pairsToMap(pairs) {
         const map = new YAMLMap();
         if (!isPair(pairs?.[0])) {
             return map;
@@ -32,22 +31,19 @@ export default class YamlUtils {
             map.add(pair);
         });
         return map;
-    }
-
-    static parse(item) {
+    },
+    parse(item) {
         if (item === undefined) {
             return undefined;
         }
         return JsYaml.load(item);
-    }
-
-    static extractTask(source, taskId) {
+    },
+    extractTask(source, taskId) {
         const yamlDoc = yaml.parseDocument(source);
-        let taskNode = YamlUtils._extractTask(yamlDoc, taskId);
+        let taskNode = this._extractTask(yamlDoc, taskId);
         return taskNode === undefined ? undefined : new yaml.Document(taskNode).toString(TOSTRING_OPTIONS);
-    }
-
-    static _extractTask(yamlDoc, taskId, callback) {
+    },
+    _extractTask(yamlDoc, taskId, callback) {
         const find = (element) => {
             if (!element) {
                 return;
@@ -94,22 +90,20 @@ export default class YamlUtils {
         } else {
             return new Document(result);
         }
-    }
-
-    static replaceTaskInDocument(source, taskId, newContent) {
+    },
+    replaceTaskInDocument(source, taskId, newContent) {
         const yamlDoc = yaml.parseDocument(source);
         const newItem = yamlDoc.createNode(yaml.parseDocument(newContent))
 
-        YamlUtils._extractTask(yamlDoc, taskId, (oldValue) => {
-            YamlUtils.replaceCommentInTask(oldValue, newItem)
+        this._extractTask(yamlDoc, taskId, (oldValue) => {
+            this.replaceCommentInTask(oldValue, newItem)
 
             return newItem;
         })
 
         return yamlDoc.toString(TOSTRING_OPTIONS);
-    }
-
-    static replaceCommentInTask(oldTask, newTask) {
+    },
+    replaceCommentInTask(oldTask, newTask) {
         for (const oldProp of oldTask.items) {
             for (const newProp of newTask.items) {
                 if (oldProp.key.value === newProp.key.value && newProp.value.comment === undefined) {
@@ -118,12 +112,11 @@ export default class YamlUtils {
                 }
             }
         }
-    }
-
-    static _transform(value) {
+    },
+    _transform(value) {
         if (value instanceof Array) {
             return value.map(r => {
-                return YamlUtils._transform(r);
+                return this._transform(r);
             })
         } else if (typeof (value) === "string" || value instanceof String) {
             // value = value
@@ -135,10 +128,10 @@ export default class YamlUtils {
 
             return value;
         } else if (value instanceof Object) {
-            return YamlUtils.sort(value)
+            return this.sort(value)
                 .reduce((accumulator, r) => {
                     if (value[r] !== undefined) {
-                        accumulator[r] = YamlUtils._transform(value[r])
+                        accumulator[r] = this._transform(value[r])
                     }
 
                     return accumulator;
@@ -146,9 +139,8 @@ export default class YamlUtils {
         }
 
         return value;
-    }
-
-    static sort(value) {
+    },
+    sort(value) {
         const SORT_FIELDS = [
             "id",
             "type",
@@ -166,17 +158,15 @@ export default class YamlUtils {
         return Object.keys(value)
             .sort()
             .sort((a, b) => {
-                return YamlUtils.index(SORT_FIELDS, a) - YamlUtils.index(SORT_FIELDS, b);
+                return this.index(SORT_FIELDS, a) - this.index(SORT_FIELDS, b);
             });
-    }
-
-    static index(based, value) {
+    },
+    index(based, value) {
         const index = based.indexOf(value);
 
         return index === -1 ? Number.MAX_SAFE_INTEGER : index;
-    }
-
-    static nextDelimiterIndex(content, currentIndex) {
+    },
+    nextDelimiterIndex(content, currentIndex) {
         if (currentIndex === content.length - 1) {
             return currentIndex;
         }
@@ -194,7 +184,8 @@ export default class YamlUtils {
     // Specify a source yaml doc, the field to extract recursively in every map of the doc and optionally a predicate to define which paths should be taken into account
     // parentPathPredicate will take a single argument which is the path of each parent property starting from the root doc (joined with ".")
     // "my.parent.task" will mean that the field was retrieved in my -> parent -> task path.
-    static extractFieldFromMaps(source, fieldName, parentPathPredicate = (_, __) => true, valuePredicate = (_) => true) {
+    ,
+    extractFieldFromMaps(source, fieldName, parentPathPredicate = (_, __) => true, valuePredicate = (_) => true) {
         const yamlDoc = yaml.parseDocument(source);
         const maps = [];
         yaml.visit(yamlDoc, {
@@ -212,9 +203,8 @@ export default class YamlUtils {
             }
         })
         return maps;
-    }
-
-    static extractMaps(source, fieldConditions) {
+    },
+    extractMaps(source, fieldConditions) {
         if (source.match(/^\s*{{/)) {
             return [];
         }
@@ -248,13 +238,11 @@ export default class YamlUtils {
         });
 
         return maps;
-    }
-
-    static extractAllTypes(source, validTypes = []) {
+    },
+    extractAllTypes(source, validTypes = []) {
         return this.extractFieldFromMaps(source, "type", undefined, value => validTypes.some(t => t === value));
-    }
-
-    static getTaskType(source, position, validTypes) {
+    },
+    getTaskType(source, position, validTypes) {
         const types = this.extractAllTypes(source, validTypes);
 
         const lineCounter = new LineCounter();
@@ -267,9 +255,8 @@ export default class YamlUtils {
             }
         }
         return null;
-    }
-
-    static insertTask(source, taskId, newTask, insertPosition) {
+    },
+    insertTask(source, taskId, newTask, insertPosition) {
         const yamlDoc = yaml.parseDocument(source);
         const newTaskNode = yamlDoc.createNode(yaml.parseDocument(newTask))
         const tasksNode = yamlDoc.contents.items.find(e => e.key.value === "tasks");
@@ -314,9 +301,8 @@ export default class YamlUtils {
             }
         })
         return yamlDoc.toString(TOSTRING_OPTIONS);
-    }
-
-    static insertTrigger(source, triggerTask) {
+    },
+    insertTrigger(source, triggerTask) {
         const yamlDoc = yaml.parseDocument(source);
         const newTriggerNode = yamlDoc.createNode(yaml.parseDocument(triggerTask));
         let added = false;
@@ -343,10 +329,9 @@ export default class YamlUtils {
             const newTriggers = new yaml.Pair(new yaml.Scalar("triggers"), triggersSeq);
             yamlDoc.contents.items.push(newTriggers);
         }
-        return YamlUtils.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
-    }
-
-    static insertError(source, errorTask) {
+        return this.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
+    },
+    insertError(source, errorTask) {
         const yamlDoc = yaml.parseDocument(source);
         const newErrorNode = yamlDoc.createNode(yaml.parseDocument(errorTask));
         const errors = yamlDoc.contents.items.find(item => item.key.value === "errors");
@@ -361,10 +346,9 @@ export default class YamlUtils {
             const newErrors = new yaml.Pair(new yaml.Scalar("errors"), errorsSeq);
             yamlDoc.contents.items.push(newErrors);
         }
-        return YamlUtils.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
-    }
-
-    static insertFinally(source, finallyTask) {
+        return this.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
+    },
+    insertFinally(source, finallyTask) {
         const yamlDoc = yaml.parseDocument(source);
         const newFinallyNode = yamlDoc.createNode(yaml.parseDocument(finallyTask));
         const items = yamlDoc.contents.items.find(item => item.key.value === "finally");
@@ -379,10 +363,9 @@ export default class YamlUtils {
             const newFinally = new yaml.Pair(new yaml.Scalar("finally"), finallySeq);
             yamlDoc.contents.items.push(newFinally);
         }
-        return YamlUtils.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
-    }
-
-    static insertErrorInFlowable(source, errorTask, flowableTask) {
+        return this.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
+    },
+    insertErrorInFlowable(source, errorTask, flowableTask) {
         const yamlDoc = yaml.parseDocument(source);
         const newErrorNode = yamlDoc.createNode(yaml.parseDocument(errorTask));
         let added = false;
@@ -406,9 +389,8 @@ export default class YamlUtils {
             }
         })
         return yamlDoc.toString(TOSTRING_OPTIONS);
-    }
-
-    static deleteTask(source, taskId, section) {
+    },
+    deleteTask(source, taskId, section) {
         const inSection = section === SECTIONS.TASKS ? ["tasks", "errors"] : ["triggers"];
         const yamlDoc = yaml.parseDocument(source);
         yaml.visit(yamlDoc, {
@@ -433,23 +415,20 @@ export default class YamlUtils {
             }
         })
         return yamlDoc.toString(TOSTRING_OPTIONS);
-    }
-
-    static getFirstTask(source) {
-        let parse = YamlUtils.parse(source);
+    },
+    getFirstTask(source) {
+        let parse = this.parse(source);
 
         return parse && parse.tasks && parse.tasks[0].id;
-    }
-
-    static getLastTask(source) {
-        let parse = YamlUtils.parse(source);
+    },
+    getLastTask(source) {
+        let parse = this.parse(source);
 
         return parse && parse.tasks && parse.tasks[parse.tasks.length - 1].id;
-    }
-
-    static checkTaskAlreadyExist(source, taskYaml) {
+    },
+    checkTaskAlreadyExist(source, taskYaml) {
         const yamlDoc = yaml.parseDocument(source);
-        const parsedTask = YamlUtils.parse(taskYaml);
+        const parsedTask = this.parse(taskYaml);
         let taskExist = false;
         yaml.visit(yamlDoc, {
             Pair(_, pair) {
@@ -466,14 +445,12 @@ export default class YamlUtils {
             }
         })
         return taskExist ? parsedTask.id : null;
-    }
-
-    static isParentChildrenRelation(source, task1, task2) {
-        return YamlUtils.isChildrenOf(source, task2, task1) || YamlUtils.isChildrenOf(source, task1, task2);
-    }
-
-    static isChildrenOf(source, parentTask, childTask) {
-        const yamlDoc = yaml.parseDocument(YamlUtils.extractTask(source, parentTask));
+    },
+    isParentChildrenRelation(source, task1, task2) {
+        return this.isChildrenOf(source, task2, task1) || this.isChildrenOf(source, task1, task2);
+    },
+    isChildrenOf(source, parentTask, childTask) {
+        const yamlDoc = yaml.parseDocument(this.extractTask(source, parentTask));
         let isChildrenOf = false;
         yaml.visit(yamlDoc, {
             Map(_, map) {
@@ -484,10 +461,9 @@ export default class YamlUtils {
             }
         })
         return isChildrenOf;
-    }
-
-    static getChildrenTasks(source, taskId) {
-        const yamlDoc = yaml.parseDocument(YamlUtils.extractTask(source, taskId));
+    },
+    getChildrenTasks(source, taskId) {
+        const yamlDoc = yaml.parseDocument(this.extractTask(source, taskId));
         const children = [];
         yaml.visit(yamlDoc, {
             Map(_, map) {
@@ -497,9 +473,8 @@ export default class YamlUtils {
             }
         })
         return children;
-    }
-
-    static getParentTask(source, taskId) {
+    },
+    getParentTask(source, taskId) {
         const yamlDoc = yaml.parseDocument(source);
         let parentTask = null;
         yaml.visit(yamlDoc, {
@@ -517,9 +492,8 @@ export default class YamlUtils {
             }
         })
         return parentTask;
-    }
-
-    static isTaskError(source, taskId) {
+    },
+    isTaskError(source, taskId) {
         const yamlDoc = yaml.parseDocument(source);
         let isTaskError = false;
         yaml.visit(yamlDoc, {
@@ -537,9 +511,8 @@ export default class YamlUtils {
             }
         })
         return isTaskError;
-    }
-
-    static isTrigger(source, taskId) {
+    },
+    isTrigger(source, taskId) {
         const yamlDoc = yaml.parseDocument(source);
         let isTrigger = false;
         yaml.visit(yamlDoc, {
@@ -557,13 +530,11 @@ export default class YamlUtils {
             }
         })
         return isTrigger;
-    }
-
-    static replaceIdAndNamespace(source, id, namespace) {
+    },
+    replaceIdAndNamespace(source, id, namespace) {
         return source.replace(/^(id\s*:\s*(["']?))\S*/m, "$1"+id+"$2").replace(/^(namespace\s*:\s*(["']?))\S*/m, "$1"+namespace+"$2")
-    }
-
-    static updateMetadata(source, metadata) {
+    },
+    updateMetadata(source, metadata) {
         // TODO: check how to keep comments
         const yamlDoc = yaml.parseDocument(source);
 
@@ -578,10 +549,9 @@ export default class YamlUtils {
                 yamlDoc.contents.items.push(new yaml.Pair(new yaml.Scalar(property), metadata[property]));
             }
         }
-        return YamlUtils.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
-    }
-
-    static cleanMetadata(source) {
+        return this.cleanMetadata(yamlDoc.toString(TOSTRING_OPTIONS));
+    },
+    cleanMetadata(source) {
         // Reorder and remove empty metadata
         const yamlDoc = yaml.parseDocument(source);
 
@@ -599,9 +569,8 @@ export default class YamlUtils {
         }
         yamlDoc.contents.items = updatedItems;
         return yamlDoc.toString(TOSTRING_OPTIONS);
-    }
-
-    static getMetadata(source) {
+    },
+    getMetadata(source) {
         const yamlDoc = yaml.parseDocument(source);
         const metadata = {};
         for (const item of yamlDoc.contents.items) {
@@ -610,9 +579,8 @@ export default class YamlUtils {
             }
         }
         return metadata;
-    }
-
-    static flowHaveTasks(source) {
+    },
+    flowHaveTasks(source) {
         const yamlDoc = yaml.parseDocument(source);
 
         if (!yamlDoc.contents.items) {
@@ -621,9 +589,8 @@ export default class YamlUtils {
 
         const tasks = yamlDoc.contents.items.find(item => item.key?.value === "tasks");
         return tasks?.value?.items?.length >= 1;
-    }
-
-    static deleteMetadata(source, metadata) {
+    },
+    deleteMetadata(source, metadata) {
         const yamlDoc = yaml.parseDocument(source);
 
         if (!yamlDoc.contents.items) {
@@ -636,9 +603,8 @@ export default class YamlUtils {
         }
 
         return yamlDoc.toString(TOSTRING_OPTIONS);
-    }
-
-    static getChartAtPosition(source, position) {
+    },
+    getChartAtPosition(source, position) {
         const yamlDoc = yaml.parseDocument(source);
         const lineCounter = new LineCounter();
         yaml.parseDocument(source, {lineCounter});
@@ -665,9 +631,8 @@ export default class YamlUtils {
         });
 
         return chart ? chart.toJSON() : null;
-    }
-
-    static getAllCharts(source) {
+    },
+    getAllCharts(source) {
         const yamlDoc = yaml.parseDocument(source);
         const charts = [];
 
