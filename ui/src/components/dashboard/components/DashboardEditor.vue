@@ -166,7 +166,7 @@
 </script>
 <script>
     import Editor from "../../inputs/Editor.vue";
-    import YamlUtils from "../../../utils/yamlUtils.js";
+    import YamlUtils from "../../../utils/yamlUtils";
     import yaml from "yaml";
     import ContentSave from "vue-material-design-icons/ContentSave.vue";
     import intro from "../../../assets/docs/dashboard_home.md?raw";

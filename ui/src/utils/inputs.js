@@ -1,5 +1,5 @@
 import moment from "moment/moment";
-import YamlUtils from "./yamlUtils.js";
+import YamlUtils from "./yamlUtils";
 
 export default class Inputs {
     static normalize(type, value) {
