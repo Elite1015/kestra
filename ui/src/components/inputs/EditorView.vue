@@ -220,7 +220,6 @@
         </div>
 
         <drawer
-            v-if="isNewErrorOpen"
             v-model="isNewErrorOpen"
             title="Add a global error handler"
         >
@@ -243,7 +242,6 @@
             </template>
         </drawer>
         <drawer
-            v-if="isNewTriggerOpen"
             v-model="isNewTriggerOpen"
             title="Add a trigger"
         >
@@ -265,7 +263,7 @@
                 </el-button>
             </template>
         </drawer>
-        <drawer v-if="isEditMetadataOpen" v-model="isEditMetadataOpen">
+        <drawer v-model="isEditMetadataOpen">
             <template #header>
                 <code>flow metadata</code>
             </template>
@@ -344,7 +342,7 @@
     import MetadataEditor from "../flows/MetadataEditor.vue";
     import Editor from "./Editor.vue";
     import {SECTIONS, storageKeys} from "../../utils/constants.js";
-    import LowCodeEditor from "../inputs/LowCodeEditor.vue";
+    import LowCodeEditor from "./LowCodeEditor.vue";
     import {editorViewTypes} from "../../utils/constants";
     import {Utils} from "@kestra-io/ui-libs";
     import {apiUrl} from "override/utils/route";
@@ -807,7 +805,7 @@
 
         haveChange.value = true;
         if(editorViewType.value === "YAML") store.dispatch("core/isUnsaved", true);
-        
+
         if(!props.isCreating){
             store.commit("editor/changeOpenedTabs", {
                 action: "dirty",
