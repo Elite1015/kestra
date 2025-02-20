@@ -263,7 +263,10 @@
                 </el-button>
             </template>
         </drawer>
-        <drawer v-model="isEditMetadataOpen">
+        <drawer
+            v-if="isEditMetadataOpen"
+            v-model="isEditMetadataOpen"
+        >
             <template #header>
                 <code>flow metadata</code>
             </template>
