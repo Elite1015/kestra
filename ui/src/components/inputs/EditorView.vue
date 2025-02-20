@@ -328,29 +328,31 @@
     import Close from "vue-material-design-icons/Close.vue";
     import CircleMedium from "vue-material-design-icons/CircleMedium.vue";
 
-    import TypeIcon from "../utils/icons/Type.vue"
+    import {ElMessageBox} from "element-plus";
+    import {Utils} from "@kestra-io/ui-libs";
 
-    import ValidationError from "../flows/ValidationError.vue";
-    import Blueprints from "override/components/flows/blueprints/Blueprints.vue";
+    import TypeIcon from "../utils/icons/Type.vue"
     import SwitchView from "./SwitchView.vue";
     import KeyShortcuts from "./KeyShortcuts.vue";
-    import PluginDocumentation from "../plugins/PluginDocumentation.vue";
+
     import permission from "../../models/permission";
     import action from "../../models/action";
     import YamlUtils from "../../utils/yamlUtils";
-    import TaskEditor from "../flows/TaskEditor.vue";
-    import MetadataEditor from "../flows/MetadataEditor.vue";
-    import Editor from "./Editor.vue";
-    import {SECTIONS, storageKeys} from "../../utils/constants.js";
-    import LowCodeEditor from "./LowCodeEditor.vue";
-    import {editorViewTypes} from "../../utils/constants";
-    import {Utils} from "@kestra-io/ui-libs";
+    import {SECTIONS, storageKeys, editorViewTypes} from "../../utils/constants";
     import {apiUrl} from "override/utils/route";
-    import EditorButtons from "./EditorButtons.vue";
-    import Drawer from "../Drawer.vue";
-    import {ElMessageBox} from "element-plus";
-    import NoCode from "../code/NoCode.vue";
     import localUtils from "../../utils/utils";
+
+    // editor components
+    import Editor from "./Editor.vue";
+    import NoCode from "../code/NoCode.vue";
+    import Blueprints from "override/components/flows/blueprints/Blueprints.vue";
+    import LowCodeEditor from "./LowCodeEditor.vue";
+    import Drawer from "../Drawer.vue";
+    import PluginDocumentation from "../plugins/PluginDocumentation.vue";
+    import TaskEditor from "../flows/TaskEditor.vue";
+    import ValidationError from "../flows/ValidationError.vue";
+    import EditorButtons from "./EditorButtons.vue";
+    import MetadataEditor from "../flows/MetadataEditor.vue";
 
     const store = useStore();
     const router = useRouter();
