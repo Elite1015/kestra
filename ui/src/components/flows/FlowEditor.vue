@@ -13,33 +13,31 @@
     />
 </template>
 
-<script>
-    import {mapGetters, mapState} from "vuex";
+<script setup>
+    import {onBeforeUnmount, computed} from "vue"
+    import {useStore} from "vuex";
     import EditorView from "../inputs/EditorView.vue";
 
-    export default {
-        components: {
-            EditorView,
+    defineEmits([
+        "expand-subflow"
+    ])
+    defineProps({
+        isReadOnly: {
+            type: Boolean,
+            default: false
         },
-        emits: [
-            "expand-subflow"
-        ],
-        props: {
-            isReadOnly: {
-                type: Boolean,
-                default: false
-            },
-            expandedSubflows: {
-                type: Array,
-                default: () => []
-            }
-        },
-        computed: {
-            ...mapState("flow", ["flow", "flowGraph"]),
-            ...mapGetters("flow", ["flowValidation"]),
-        },
-        beforeUnmount() {
-            this.$store.commit("flow/setFlowValidation", undefined);
-        },
-    };
+        expandedSubflows: {
+            type: Array,
+            default: () => []
+        }
+    })
+
+    const store = useStore();
+    const flow = computed(() => store.state.flow.flow);
+    const flowGraph = computed(() => store.state.flow.flowGraph);
+    const flowValidation = computed(() => store.getters["flow/flowValidation"]);
+
+    onBeforeUnmount(() => {
+        this.$store.commit("flow/setFlowValidation", undefined);
+    })
 </script>
