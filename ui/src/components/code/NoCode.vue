@@ -1,6 +1,6 @@
 <template>
     <div class="h-100 overflow-y-auto no-code">
-        <Breadcrumbs :flow="YamlUtils.parse(props.flow)" />
+        <Breadcrumbs :flow="flowBreadcrumbs" />
 
         <hr class="m-0">
 
@@ -33,10 +33,12 @@
         "updateDocumentation",
         "reorder",
     ]);
+
     const props = defineProps({
         flow: {type: String, required: true},
     });
 
+    const flowBreadcrumbs = computed(() => YamlUtils.parse(props.flow) as Record<string, string>)
     const metadata = computed(() => YamlUtils.getMetadata(props.flow));
 
     import {useRouter, useRoute} from "vue-router";
