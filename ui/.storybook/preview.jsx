@@ -32,9 +32,16 @@ const preview = {
       })
   ]
 };
+window.KESTRA_BASE_PATH = "/ui";
+console.log("preview", window.KESTRA_BASE_PATH);
 
 setup((app) => {
-  initApp(app, [], stores, en);
+    window.KESTRA_BASE_PATH = "/ui";
+    console.log("setup", window.KESTRA_BASE_PATH);
+    initApp(app, [], stores, en).then(() => {
+        window.KESTRA_BASE_PATH = "/ui";
+        console.log("init done", window.KESTRA_BASE_PATH);
+    });
 });
 
 export default preview;
