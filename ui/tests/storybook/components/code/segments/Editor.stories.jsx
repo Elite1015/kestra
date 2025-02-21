@@ -78,7 +78,6 @@ const Template = (args) => ({
         const store = useStore()
         const modelValue = ref(args.flow)
 
-        console.log("TASK_RESPONSE", TASK_RESPONSE)
         store.$http = {
             get(url) {
                 if (url.endsWith("plugins")) {
