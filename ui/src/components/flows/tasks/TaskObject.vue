@@ -1,11 +1,11 @@
 <template>
     <el-form label-position="top">
-        <template v-if="properties(true)">
+        <template v-if="sortedProperties">
             <!-- Required properties -->
             <el-form-item
-                :key="index"
+                :key="key"
                 :required="isRequired(key)"
-                v-for="(schema, key, index) in properties(true)"
+                v-for="[key, schema] in requiredProperties"
             >
                 <template #label>
                     <span v-if="getKey(key)" class="label">
@@ -47,12 +47,12 @@
             </el-form-item>
 
             <!-- Non required properties shown collapsed-->
-            <el-collapse class="collapse">
+            <el-collapse v-if="optionalProperties?.length" class="collapse">
                 <el-collapse-item :title="$t('no_code.sections.optional')">
                     <el-form-item
-                        :key="index"
+                        :key="key"
                         :required="isRequired(key)"
-                        v-for="(schema, key, index) in properties(false)"
+                        v-for="[key, schema] in optionalProperties"
                     >
                         <template #label>
                             <span v-if="getKey(key)" class="label">
@@ -133,27 +133,22 @@
             Markdown,
         },
         emits: ["update:modelValue"],
-        methods: {
-            properties(requiredFields) {
+        computed: {
+            sortedProperties() {
                 if (this.schema?.properties) {
-                    const properties = Object.entries(
-                        this.schema.properties,
-                    ).reduce((acc, [key, value]) => {
-                        if (
-                            requiredFields
-                                ? this.isRequired(key)
-                                : !this.isRequired(key)
-                        ) {
-                            acc[key] = value;
-                        }
-                        return acc;
-                    }, {});
-
-                    return this.sortProperties(properties);
+                    return this.sortProperties(this.schema.properties);
                 }
 
                 return undefined;
             },
+            requiredProperties() {
+                return this.sortedProperties.filter(([p]) => this.isRequired(p));
+            },
+            optionalProperties() {
+                return this.sortedProperties.filter(([p]) => !this.isRequired(p));
+            },
+        },
+        methods: {
             getPropertiesValue(properties) {
                 return this.modelValue && this.modelValue[properties]
                     ? this.modelValue[properties]
@@ -196,10 +191,6 @@
 
                         return a[0].localeCompare(b[0]);
                     })
-                    .reduce((result, entry) => {
-                        result[entry[0]] = entry[1];
-                        return result;
-                    }, {});
             },
             onObjectInput(properties, value) {
                 const currentValue = this.modelValue || {};
