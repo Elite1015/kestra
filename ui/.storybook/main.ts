@@ -22,5 +22,9 @@ const config: StorybookConfig = {
     ];
     return config;
   },
+  env: (config) => ({
+    ...config,
+    VITE_APP_API_URL: "storybook",
+  }),
 };
 export default config;
