@@ -9,7 +9,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Enumeration;
 import java.util.Objects;
-import java.util.regex.Pattern;
 
 /**
  * Default ClassLoader for loading plugins using a 'child-first strategy'. In other words, this ClassLoader
@@ -21,29 +20,6 @@ public class PluginClassLoader extends URLClassLoader {
     static {
         ClassLoader.registerAsParallelCapable();
     }
-
-    // The list of package to exclude from classloader isolation.
-    // IMPORTANT - This list must contain system and common libraries to delegate loading to parent classloader to:
-    // - protect from impersonation of system classes (e.g: java.*)
-    // - avoid experiencing java.lang.LinkageError: loader constraint violation.
-    private static final Pattern EXCLUDES = Pattern.compile("^(?:"
-        + "java"
-        + "|javax"
-        + "|jakarta"
-        + "|io.kestra.core"
-        + "|io.kestra.plugin.core"
-        + "|org.slf4j"
-        + "|ch.qos.logback"
-        + "|com.fasterxml.jackson.core"
-        + "|com.fasterxml.jackson.annotation"
-        + "|com.fasterxml.jackson.module"
-        + "|com.fasterxml.jackson.databind"
-        + "|com.fasterxml.jackson.dataformat.ion"
-        + "|com.fasterxml.jackson.dataformat.yaml"
-        + "|com.fasterxml.jackson.dataformat.xml"
-        + "|org.reactivestreams"
-        + "|dev.failsafe"
-        + ")\\..*$");
 
     private final ClassLoader parent;
 
@@ -90,31 +66,12 @@ public class PluginClassLoader extends URLClassLoader {
             // First, check if the class has already been loaded
             Class<?> loadedClass = findLoadedClass(name);
 
-            if (loadedClass == null && shouldLoadFromUrls(name)) {
+            if (loadedClass == null) {
                 try {
+                    loadedClass = super.loadClass(name, resolve);
+                } catch (ClassNotFoundException test) {
                     loadedClass = findClass(name);
                 }
-                catch (final ClassNotFoundException e) {
-                    log.debug(
-                        "Class '{}' not found on '{}' for plugin '{}', delegating to parent '{}'",
-                        name,
-                        this.getName(),
-                        pluginLocation,
-                        this.parent.getName()
-                    );
-                } catch (LinkageError e){
-                    log.debug(
-                        "Class '{}'already in classpath for plugin '{}', delegating to parent '{}'",
-                        name,
-                        pluginLocation,
-                        this.parent.getName()
-                    );
-                }
-            }
-
-            if (loadedClass == null) {
-                // If still not found, then delegate to parent classloader.
-                loadedClass = super.loadClass(name, resolve);
             }
 
             if (resolve) { // marked to resolve
@@ -122,10 +79,6 @@ public class PluginClassLoader extends URLClassLoader {
             }
             return loadedClass;
         }
-    }
-
-    private static boolean shouldLoadFromUrls(final String name) {
-        return !EXCLUDES.matcher(name).matches();
     }
 
     /**
