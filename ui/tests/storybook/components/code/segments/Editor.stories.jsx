@@ -1,27 +1,115 @@
 import Editor from "../../../../../src/components/code/segments/Editor.vue";
+import {ref} from "vue";
+import {useStore} from "vuex";
+import {vueRouter} from "storybook-vue3-router";
 
 export default {
+decorators: [vueRouter([
+    {
+        path: "/",
+        name: "home",
+        component: {template: "div>home</div>"}
+    }])
+  ],
   title: "Components/NoCode/Editor",
   component: Editor,
 }
 
 const Template = (args) => ({
-  components: {Editor},
   setup() {
-    return () => <Editor {...args}/>
+    const store = useStore()
+    const modelValue = ref(args.flow)
+
+    store.$http = {
+        get(url){
+            if (url.endsWith("plugins")){
+                return Promise.resolve({
+                    data: [{
+                        "name": "core",
+                        "title": "core",
+                        "group": "io.kestra.plugin.core",
+                        "manifest": {
+                            "X-Kestra-Title": "core",
+                            "X-Kestra-Group": "io.kestra.plugin.core",
+                            "Manifest-Version": "1.0"
+                        },
+                        "tasks": [
+                            "io.kestra.plugin.core.debug.Echo",
+                            "io.kestra.plugin.core.debug.Return",
+                        ],
+                        "triggers": [
+                            "io.kestra.plugin.core.http.Trigger",
+                            "io.kestra.plugin.core.trigger.Flow",
+                        ],
+                        "conditions": [
+                            "io.kestra.plugin.core.condition.DateTimeBetween",
+                            "io.kestra.plugin.core.condition.DayWeek",
+                        ]
+                    }]
+                })
+            }
+            if (
+                url.endsWith("debug.Return") || url.endsWith("debug.Echo")
+                 || url.endsWith("http.Trigger") || url.endsWith("trigger.Flow")
+                 || url.endsWith("condition.DateTimeBetween") || url.endsWith("condition.DayWeek")
+            ){
+                return Promise.resolve({
+                    data: {
+                        "markdown": `
+Return a value for debugging purposes.
+
+This task is intended for troubleshooting.
+
+It allows you to return templated values, inputs or outputs.`.trim(),
+                        "schema": {
+                            "properties": {
+                                "properties": {
+                                    "format": {
+                                        "type": "string",
+                                        "title": "The templated string to render.",
+                                        "$dynamic": true,
+                                        "$required": false
+                                    }
+                                },
+                                "title": "Return a value for debugging purposes.",
+                                "$examples": [],
+                                "$metrics": []
+                            },
+                            "outputs": {
+                                "properties": {
+                                    "value": {
+                                        "type": "string",
+                                        "title": "The generated string.",
+                                        "$required": false
+                                    }
+                                }
+                            },
+                            "definitions": {}
+                        }
+                    }
+                })
+            }
+            return Promise.resolve({
+                data: []
+            })
+        }
+    }
+    return () =>
+        <div style="margin: 1rem; width: 400px;border: 1px solid lightgray; padding: .5rem;">
+            <Editor {...args} flow={modelValue.value} on/>
+        </div>
   }
 });
 
 export const Default = Template.bind({});
 Default.args = {
   creation: false,
-  // some yaml tasks
   flow: `
 id: flow1
 namespace: namespace1
 tasks:
-    - id: task1
-    type: taskType
+  - id: task1
+    type: io.kestra.plugin.core.debug.Return
     `.trim(),
   metadata: {
     id: "example-id",
