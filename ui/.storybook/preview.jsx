@@ -32,6 +32,7 @@ const preview = {
       })
   ]
 };
+
 window.KESTRA_BASE_PATH = "/ui";
 
 setup((app) => {

@@ -1,20 +1,21 @@
 
 let _root = null
-const root = () => {
+
+export const baseUrl = () => {
     if(_root === null) {
         _root = (import.meta.env.VITE_APP_API_URL || "") + window.KESTRA_BASE_PATH;
         if (_root.endsWith("/")) {
-            _root = root.substring(0, root.length - 1);
+            _root = _root.substring(0, _root.length - 1);
+        }
+        if (!window.KESTRA_BASE_PATH) {
+            throw new Error("Root not defined")
         }
     }
     return _root
-}
-
-
-export const baseUrl = root();
+};
 
 export const basePath = () => "/api/v1"
 
-export const apiUrl = () => `${baseUrl}${basePath()}`
+export const apiUrl = () => `${baseUrl()}${basePath()}`
 
-export const apiUrlWithoutTenants = () => `${baseUrl}/api/v1`
+export const apiUrlWithoutTenants = () => `${baseUrl()}/api/v1`
